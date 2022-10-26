@@ -4,8 +4,9 @@ using UnboundLib.Cards;
 using SimplyCard.Cards;
 using HarmonyLib;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
- 
-namespace SimplyCard
+using RarityLib;
+
+namespace ExtraGameCards
 {
     // These are the mods required for our mod to work
     [BepInDependency("com.willis.rounds.unbound", BepInDependency.DependencyFlags.HardDependency)]
@@ -16,26 +17,27 @@ namespace SimplyCard
     // The game our mod is associated with
     [BepInProcess("Rounds.exe")]
 
-
-
-    public class ExtraCards : BaseUnityPlugin
+    public class EGC : BaseUnityPlugin
     {
-        private const string ModId = "com.willuwontu.rounds.SimplyCards";
-        private const string ModName = "Simply Card";
-        public const string Version = "1.0.0"; // What version are we on (major.minor.patch)?
-        public const string ModInitials = "SC";
-        public static ExtraCards? Instance { get; private set; }
+        private const string ModId = "com.cryoxe.rounds.ExtraGameCards";
+        private const string ModName = "ExtraGameCards";
+        public const string Version = "1.0.0";
+        public const string ModInitials = "EGC";
+        public static EGC Instance { get; private set; }
 
         void Awake()
         {
             // Use this to call any harmony patch files your mod may have
             var harmony = new Harmony(ModId);
             harmony.PatchAll();
+            //RarityLib.Utils.RarityUtils.AddRarity("Lunar", 0.4f, new UnityEngine.Color(102 / 255, 204 / 255, 255 / 255), new UnityEngine.Color(0, 170/255, 1));
         }
         void Start()
         {
             Instance = this;
-            CustomCard.BuildCard<MyCardName>();
+            CustomCard.BuildCard<BoneLord>();
+            CustomCard.BuildCard<Twenty>();
+            CustomCard.BuildCard<Jar>();
         }
     }
 }
