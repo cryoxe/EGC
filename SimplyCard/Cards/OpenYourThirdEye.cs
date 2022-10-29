@@ -10,36 +10,36 @@ using UnityEngine;
 
 namespace SimplyCard.Cards
 {
-    class Twenty : CustomCard
+    class OpenYourThirdEye : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
-            //Edits values on card itself, which are then applied to the player in `ApplyCardStats`
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            gun.damage = 0.75f;
-            gun.numberOfProjectiles = 1;
-            gun.spread = 0.035f;
-            gun.evenSpread = 1f;
+            cardInfo.categories = new CardCategory[]
+            {
+                EGC.Markov
+            };
+
+            statModifiers.health = 0.35f;
+            gun.damage = 1.3f;
+            gun.ammo = 1;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            //Edits values on player when card is selected
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            gunAmmo.maxAmmo *= 2;
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            //Run when the card is removed from the player
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
 
         protected override string GetTitle()
         {
-            return "20/20";
+            return "Open Your Third Eye";
         }
         protected override string GetDescription()
         {
-            return "I can see and thus shoot better !";
+            return "And finally become complete.";
         }
         protected override GameObject GetCardArt()
         {
@@ -47,7 +47,7 @@ namespace SimplyCard.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Rare;
+            return CardInfo.Rarity.Common;
         }
         protected override CardInfoStat[] GetStats()
         {
@@ -55,30 +55,32 @@ namespace SimplyCard.Cards
             {
                 new CardInfoStat()
                 {
-                    positive = true,
-                    stat = "Bullet",
-                    amount = "Double",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Max Ammo",
-                    amount = "X2",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
                     positive = false,
+                    stat = "Health",
+                    amount = "-65%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+
+                new CardInfoStat()
+                {
+                    positive = true,
                     stat = "Damage",
-                    amount = "-25%",
+                    amount = "+30%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Ammo",
+                    amount = "+1",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
-            return CardThemeColor.CardThemeColorType.FirepowerYellow;
+            return CardThemeColor.CardThemeColorType.EvilPurple;
         }
         public override string GetModName()
         {
