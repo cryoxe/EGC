@@ -18,6 +18,7 @@ namespace ExtraGameCards
     [BepInDependency("com.willis.rounds.unbound", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.moddingutils", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.willis.rounds.modsplus", BepInDependency.DependencyFlags.HardDependency)]
     // Declares our mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our mod is associated with
@@ -66,27 +67,28 @@ namespace ExtraGameCards
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
 
-            CustomCard.BuildCard<BoneLord>(); //Inscryption + Malédiction
-            CustomCard.BuildCard<Twenty>(); //The Binding Of Isaac +AJOUT SKIN LUNETTE
-            CustomCard.BuildCard<Jar>();    //Elden Rings
-            CustomCard.BuildCard<PurpleGuy>();  //FNAF
+            CustomCard.BuildCard<BoneLord>(); //Add curses + NEED ART
+            CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
+            CustomCard.BuildCard<Jar>();    //DONE + NEED ART
+            CustomCard.BuildCard<PurpleGuy>();  //rebalancing
 
-            CustomCard.BuildCard<BeadsOfFealty>();  //Risk Of Rain 2 + AJout rareté LUNAR
-            CustomCard.BuildCard<GestureOfTheDrowned>();
-            CustomCard.BuildCard<ShapedGlass>();
-            CustomCard.BuildCard<StoneFluxPauldron>();
-            CustomCard.BuildCard<GlowingMeteorite>();
-            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);
+            CustomCard.BuildCard<BeadsOfFealty>();
+            CustomCard.BuildCard<GestureOfTheDrowned>();    //maybe add new rarity LUNAR ? + NEED ART
+            CustomCard.BuildCard<ShapedGlass>();    //maybe add new rarity LUNAR ? + NEED ART
+            CustomCard.BuildCard<StoneFluxPauldron>();  //maybe add new rarity LUNAR ? + NEED ART
+            CustomCard.BuildCard<GlowingMeteorite>();   //maybe add new rarity LUNAR ? + NEED ART
+            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);    //maybe add new rarity LUNAR ? + IS NOT REMOVED PROPERLY + NEED ART
 
-            CustomCard.BuildCard<PortraitOfMarkov>();   //DDLC + Add shuffle
-            CustomCard.BuildCard<OpenYourThirdEye>();
-            CustomCard.BuildCard<Turning_A_Blind_Eye>();
-            CustomCard.BuildCard<Trauma>();
-            CustomCard.BuildCard<Madness>();
-            CustomCard.BuildCard<Forgotten>();
+            CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
+            CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART
+            CustomCard.BuildCard<Turning_A_Blind_Eye>();    //rebalancing + NEED ART
+            CustomCard.BuildCard<Trauma>(); //rebalancing + NEED ART
+            CustomCard.BuildCard<Madness>();    //rebalancing + NEED ART
+            CustomCard.BuildCard<Forgotten>();  //rebalancing + NEED ART
 
-            CustomCard.BuildCard<Something>(); //OMORI
-            CustomCard.BuildCard<GasterBlaster>();
+            CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY + NEED ART
+            //CustomCard.BuildCard<GasterBlaster>();    //W.I.P. 
+
             //VAMPIRE SURVIVOR
             //Welcome To the Gungeon
             //THE stanley parable

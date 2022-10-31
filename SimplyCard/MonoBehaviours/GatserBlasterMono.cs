@@ -25,6 +25,9 @@ namespace ExtraGameCards.MonoBehaviours
         private Vector2 originPos;
         private Vector2 direction;
 
+        private GameObject blasterSprite;
+        private Animator blastAnimator;
+
         void Awake()
         {
             ProjectileHit hit = gameObject.GetComponent<ProjectileHit>();
@@ -46,7 +49,12 @@ namespace ExtraGameCards.MonoBehaviours
             originPos = new Vector2(rPosX, rPosY);
             direction = targetPos - originPos;
             direction.Normalize();
+        
+            AudioSource blasterNoise = gameObject.GetOrAddComponent<AudioSource>();
+            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f);
             BlastEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
+
+            
 
         }
 
@@ -56,20 +64,27 @@ namespace ExtraGameCards.MonoBehaviours
 
             SpawnBulletsEffect effect = player.gameObject.AddComponent<SpawnBulletsEffect>();
 
-            UnityEngine.Debug.Log("TARGET : " + targetPos + "\nRANDOM POSITION : " + originPos + "\nDIRECTION : " + direction);
+            UnityEngine.Debug.Log("INSTANTIATE GASTERBLASTER");
+            Transform transform = gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent;
+            blasterSprite = Instantiate(Assets.GasterBlasterSprite, transform, false);
+            Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+            blasterSprite.transform.position = originPos;
+            blasterSprite.transform.rotation = rotation;
+            blastAnimator = blasterSprite.GetComponent<Animator>();
+            blastAnimator.SetTrigger("IsBlasting");
 
             effect.SetDirection(direction);
             effect.SetPosition(originPos);
             effect.SetNumBullets(40);
-            effect.SetTimeBetweenShots(0.01f);
+            effect.SetTimeBetweenShots(0.004f);
 
             SpawnBulletsEffect.CopyGunStats(gun, newGun);
 
-            newGun.damage = 2f;
+            newGun.damage = 8f;
             newGun.damageAfterDistanceMultiplier = 1f;
             newGun.reflects = 0;
             newGun.bulletDamageMultiplier = 1f;
-            newGun.projectileSpeed = 1.2f;
+            newGun.projectileSpeed = 2f;
             newGun.projectielSimulatonSpeed = 1f;
             newGun.projectileSize = 10f;
             newGun.projectileColor = Color.white;
@@ -82,10 +97,14 @@ namespace ExtraGameCards.MonoBehaviours
             newGun.objectsToSpawn = new ObjectsToSpawn[] { PreventRecursion.stopRecursionObjectToSpawn };
 
             Traverse.Create(newGun).Field("spreadOfLastBullet").SetValue(0f);
-
-            AudioSource blasterNoise = gameObject.GetOrAddComponent<AudioSource>();
-            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f);
             effect.SetGun(newGun);
+
+            Unbound.Instance.ExecuteAfterSeconds(2f, delegate
+            {
+                blastAnimator.SetTrigger("IsBlasting");
+                Destroy(blasterSprite);
+
+            });
 
             return new List<MonoBehaviour> { effect };
         }

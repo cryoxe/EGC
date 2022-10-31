@@ -11,7 +11,7 @@ namespace ExtraGameCards.Cards
         public override CardDetails Details => new CardDetails
         {
             Title = "Gaster Blaster",
-            Description = "your opponents're gonna have a bad time",
+            Description = "your opponents are gonna have a bad time",
             ModName = EGC.ModInitials,
             Art = Assets.GasterBlasterArt,
             Rarity = CardInfo.Rarity.Rare,
@@ -77,5 +77,7 @@ namespace ExtraGameCards.Cards
                 sensor.gunAmmo = gunAmmo;
             }
         }
+
+        public override 
     }
 }
