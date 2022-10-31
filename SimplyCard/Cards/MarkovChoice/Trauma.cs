@@ -19,13 +19,12 @@ namespace SimplyCard.Cards
             {
                 EGC.Markov
             };
-            gun.projectileSpeed = 0.7f;
+            gun.attackSpeed = 0.6f  ;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 0.5f) : (characterStats.lifeSteal - 0.5f);
-            gun.reloadTimeAdd += 0.1f;
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -63,8 +62,8 @@ namespace SimplyCard.Cards
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Bullet Speed",
-                    amount = "-30%",
+                    stat = "Attack Speed",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
             };

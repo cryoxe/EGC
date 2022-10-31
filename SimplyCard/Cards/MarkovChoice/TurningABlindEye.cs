@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SimplyCard.Cards
 {
-    class Turning_A_Blind_Eye : CustomCard
+    class TurningABlindEye : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
@@ -21,9 +21,9 @@ namespace SimplyCard.Cards
             };
 
             statModifiers.health = 1.45f;
-            gun.damage = 0.65f;
-            statModifiers.movementSpeed = 0.85f;
-            gun.ammo = -1;
+            gun.damage = 0.8f;
+            statModifiers.movementSpeed = 0.8f;
+            block.cdAdd = -0.25f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -58,7 +58,7 @@ namespace SimplyCard.Cards
                 {
                     positive = false,
                     stat = "Damage",
-                    amount = "-35%",
+                    amount = "-20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
@@ -66,15 +66,7 @@ namespace SimplyCard.Cards
                 {
                     positive = false,
                     stat = "Speed",
-                    amount = "-15%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "Ammo",
-                    amount = "-1",
+                    amount = "-20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
@@ -82,6 +74,13 @@ namespace SimplyCard.Cards
                     positive = true,
                     stat = "Health",
                     amount = "+45%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Block Cooldown",
+                    amount = "+0.25s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
             };

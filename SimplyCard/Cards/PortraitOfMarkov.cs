@@ -21,7 +21,6 @@ namespace SimplyCard.Cards
 
             gun.projectileSpeed = 1.40f;
             gun.reloadTimeAdd = -0.25f;
-            gun.ammoReg = 0.2f;
             gun.gravity = 0.6f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)

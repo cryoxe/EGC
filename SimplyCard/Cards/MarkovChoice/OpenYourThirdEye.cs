@@ -20,7 +20,7 @@ namespace SimplyCard.Cards
                 EGC.Markov
             };
 
-            statModifiers.health = 0.35f;
+            statModifiers.health = 0.6f;
             gun.damage = 1.3f;
             gun.ammo = 1;
         }
@@ -57,7 +57,7 @@ namespace SimplyCard.Cards
                 {
                     positive = false,
                     stat = "Health",
-                    amount = "-65%",
+                    amount = "-40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 

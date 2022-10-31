@@ -19,11 +19,9 @@ namespace SimplyCard.Cards
             {
                 EGC.Markov
             };
-            statModifiers.health = 0.8f;
             gun.attackSpeed = 1.4f;
             gun.reflects = 1;
             gun.spread = 0.2f;
-            gun.reloadTimeAdd = -0.1f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -61,14 +59,6 @@ namespace SimplyCard.Cards
                     amount = "Way More",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "Health",
-                    amount = "-20%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
                 new CardInfoStat()
                 {
                     positive = true,
@@ -79,7 +69,7 @@ namespace SimplyCard.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Random Bounce",
+                    stat = "Bounce",
                     amount = "+1",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },

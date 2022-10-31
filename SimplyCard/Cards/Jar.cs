@@ -24,9 +24,9 @@ namespace SimplyCard.Cards
             cardInfo.allowMultiple = false;
 
             statModifiers.movementSpeed = 2f;
-            statModifiers.health = 0.2f;
+            statModifiers.health = 0.3f;
             statModifiers.numberOfJumps = 1;
-            block.cdMultiplier = 0.75f;
+            block.cooldown = 0.75f;
 
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -83,7 +83,7 @@ namespace SimplyCard.Cards
                 {
                     positive = false,
                     stat = "Health",
-                    amount = "-80%",
+                    amount = "-70%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };

@@ -26,6 +26,8 @@ namespace ExtraGameCards.Cards
             gun.reloadTimeAdd = 1.15f;
             gun.damage = 1.15f;
 
+            //there will be new effects based on the number of EGO that a player possesses
+
             //var explosiveBullet = (GameObject)Resources.Load("0 cards/Explosive bullet");
             //var a_Explosion = explosiveBullet.GetComponent<Gun>().objectsToSpawn[0].effect;
             //var explo = Instantiate(a_Explosion);
@@ -92,22 +94,22 @@ namespace ExtraGameCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Splash DMG",
-                    amount = "+1",
+                    stat = "Card (W.I.P)",
+                    amount = "Upgradeable",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Ammo",
-                    amount = "+1",
+                    stat = "Damage",
+                    amount = "+15%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Bullet",
-                    amount = "+1",
+                    stat = "Attack Speed",
+                    amount = "+10%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()

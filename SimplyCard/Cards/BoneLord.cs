@@ -24,18 +24,18 @@ namespace SimplyCard.Cards
             cardInfo.GetAdditionalData().canBeReassigned = false;
             cardInfo.allowMultiple = false;
 
-            statModifiers.health = 1.6f;
+            statModifiers.health = 1.4f;
             gun.damage = 1.4f;
-            gun.attackSpeed = 0.5f;
-            gun.reloadTimeAdd = -0.25f;
             gun.knockback = 1.6f;
-            gun.projectileSpeed = 1.5f;
+            gun.projectileSpeed = 1.4f;
 
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            EGC.Instance.StartCoroutine(RemoveRandomCardOfPlayer(player, 2));
+
+            //May remove more cards in the future and give curses according to the number of cards that could not be removed
+            EGC.Instance.StartCoroutine(RemoveRandomCardOfPlayer(player));
 
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -68,7 +68,7 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Health",
-                    amount = "+60%",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
@@ -89,14 +89,7 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Bullet Speed",
-                    amount = "+50%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = true,
-                    stat = "Reload Time",
-                    amount = "-0.25s",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
             };

@@ -57,7 +57,7 @@ namespace ExtraGameCards.MonoBehaviours
                 tries++; 
                 int randomCardIdx = random.Next(0, playerCards.Count - 1);
                 var oldCard = playerCards[randomCardIdx];
-                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove"), CustomCardCategories.instance.CardCategory("Lunar") })) { continue; }
+                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove")})) { continue; }
                 //if (!instance.PlayerIsAllowedCard(player, oldCard)) { continue; }
                 UnityEngine.Debug.Log("Trying to remove : " + oldCard.cardName);
                 yield return instance.RemoveCardFromPlayer(player, playerCards[randomCardIdx], SelectionType.Oldest);

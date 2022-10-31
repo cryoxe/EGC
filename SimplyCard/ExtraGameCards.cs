@@ -67,7 +67,7 @@ namespace ExtraGameCards
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
 
-            CustomCard.BuildCard<BoneLord>(); //Add curses + NEED ART
+            CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART
             CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
             CustomCard.BuildCard<Jar>();    //DONE + NEED ART
             CustomCard.BuildCard<PurpleGuy>();  //rebalancing
@@ -81,10 +81,10 @@ namespace ExtraGameCards
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
             CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART
-            CustomCard.BuildCard<Turning_A_Blind_Eye>();    //rebalancing + NEED ART
+            CustomCard.BuildCard<TurningABlindEye>();    //rebalancing + NEED ART
             CustomCard.BuildCard<Trauma>(); //rebalancing + NEED ART
             CustomCard.BuildCard<Madness>();    //rebalancing + NEED ART
-            CustomCard.BuildCard<Forgotten>();  //rebalancing + NEED ART
+            CustomCard.BuildCard<Unimpressed>();  //rebalancing + NEED ART
 
             CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY + NEED ART
             //CustomCard.BuildCard<GasterBlaster>();    //W.I.P. 

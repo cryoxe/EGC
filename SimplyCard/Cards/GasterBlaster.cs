@@ -77,7 +77,5 @@ namespace ExtraGameCards.Cards
                 sensor.gunAmmo = gunAmmo;
             }
         }
-
-        public override 
     }
 }

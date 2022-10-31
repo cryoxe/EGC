@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SimplyCard.Cards
 {
-    class Forgotten : CustomCard
+    class Unimpressed : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
@@ -19,15 +19,14 @@ namespace SimplyCard.Cards
             {
                 EGC.Markov
             };
-            gun.projectileSpeed = 0.85f;
-            statModifiers.health = 0.85f;
-            gun.damage = 0.9f;
+            gun.projectileSpeed = 0.8f;
+            gun.reloadTimeAdd = 0.25f;
+            gun.ammoReg = 0.4f;
+
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 0.8f) : (characterStats.lifeSteal - 0.8f);
-            gun.reloadTimeAdd += 0.1f;
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -36,7 +35,7 @@ namespace SimplyCard.Cards
 
         protected override string GetTitle()
         {
-            return "Forgotten";
+            return "Unimpressed";
         }
         protected override string GetDescription()
         {
@@ -57,7 +56,7 @@ namespace SimplyCard.Cards
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Life Steal",
+                    stat = "Bullet Speed",
                     amount = "-20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
@@ -65,22 +64,16 @@ namespace SimplyCard.Cards
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Bullet Speed",
-                    amount = "-15%",
+                    stat = "Reload Speed",
+                    amount = "+0.25s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
+
                 new CardInfoStat()
                 {
                     positive = false,
-                    stat = "Health",
-                    amount = "-15%",
-                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
-                new CardInfoStat()
-                {
-                    positive = false,
-                    stat = "Damage",
-                    amount = "-10%",
+                    stat = "Bullet Regen",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
             };
