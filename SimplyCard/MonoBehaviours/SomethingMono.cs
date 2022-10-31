@@ -21,6 +21,7 @@ namespace ExtraGameCards.MonoBehaviours
         public float timeToFill = 5f;
         public float duration = 1;
 
+        public int numberOfSomething = 0;
         public ProceduralImage outerRing;
         public ProceduralImage fill;
         public Transform rotator;
@@ -33,6 +34,7 @@ namespace ExtraGameCards.MonoBehaviours
 
         private DeathMark? deathMark = null;
         private bool isPlayerMarked = false;
+        private bool shouldBeDying = false;
 
         public float defaultRLTime;
         public Player player;
@@ -55,10 +57,12 @@ namespace ExtraGameCards.MonoBehaviours
             healthHandler.reviveAction = (Action)Delegate.Remove(healthHandler.reviveAction, new Action(this.ResetStuff));
             base.GetComponentInParent<ChildRPC>().childRPCs.Remove("DeathAura");
             somethingNoise = gameObject.GetOrAddComponent<AudioSource>();
+            this.shouldBeDying = false;
         }
 
         private void ResetStuff()
         {
+            this.shouldBeDying = false;
             this.remainingDuration = 0f;
             this.counter = 0f;
             if (this.isDeathAuraComplete)
@@ -73,19 +77,18 @@ namespace ExtraGameCards.MonoBehaviours
             if (enable)
             {
                 deathMark = player.gameObject.AddComponent<DeathMark>();
-                if(somethingNoise != null)
+                if (somethingNoise != null)
                 {
-                    somethingNoise.PlayOneShot(Assets.SomethingNoise, 0.7f);
+                    somethingNoise.PlayOneShot(Assets.SomethingNoise, 0.9f);
+                    somethingNoise = null;
                 }
-                somethingNoise = null;
                 Unbound.Instance.ExecuteAfterSeconds(4f, delegate
                 {
-                    player.data.view.RPC("RPCA_Die", RpcTarget.All, new object[] {new Vector2(0, 1)});
+                    if (shouldBeDying) { player.data.view.RPC("RPCA_Die", RpcTarget.All, new object[] {new Vector2(0, 1)}); }
                 });
             }
             else
             {
-
                 if (deathMark != null)
                 {
                     Destroy(deathMark);
@@ -123,6 +126,7 @@ namespace ExtraGameCards.MonoBehaviours
             {
                 if (!this.isDeathAuraComplete)
                 {
+                    shouldBeDying = true;
                     this.isDying(true);
 
                 }
@@ -186,14 +190,12 @@ namespace ExtraGameCards.MonoBehaviours
             ResetStuff();
             Destroy(this);
         }
-
     }
 
-    public class DeathMark : ReversibleEffect //Thanks Pykess for this Utility 
+    public class DeathMark : ReversibleEffect //Thanks and Thanks Pykess for this Utility
     {
-        private readonly Color color = new Color(0f, 0f, 0f, 0.9f);
+        private readonly Color color = Color.black;
         private ReversibleColorEffect colorEffect = null;
-        public CharacterData charData;
 
         public override void OnOnEnable()
         {

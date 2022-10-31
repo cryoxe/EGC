@@ -1,18 +1,12 @@
-﻿using ExtraGameCards;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExtraGameCards.MonoBehaviours;
+using ModdingUtils.Extensions;
 using UnboundLib;
 using UnboundLib.Cards;
-using ModdingUtils.Extensions;
 using UnityEngine;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
 
-namespace SimplyCard.Cards
+namespace ExtraGameCards.Cards
 {
-    class BeadsOfFealty : CustomCard
+    class GlowingMeteorite : CustomCard
     {
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
@@ -22,31 +16,31 @@ namespace SimplyCard.Cards
 
             cardInfo.categories = new CardCategory[]
             {
-                CustomCardCategories.instance.CardCategory("CardManipulation")
+                EGC.Lunar
             };
-
-            statModifiers.health = 1.05f;
+            statModifiers.health = 1.4f;
+            block.cdAdd = 0.25f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            Unbound.Instance.ExecuteAfterFrames(25, () =>
-            { player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Lunar); });
+            player.gameObject.GetOrAddComponent<GlowingMeteoriteMono>();
+
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
-            Unbound.Instance.ExecuteAfterFrames(25, () =>
-            { player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Lunar); });
+            var mb = player.gameObject.GetOrAddComponent<GlowingMeteoriteMono>();
+            Destroy(mb);
         }
 
         protected override string GetTitle()
         {
-            return "Beads of Fealty";
+            return "Glowing Meteorite";
         }
         protected override string GetDescription()
         {
-            return "Seems to do nothing... <color=#c61a09>but...</color>";
+            return "Blocking create a meteorite shower... <color=#c61a09>but you take damage as well...</color>";
         }
         protected override GameObject GetCardArt()
         {
@@ -64,9 +58,23 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Health",
-                    amount = "+5%",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                }
+                },
+                new CardInfoStat()
+                {
+                    positive = false,
+                    stat = "Meteor Cooldown",
+                    amount = "10s",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+                new CardInfoStat()
+                {
+                    positive = false,
+                    stat = "Block Cooldown",
+                    amount = "+0.25s",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
             };
         }
         protected override CardThemeColor.CardThemeColorType GetTheme()

@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ExtraGameCards.Cards;
 //using RarityLib;
 
 namespace ExtraGameCards
@@ -74,7 +75,8 @@ namespace ExtraGameCards
             CustomCard.BuildCard<GestureOfTheDrowned>();
             CustomCard.BuildCard<ShapedGlass>();
             CustomCard.BuildCard<StoneFluxPauldron>();
-            CustomCard.BuildCard<Egocentrism>();
+            CustomCard.BuildCard<GlowingMeteorite>();
+            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DDLC + Add shuffle
             CustomCard.BuildCard<OpenYourThirdEye>();
@@ -84,6 +86,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<Forgotten>();
 
             CustomCard.BuildCard<Something>(); //OMORI
+            CustomCard.BuildCard<GasterBlaster>();
             //VAMPIRE SURVIVOR
             //Welcome To the Gungeon
             //THE stanley parable

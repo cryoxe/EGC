@@ -6,12 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AssetsEmbedded\gasterblaster_art" />
+    <None Remove="AssetsEmbedded\gasterblaster_noise" />
     <None Remove="AssetsEmbedded\portraitofmarkov" />
     <None Remove="AssetsEmbedded\something_art" />
     <None Remove="AssetsEmbedded\something_noise" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="AssetsEmbedded\gasterblaster_art" />
+    <EmbeddedResource Include="AssetsEmbedded\gasterblaster_noise" />
+    <EmbeddedResource Include="AssetsEmbedded\portraitofmarkov" />
     <EmbeddedResource Include="AssetsEmbedded\something_art" />
     <EmbeddedResource Include="AssetsEmbedded\something_noise" />
   </ItemGroup>
@@ -31,6 +36,9 @@
     </Reference>
     <Reference Include="ModdingUtils">
       <HintPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\MyMods\BepInEx\plugins\Pykess-ModdingUtils\ModdingUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="ModsPlus">
+      <HintPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\ROUNDS\profiles\MyMods\BepInEx\plugins\willis81808-ModsPlus\ModsPlus.dll</HintPath>
     </Reference>
     <Reference Include="PhotonRealtime">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\ROUNDS\Rounds_Data\Managed\PhotonRealtime.dll</HintPath>
@@ -55,6 +63,12 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\ROUNDS\Rounds_Data\Managed\UnityEngine.UI.dll</HintPath>

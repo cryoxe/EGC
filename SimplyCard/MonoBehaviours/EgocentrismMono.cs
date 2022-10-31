@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ExtraGameCards;
+using UnityEngine;
 using ModdingUtils.MonoBehaviours;
 using UnboundLib.Cards;
 using UnboundLib.GameModes;
@@ -10,11 +11,13 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using ExtraGameCards.Cards;
 
 namespace ExtraGameCards.MonoBehaviours
 {
     internal class EgocentrismMono : MonoBehaviour
     {
+        //public CardInfo egocentrism;
         public Player player;
         public void Start()
         {
@@ -27,8 +30,17 @@ namespace ExtraGameCards.MonoBehaviours
             });
         }
 
+        public void OnOnDestroy()
+        {
+            GameModeManager.RemoveHook(GameModeHooks.HookRoundStart, (gm) =>
+            {
+                return new List<object>().GetEnumerator();
+            });
+        }
+
         public static IEnumerator NewEgocentrismCard(Player player)
         {
+            bool cardFound = false;
             UnityEngine.Debug.Log("Trying to create another Egocentrism");
             System.Random random = new System.Random();
 
@@ -36,27 +48,33 @@ namespace ExtraGameCards.MonoBehaviours
             UnityEngine.Debug.Log("there is " + playerCards.Count + " cards on this player");
             if (player.data.currentCards.Count - 1 <= 0)
             {
-                UnityEngine.Debug.Log("not enought cards !");
+                UnityEngine.Debug.Log("not enough cards !");
                 yield return null;
             }
             var tries = 0;
-            while (!(tries > 50))
+            while (!(tries > 75))
             {
-                tries++;
+                tries++; 
                 int randomCardIdx = random.Next(0, playerCards.Count - 1);
                 var oldCard = playerCards[randomCardIdx];
-                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove") })) { continue; }
-                if (!instance.PlayerIsAllowedCard(player, oldCard)) { continue; }
+                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove"), CustomCardCategories.instance.CardCategory("Lunar") })) { continue; }
+                //if (!instance.PlayerIsAllowedCard(player, oldCard)) { continue; }
+                UnityEngine.Debug.Log("Trying to remove : " + oldCard.cardName);
+                yield return instance.RemoveCardFromPlayer(player, playerCards[randomCardIdx], SelectionType.Oldest);
 
-                UnityEngine.Debug.Log("Trying to replace : " + oldCard.cardName);
+                yield return new WaitForSeconds(0.4f);
 
-                CardInfo newEgocentrism = instance.GetCardWithObjectName("Egocentrism");
-                UnityEngine.Debug.Log(newEgocentrism.cardName);
+                //CardInfo egoCard = instance.GetCardWithObjectName("Egocentrism");
+                CardInfo egoCard = instance.GetCardWithObjectName(Egocentrism.StaticCardEgo.name);
+                UnityEngine.Debug.Log("Adding a copy of : " + egoCard.cardName);
+                instance.AddCardToPlayer(player, egoCard, addToCardBar: true);
 
-                yield return instance.ReplaceCard(player, playerCards.IndexOf(oldCard), newEgocentrism, "EG", 2f, 2f, true);
-                UnityEngine.Debug.Log("Success !");
+                instance.ReplaceCard(player, playerCards.IndexOf(oldCard), egoCard, "", 2, 2, true);
+
+                cardFound = true;
                 yield break;
             }
+            if (!cardFound) { UnityEngine.Debug.Log("No card found to be removed"); }
         }
     }
 }

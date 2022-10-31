@@ -18,15 +18,17 @@ namespace SimplyCard.Cards
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             CardInfoExtension.GetAdditionalData(cardInfo).canBeReassigned = false;
             cardInfo.allowMultiple = false;
-            gun.projectileSpeed = 1.30f;
+
+            gun.projectileSpeed = 1.40f;
             gun.reloadTimeAdd = -0.25f;
-            gun.ammoReg = 0.3f;
+            gun.ammoReg = 0.2f;
+            gun.gravity = 0.6f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 2f) : (characterStats.lifeSteal + 1f);
-            gun.spread -= 0.3f;
+            gun.spread *= 0.7f;
+            characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 2) : (characterStats.lifeSteal + 1f);
 
             Unbound.Instance.StartCoroutine(ExtraPicks(player));
 
@@ -77,7 +79,7 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Bullet Speed",
-                    amount = "+30%",
+                    amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 

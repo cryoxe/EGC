@@ -1,14 +1,15 @@
 ﻿using UnboundLib;
 using UnboundLib.Cards;
 using UnityEngine;
-using ExtraGameCards;
 using ExtraGameCards.Utils;
 using ExtraGameCards.MonoBehaviours;
 
-namespace SimplyCard.Cards
+namespace ExtraGameCards.Cards
 {
     class Egocentrism : CustomCard
     {
+        public static CardInfo StaticCardEgo;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
@@ -20,9 +21,10 @@ namespace SimplyCard.Cards
             };
 
             gun.projectileColor = Color.cyan;
-            gun.spread = 0.05f;
             gun.ammo = 1;
-            gun.reloadTimeAdd= 0.15f;
+            gun.attackSpeed = 0.9f;
+            gun.reloadTimeAdd = 1.15f;
+            gun.damage = 1.15f;
 
             //var explosiveBullet = (GameObject)Resources.Load("0 cards/Explosive bullet");
             //var a_Explosion = explosiveBullet.GetComponent<Gun>().objectsToSpawn[0].effect;
@@ -54,20 +56,15 @@ namespace SimplyCard.Cards
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             var mb = player.transform.gameObject.GetOrAddComponent<EgocentrismMono>();
             mb.player = player;
-
-            gun.ammo += 1;
-            gun.numberOfProjectiles += 1;
-            gun.attackSpeed -= 0.1f; 
-            gun.reloadTime += 0.15f;
-
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
 
-            var mb = player.transform.gameObject.GetOrAddComponent<EgocentrismMono>();
-            if (mb != null && CheckCards.Amount(player, "Egocentrism") == 1)
+            var mb = player.transform.gameObject.GetComponent<EgocentrismMono>();
+            if (mb != null && CheckCards.Amount(player, "Egocentrism") <= 1)
             {
+                UnityEngine.Debug.Log("EgoRemoved");
                 Destroy(mb);
             }
         }

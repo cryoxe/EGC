@@ -1,19 +1,15 @@
 ﻿using ExtraGameCards.MonoBehaviours;
+using ExtraGameCards.Utils;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
 using ModdingUtils.Extensions;
-using static ModdingUtils.Utils.Cards;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.Utils;
 using UnityEngine;
 using ExtraGameCards;
-using System.Collections;
 using UnityEngine.UI.ProceduralImage;
+using ExtraGameCards.AssetsEmbedded;
 
 namespace SimplyCard.Cards
 {
@@ -48,17 +44,18 @@ namespace SimplyCard.Cards
 
                 var abyssal = thingObj.GetComponent<AbyssalCountdown>();
 
-                var somethingCountdown = thingObj.GetOrAddComponent<SomethingMono>();
+                var somethingCountdown = thingObj.GetOrAddComponent<ExtraGameCards.MonoBehaviours.SomethingMono>();
+                somethingCountdown.numberOfSomething += 1;
                 somethingCountdown.player = otherPlayer;
                 somethingCountdown.soundUpgradeChargeLoop = abyssal.soundAbyssalChargeLoop;
                 somethingCountdown.counter = 0;
-                somethingCountdown.timeToFill = 10f;
+                somethingCountdown.timeToFill = 9f;
                 somethingCountdown.outerRing = abyssal.outerRing;
                 somethingCountdown.fill = abyssal.fill;
                 somethingCountdown.rotator = abyssal.rotator;
                 somethingCountdown.still = abyssal.still;
                 somethingCountdown.player = otherPlayer;
-                somethingCountdown.duration = 3.5f;
+                somethingCountdown.duration = 3.4f;
                 somethingCountdown.defaultRLTime = gun.reloadTime;
                 somethingCountdown.characterStats = characterStats;
 
@@ -107,7 +104,20 @@ namespace SimplyCard.Cards
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
+            Player[] players = PlayerManager.instance.players.ToArray();
+            foreach (Player otherPlayer in PlayerManager.instance.players)
+            {
+                if(otherPlayer == player) { continue; }
 
+                ExtraGameCards.MonoBehaviours.SomethingMono mb = otherPlayer.gameObject.GetComponent<ExtraGameCards.MonoBehaviours.SomethingMono>();
+                if(mb.numberOfSomething <= 1)
+                {
+                    UnityEngine.Debug.Log("SomethingRemoved");
+                    Destroy(mb);
+                }
+
+
+            }
         }
 
         protected override string GetTitle()
@@ -120,7 +130,7 @@ namespace SimplyCard.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.SomethingArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {
@@ -142,7 +152,7 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Death Sentence",
-                    amount = "10s",
+                    amount = "9s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
