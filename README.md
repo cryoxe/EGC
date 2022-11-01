@@ -8,6 +8,12 @@ This mod is in development phase and many things can still change
 
 I want to thank all the members of the Rounds mod server for their help in creating this mod.
 
+## Update 1.0.2
+-------------------------------
+- Bug correction for The Portrait Of Markov.
+- Correction in two of cards of Markov's choice
+
+
 ## Mod Overview
 -------------------------------
 This mod adds for the moment 13 cards in the game (without counting the 5 cards depending on the Markov Portrait)

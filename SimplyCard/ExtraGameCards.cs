@@ -28,7 +28,7 @@ namespace ExtraGameCards
     {
         private const string ModId = "com.cryoxe.rounds.ExtraGameCards";
         private const string ModName = "ExtraGameCards";
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.2";
         public const string ModInitials = "EGC";
         public static EGC? Instance { get; private set; }
 
