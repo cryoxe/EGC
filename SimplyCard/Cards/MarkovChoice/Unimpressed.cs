@@ -71,7 +71,7 @@ namespace SimplyCard.Cards
 
                 new CardInfoStat()
                 {
-                    positive = false,
+                    positive = true,
                     stat = "Bullet Regen",
                     amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned

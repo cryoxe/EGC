@@ -61,7 +61,7 @@ namespace SimplyCard.Cards
 
                 new CardInfoStat()
                 {
-                    positive = false,
+                    positive = true,
                     stat = "Attack Speed",
                     amount = "+40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
