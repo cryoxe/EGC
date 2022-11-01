@@ -20,7 +20,7 @@ namespace SimplyCard.Cards
             statModifiers.sizeMultiplier = 0.9f;
             statModifiers.gravity = 1.3f;
             statModifiers.respawns = 1;
-            gun.bulletDamageMultiplier = 1.3f;
+            gun.damage = 0.6f;
 
 
         }
@@ -71,7 +71,7 @@ namespace SimplyCard.Cards
                 {
                     positive = false,
                     stat = "Damage",
-                    amount = "-30%",
+                    amount = "-40%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
