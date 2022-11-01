@@ -29,7 +29,7 @@ namespace ExtraGameCards.Cards
             gun.spread *= 0.7f;
             characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 2) : (characterStats.lifeSteal + 1f);
 
-            GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => { EGC.Instance.StartCoroutine(TreasurePick(player)); return new List<object>().GetEnumerator();});
+            GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => { EGC.Instance.StartCoroutine(MarkovPick(player)); return new List<object>().GetEnumerator();});
         }
         
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -99,7 +99,7 @@ namespace ExtraGameCards.Cards
             return EGC.ModInitials;
         }
 
-        public static IEnumerator TreasurePick(Player player)
+        public static IEnumerator MarkovPick(Player player)
         {
             while (!CardChoice.instance.IsPicking) yield return null;
             if (CardChoice.instance.pickrID == player.playerID)
@@ -107,14 +107,14 @@ namespace ExtraGameCards.Cards
                 player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Normal);
                 player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Lunar);
                 player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Markov);
-                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => EndTreasurePick(player));
+                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => EndMarkovPick(player));
             }
             else
-                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickStart, (gm) => { EGC.Instance.StartCoroutine(TreasurePick(player)); return new List<object>().GetEnumerator(); });
+                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickStart, (gm) => { EGC.Instance.StartCoroutine(MarkovPick(player)); return new List<object>().GetEnumerator(); });
             yield break;
         }
 
-        public static IEnumerator EndTreasurePick(Player player)
+        public static IEnumerator EndMarkovPick(Player player)
         {
             player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Markov);
             player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Normal);
