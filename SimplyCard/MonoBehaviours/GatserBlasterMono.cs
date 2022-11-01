@@ -49,13 +49,21 @@ namespace ExtraGameCards.MonoBehaviours
             originPos = new Vector2(rPosX, rPosY);
             direction = targetPos - originPos;
             direction.Normalize();
-        
+
+            //Gatser Blaster appears go toward originPos, and rotate toward direction
+            UnityEngine.Debug.Log("INSTANTIATE GASTERBLASTER");
+            blasterSprite = Instantiate(Assets.GasterBlasterSprite);
+            Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            blasterSprite.transform.position = originPos;
+            blasterSprite.transform.rotation = rotation;
+            blastAnimator = blasterSprite.GetComponent<Animator>();
+            blastAnimator.SetTrigger("IsBlasting");
+
+            //Execute after 2s =>
             AudioSource blasterNoise = gameObject.GetOrAddComponent<AudioSource>();
             blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f);
             BlastEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
-
-            
-
         }
 
         public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -63,15 +71,6 @@ namespace ExtraGameCards.MonoBehaviours
             Gun newGun = this.gameObject.AddComponent<Blast>();
 
             SpawnBulletsEffect effect = player.gameObject.AddComponent<SpawnBulletsEffect>();
-
-            UnityEngine.Debug.Log("INSTANTIATE GASTERBLASTER");
-            Transform transform = gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent;
-            blasterSprite = Instantiate(Assets.GasterBlasterSprite, transform, false);
-            Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-            blasterSprite.transform.position = originPos;
-            blasterSprite.transform.rotation = rotation;
-            blastAnimator = blasterSprite.GetComponent<Animator>();
-            blastAnimator.SetTrigger("IsBlasting");
 
             effect.SetDirection(direction);
             effect.SetPosition(originPos);
