@@ -1,12 +1,9 @@
-﻿using ExtraGameCards;
-using ExtraGameCards.AssetsEmbedded;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnboundLib;
-using UnboundLib.GameModes;
-using UnboundLib.Cards;
+﻿using ExtraGameCards.AssetsEmbedded;
 using ModdingUtils.Extensions;
+using System.Collections;
+using System.Linq;
+using UnboundLib.Cards;
+using UnboundLib.GameModes;
 using UnityEngine;
 
 namespace ExtraGameCards.Cards
@@ -28,8 +25,7 @@ namespace ExtraGameCards.Cards
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             gun.spread *= 0.7f;
             characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 2) : (characterStats.lifeSteal + 1f);
-
-            GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => { EGC.Instance.StartCoroutine(MarkovPick(player)); return new List<object>().GetEnumerator();});
+            Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).markovChoice += 1;
         }
         
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
@@ -99,30 +95,36 @@ namespace ExtraGameCards.Cards
             return EGC.ModInitials;
         }
 
-        public static IEnumerator MarkovPick(Player player)
+        internal static IEnumerator MarkovPick()
         {
-            while (!CardChoice.instance.IsPicking) yield return null;
-            if (CardChoice.instance.pickrID == player.playerID)
+            foreach (Player player in PlayerManager.instance.players.ToArray())
             {
-                player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Normal);
-                player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Lunar);
-                player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Markov);
-                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickEnd, (gm) => EndMarkovPick(player));
+                while (Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).markovChoice > 0)
+                {
+                    Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).markovChoice -= 1;
+
+                    yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
+
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Normal);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Lunar);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Markov);
+
+                    CardChoiceVisuals.instance.Show(Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i => PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
+                    yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
+                    yield return new WaitForSecondsRealtime(0.1f);
+
+                    yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
+
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Markov);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Normal);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Lunar);
+
+                    yield return new WaitForSecondsRealtime(0.1f);
+                }
             }
-            else
-                GameModeManager.AddOnceHook(GameModeHooks.HookPlayerPickStart, (gm) => { EGC.Instance.StartCoroutine(MarkovPick(player)); return new List<object>().GetEnumerator(); });
             yield break;
         }
 
-        public static IEnumerator EndMarkovPick(Player player)
-        {
-            player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.Markov);
-            player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Normal);
-            player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.Lunar);
-            //CardChoiceVisuals.instance.Show(Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i => PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
-            //yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
-            yield break;
-        }
     }
 
 }
