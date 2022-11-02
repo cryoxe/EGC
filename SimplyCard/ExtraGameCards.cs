@@ -10,6 +10,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ExtraGameCards.Cards;
+using Photon.Pun;
+using ExtraGameCards.AssetsEmbedded;
+using UnityEngine;
 //using RarityLib;
 
 namespace ExtraGameCards
@@ -63,6 +66,10 @@ namespace ExtraGameCards
         {
             Instance = this;
 
+            GameObject blasterPrefab = Assets.GasterBlasterSprite;
+            blasterPrefab.AddComponent<PhotonView>();
+            PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
+
             Normal = CustomCardCategories.instance.CardCategory("Normal");
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
@@ -95,8 +102,10 @@ namespace ExtraGameCards
             //Undertale
             //Duck seasons
 
-
+            //HOOKS !
+            GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, (gm) => PortraitOfMarkov.MarkovPick());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, GameStart);
+
             Instance.ExecuteAfterSeconds(1, () =>
             {
                 //all cards that are not "lunar" or "markov" are now "normal"
