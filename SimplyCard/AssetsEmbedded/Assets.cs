@@ -33,7 +33,7 @@ namespace ExtraGameCards.AssetsEmbedded
         public static GameObject GasterBlasterArt = GasterBlasterArtBundle.LoadAsset<GameObject>("C_GasterBlaster");
 
         private static readonly AssetBundle GasterBlasterBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("gasterblaster_sprite", typeof(EGC).Assembly);
-        public static GameObject GasterBlasterSprite = GasterBlasterBundle.LoadAsset<GameObject>("G_GasterBlaster");
+        public static GameObject GasterBlasterSprite = GasterBlasterBundle.LoadAsset<GameObject>("S_GasterBlaster");
 
     }
 }
