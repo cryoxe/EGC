@@ -67,14 +67,15 @@ namespace ExtraGameCards
             Instance = this;
 
             GameObject blasterPrefab = Assets.GasterBlasterSprite;
-            blasterPrefab.AddComponent<PhotonView>();
+            PhotonView photonView = blasterPrefab.AddComponent<PhotonView>();
+
             PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
 
             Normal = CustomCardCategories.instance.CardCategory("Normal");
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
 
-            CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART
+            //CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART + W.I.P.
             CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
             CustomCard.BuildCard<Jar>();    //DONE + NEED ART
             CustomCard.BuildCard<PurpleGuy>();  //rebalancing
@@ -84,7 +85,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<ShapedGlass>();    //maybe add new rarity LUNAR ? + NEED ART
             CustomCard.BuildCard<StoneFluxPauldron>();  //maybe add new rarity LUNAR ? + NEED ART
             CustomCard.BuildCard<GlowingMeteorite>();   //maybe add new rarity LUNAR ? + NEED ART
-            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);    //maybe add new rarity LUNAR ? + IS NOT REMOVED PROPERLY + NEED ART
+            //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);    //maybe add new rarity LUNAR ? + IS NOT REMOVED PROPERLY + NEED ART + W.I.P.
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
             CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART
@@ -94,7 +95,8 @@ namespace ExtraGameCards
             CustomCard.BuildCard<Unimpressed>();  //rebalancing + NEED ART
 
             CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY + NEED ART
-            //CustomCard.BuildCard<GasterBlaster>();    //W.I.P. 
+            //CustomCard.BuildCard<GasterBlaster>();//W.I.P. 
+            //CustomCard.BuildCard<ClayBullet>();
 
             //VAMPIRE SURVIVOR
             //Welcome To the Gungeon
