@@ -49,7 +49,7 @@ namespace SimplyCard.Cards
                 somethingCountdown.player = otherPlayer;
                 somethingCountdown.soundUpgradeChargeLoop = abyssal.soundAbyssalChargeLoop;
                 somethingCountdown.counter = 0;
-                somethingCountdown.timeToFill = 9f;
+                somethingCountdown.timeToFill = 8f;
                 somethingCountdown.outerRing = abyssal.outerRing;
                 somethingCountdown.fill = abyssal.fill;
                 somethingCountdown.rotator = abyssal.rotator;
@@ -94,7 +94,7 @@ namespace SimplyCard.Cards
                         UnityEngine.Debug.LogException(e);
                     }
                 });
-                UnityEngine.Debug.Log("Something Aura added");
+                //UnityEngine.Debug.Log("Something Aura added");
 
 
             }
@@ -112,7 +112,7 @@ namespace SimplyCard.Cards
                 ExtraGameCards.MonoBehaviours.SomethingMono mb = otherPlayer.gameObject.GetComponent<ExtraGameCards.MonoBehaviours.SomethingMono>();
                 if(mb.numberOfSomething <= 1)
                 {
-                    UnityEngine.Debug.Log("SomethingRemoved");
+                    //UnityEngine.Debug.Log("SomethingRemoved");
                     Destroy(mb);
                 }
 
@@ -152,7 +152,7 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Death Sentence",
-                    amount = "9s",
+                    amount = "8s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
