@@ -5,10 +5,12 @@ using ModdingUtils.MonoBehaviours;
 using UnboundLib;
 using ExtraGameCards.AssetsEmbedded;
 using ExtraGameCards.Utils;
+using Photon.Pun;
+using System.Collections;
 
 namespace ExtraGameCards.MonoBehaviours
 {
-    public class GatserBlasterMono : MonoBehaviour
+    public class GatserBlasterMono : MonoBehaviour, IPunInstantiateMagicCallback
     {
         private float duration = 5f;
 
@@ -22,21 +24,26 @@ namespace ExtraGameCards.MonoBehaviours
         public CharacterStatModifiers statModifiers;
 
         private Vector2 targetPos;
+        private Vector2 shootPos;
         private Vector2 originPos;
         private Vector2 direction;
+        private Quaternion rotation;
 
         private GameObject blasterSprite;
-        private Animator blastAnimator;
+
+        void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
+        {
+            object[] data = info.photonView.InstantiationData;
+            targetPos = (Vector2)data[0];
+            originPos = (Vector2)data[1];
+            shootPos = (Vector2)data[2];
+            direction = (Vector2)data[3];
+        }
 
         void Awake()
         {
             ProjectileHit hit = gameObject.GetComponent<ProjectileHit>();
             hit.AddHitAction(OnHit);
-
-            //foreach( Component component in gameObject.GetComponents<Component>())
-            //{
-            //    UnityEngine.Debug.Log(component);
-            //}
         }
 
         void OnHit()
@@ -44,70 +51,61 @@ namespace ExtraGameCards.MonoBehaviours
             UnityEngine.Debug.Log("We hit something");
             targetPos = gameObject.transform.position;
             System.Random random = new System.Random();
-            float rPosY = random.Next(-20, ((int)targetPos.y) +21);
-            float rPosX = random.Next(-20, ((int)targetPos.x) + 21);
+            float rPosY = random.Next(((int)targetPos.y) - 20, ((int)targetPos.y) +21);
+            float rPosX = random.Next(((int)targetPos.x) - 20, ((int)targetPos.x) + 21);
+            shootPos = new Vector2(rPosX, rPosY);
+            if (Mathf.Abs(shootPos.y) > Mathf.Abs(shootPos.x))
+            {
+                rPosX = random.Next(((int)shootPos.x) - 30, ((int)shootPos.x) + 31);
+                if (shootPos.y >= 0)
+                {
+                    rPosY = 105f;
+                }
+                else
+                {
+                    rPosY = -105f;
+                }
+            }
+            else
+            {
+                rPosY = random.Next(((int)shootPos.y) - 30, ((int)shootPos.y) + 31);
+                if (shootPos.x >= 0)
+                {
+                    rPosX = 105f;
+                }
+                else
+                {
+                    rPosX = -105f;
+                }
+            }
             originPos = new Vector2(rPosX, rPosY);
-            direction = targetPos - originPos;
+
+            direction = targetPos - shootPos;
             direction.Normalize();
+            rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            //Gatser Blaster appears go toward originPos, and rotate toward direction
-            UnityEngine.Debug.Log("INSTANTIATE GASTERBLASTER");
-            blasterSprite = Instantiate(Assets.GasterBlasterSprite);
-            Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-
+            UnityEngine.Debug.Log("Instantiate GasterBlaster");
+            blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, Assets.GasterBlasterSprite.transform.position, Assets.GasterBlasterSprite.transform.rotation, data: new object[] { targetPos, originPos, shootPos, direction });
             blasterSprite.transform.position = originPos;
             blasterSprite.transform.rotation = rotation;
-            blastAnimator = blasterSprite.GetComponent<Animator>();
-            blastAnimator.SetTrigger("IsBlasting");
 
-            //Execute after 2s =>
-            AudioSource blasterNoise = gameObject.GetOrAddComponent<AudioSource>();
-            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f);
-            BlastEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
+            GasterBlasterInstantMono gasterBlasterInstantMono = blasterSprite.AddComponent<GasterBlasterInstantMono>();
+            gasterBlasterInstantMono.player = player;
+            gasterBlasterInstantMono.health = health;
+            gasterBlasterInstantMono.block = block;
+            gasterBlasterInstantMono.statModifiers = statModifiers;
+            gasterBlasterInstantMono.data = data;
+            gasterBlasterInstantMono.gravity = gravity;
+            gasterBlasterInstantMono.gun = gun;
+            gasterBlasterInstantMono.gunAmmo = gunAmmo;
+
+            gasterBlasterInstantMono.originPos = originPos;
+            gasterBlasterInstantMono.direction = direction;
+            gasterBlasterInstantMono.shootingPos = shootPos;
+            gasterBlasterInstantMono.targetPos = targetPos;
+            gasterBlasterInstantMono.rotation = rotation;
+
+
         }
-
-        public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            Gun newGun = this.gameObject.AddComponent<Blast>();
-
-            SpawnBulletsEffect effect = player.gameObject.AddComponent<SpawnBulletsEffect>();
-
-            effect.SetDirection(direction);
-            effect.SetPosition(originPos);
-            effect.SetNumBullets(40);
-            effect.SetTimeBetweenShots(0.004f);
-
-            SpawnBulletsEffect.CopyGunStats(gun, newGun);
-
-            newGun.damage = 8f;
-            newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.reflects = 0;
-            newGun.bulletDamageMultiplier = 1f;
-            newGun.projectileSpeed = 2f;
-            newGun.projectielSimulatonSpeed = 1f;
-            newGun.projectileSize = 10f;
-            newGun.projectileColor = Color.white;
-            newGun.spread = 0f;
-            newGun.gravity = 0f;
-            newGun.destroyBulletAfter = 30f;
-            newGun.numberOfProjectiles = 1;
-            newGun.ignoreWalls = true;
-            newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.objectsToSpawn = new ObjectsToSpawn[] { PreventRecursion.stopRecursionObjectToSpawn };
-
-            Traverse.Create(newGun).Field("spreadOfLastBullet").SetValue(0f);
-            effect.SetGun(newGun);
-
-            Unbound.Instance.ExecuteAfterSeconds(2f, delegate
-            {
-                blastAnimator.SetTrigger("IsBlasting");
-                Destroy(blasterSprite);
-
-            });
-
-            return new List<MonoBehaviour> { effect };
-        }
-        public class Blast : Gun
-        { }
     }
 }
