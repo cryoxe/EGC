@@ -79,7 +79,7 @@ namespace ExtraGameCards.MonoBehaviours
             SpawnBulletsEffect effect = player.gameObject.AddComponent<SpawnBulletsEffect>();
             effect.SetDirection(new Vector3(0f, -1f, 0f));
             effect.SetPosition(new Vector3(0f, 100f, 0f));
-            effect.SetNumBullets(35);
+            effect.SetNumBullets(40);
             effect.SetTimeBetweenShots(0.03f);
 
             SpawnBulletsEffect.CopyGunStats(gun, newGun);
