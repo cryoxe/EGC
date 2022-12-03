@@ -37,6 +37,7 @@ namespace SimplyCard.Cards
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             var mb = player.gameObject.GetOrAddComponent<GestureOfTheDrownedMono>();
             mb.block = block;
+            mb.data = data;
 
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
