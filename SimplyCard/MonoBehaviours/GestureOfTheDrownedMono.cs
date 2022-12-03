@@ -16,10 +16,11 @@ namespace ExtraGameCards.MonoBehaviours
     internal class GestureOfTheDrownedMono : MonoBehaviour
     {
         public Block block;
+        public CharacterData data;
 
         public void Update()
         {
-            if (block.isActiveAndEnabled)
+            if (block.isActiveAndEnabled && (bool)this.data.playerVel.GetFieldValue("simulated"))
             {
                 block.TryBlock();
             }
