@@ -79,7 +79,7 @@ namespace ExtraGameCards.MonoBehaviours
                 deathMark = player.gameObject.AddComponent<DeathMark>();
                 if (somethingNoise != null)
                 {
-                    somethingNoise.PlayOneShot(Assets.SomethingNoise, 0.9f);
+                    somethingNoise.PlayOneShot(Assets.SomethingNoise, Optionshandler.vol_Master * Optionshandler.vol_Sfx);
                     somethingNoise = null;
                 }
                 Unbound.Instance.ExecuteAfterSeconds(4f, delegate
