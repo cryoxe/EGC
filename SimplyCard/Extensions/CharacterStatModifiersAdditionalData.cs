@@ -10,9 +10,11 @@ namespace ExtraGameCards.Extensions
     public class CharacterStatModifiersAdditionalData
     {
         public int markovChoice;
+        public int bombs;
         public CharacterStatModifiersAdditionalData()
         {
             markovChoice = 0;
+            bombs = 0;
 
         }
     }
