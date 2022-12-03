@@ -81,13 +81,14 @@ namespace ExtraGameCards.MonoBehaviours
             originPos = new Vector2(rPosX, rPosY);
 
             direction = targetPos - shootPos;
-            direction.Normalize();
             rotation = Quaternion.LookRotation(direction, Vector3.up);
 
             UnityEngine.Debug.Log("Instantiate GasterBlaster");
             blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, Assets.GasterBlasterSprite.transform.position, Assets.GasterBlasterSprite.transform.rotation, data: new object[] { targetPos, originPos, shootPos, direction });
             blasterSprite.transform.position = originPos;
             blasterSprite.transform.rotation = rotation;
+
+            UnityEngine.Debug.Log($"(CHECK) SHOOTING : {shootPos}, TARGET : {targetPos}, ROTATION : {rotation}");
 
             GasterBlasterInstantMono gasterBlasterInstantMono = blasterSprite.AddComponent<GasterBlasterInstantMono>();
             gasterBlasterInstantMono.player = player;
