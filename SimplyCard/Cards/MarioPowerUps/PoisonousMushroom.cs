@@ -39,7 +39,7 @@ namespace ExtraGameCards.Cards
                 },
                 new CardInfoStat()
                 {
-                    positive = false,
+                    positive = true,
                     stat = "Lifesteal",
                     amount = "+200%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
