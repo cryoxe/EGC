@@ -18,7 +18,7 @@ namespace ExtraGameCards.Cards
             ModName = EGC.ModInitials,
             Art = null,
             Rarity = CardInfo.Rarity.Rare,
-            Theme = CardThemeColor.CardThemeColorType.NatureBrown,
+            Theme = CardThemeColor.CardThemeColorType.PoisonGreen,
             Stats = new CardInfoStat[]
             {
                 new CardInfoStat()
