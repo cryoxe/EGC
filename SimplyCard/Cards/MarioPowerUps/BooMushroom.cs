@@ -69,7 +69,7 @@ namespace ExtraGameCards.Cards
             };
 
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            gun.projectileColor = Color.white;
+            gun.projectileColor = new Color32(227, 226, 217, 210);
             statModifiers.health = 0.7f;
             gun.damage = 0.7f;
             gun.unblockable = true;
