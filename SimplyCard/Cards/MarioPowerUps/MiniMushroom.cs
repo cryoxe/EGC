@@ -25,7 +25,7 @@ namespace ExtraGameCards.Cards
                 {
                     positive = true,
                     stat = "Gravity",
-                    amount = "-30%",
+                    amount = "-45%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
@@ -63,9 +63,9 @@ namespace ExtraGameCards.Cards
 
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             statModifiers.health = 0.75f;
-            statModifiers.gravity = 0.7f;
+            statModifiers.gravity = 0.55f;
             statModifiers.movementSpeed = 1.25f;
-            statModifiers.sizeMultiplier = 0.8f;
+            statModifiers.sizeMultiplier = 0.6f;
         }
     }
 }
