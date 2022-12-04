@@ -82,7 +82,7 @@ namespace ExtraGameCards.Cards
         public override void OnShoot(GameObject projectile)
         {
             Vector2 damage = Vector2.up * 100;
-            player.data.healthHandler.TakeDamageOverTime(damage, Vector2.zero, 5, 0.25f, purple, lethal: false);
+            player.data.healthHandler.TakeDamageOverTime(damage, Vector2.zero, 10, 0.25f, purple, lethal: false);
         }
     }
 }
