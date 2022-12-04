@@ -38,6 +38,7 @@ namespace ExtraGameCards
         internal static CardCategory Normal;
         internal static CardCategory Markov;
         internal static CardCategory Lunar;
+        internal static CardCategory MarioPowerUps;
 
         IEnumerator GameStart(IGameModeHandler gm)
         {
@@ -51,6 +52,10 @@ namespace ExtraGameCards
                 if (!ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Contains(Lunar))
                 {
                     ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Lunar);
+                }
+                if (!ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Contains(MarioPowerUps))
+                {
+                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(MarioPowerUps);
                 }
             }
             yield break;
@@ -74,11 +79,20 @@ namespace ExtraGameCards
             Normal = CustomCardCategories.instance.CardCategory("Normal");
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
+            MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
 
             //CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART + W.I.P.
             CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
             CustomCard.BuildCard<Jar>();    //DONE + NEED ART
             CustomCard.BuildCard<PurpleGuy>();  //rebalancing
+
+            CustomCard.BuildCard<MarioBlock>();
+            CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.miniMushroomCard = card);
+            CustomCard.BuildCard<SuperMushroom>(card => SuperMushroom.superMushroomCard = card);
+            CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.oneUpMushroomCard = card);
+            CustomCard.BuildCard<PoisonousMushroom>(card => PoisonousMushroom.poisonousMushroomCard = card);
+            CustomCard.BuildCard<BooMushroom>(card => BooMushroom.booMushroomCard = card);
+
 
             CustomCard.BuildCard<BeadsOfFealty>();
             CustomCard.BuildCard<GestureOfTheDrowned>();    //maybe add new rarity LUNAR ? + NEED ART
@@ -94,7 +108,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<Madness>();    //rebalancing + NEED ART
             CustomCard.BuildCard<Unimpressed>();  //rebalancing + NEED ART
 
-            CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY + NEED ART
+            CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY
             //CustomCard.BuildCard<GasterBlaster>();//W.I.P. 
             //CustomCard.BuildCard<ClayBullet>();
 
@@ -113,17 +127,26 @@ namespace ExtraGameCards
                 //all cards that are not "lunar" or "markov" are now "normal"
                 foreach (var card in UnboundLib.Utils.CardManager.cards.Values)
                 {
-                    if (!card.cardInfo.categories.Contains(Markov))
+                    if (card.cardInfo.categories.Contains(Markov))
                     {
-                        if (!card.cardInfo.categories.Contains(Lunar))
-                        {
-                            //UnityEngine.Debug.Log(card.cardInfo.cardName + " is a Normal category Card !");
-                            card.cardInfo.categories = card.cardInfo.categories.AddToArray(Normal);
-                        }
-                        //else { UnityEngine.Debug.Log(card.cardInfo.cardName + " is a LUNAR category Card !"); }
-                        
+                        //UnityEngine.Debug.Log(card.cardInfo.cardName + " is a MARKOV category Card");
+                        continue;
                     }
-                    //else { UnityEngine.Debug.Log(card.cardInfo.cardName + " is a MARKOV category Card"); }
+                    else if (card.cardInfo.categories.Contains(Lunar))
+                    {
+                        //UnityEngine.Debug.Log(card.cardInfo.cardName + " is a LUNAR category Card");
+                        continue;
+                    }
+                    else if (card.cardInfo.categories.Contains(MarioPowerUps))
+                    {
+                        //UnityEngine.Debug.Log(card.cardInfo.cardName + " is a POWER UP category Card");
+                        continue;
+                    }
+                    else
+                    {
+                        //UnityEngine.Debug.Log(card.cardInfo.cardName + " is a NORMAL category Card");
+                        card.cardInfo.categories = card.cardInfo.categories.AddToArray(Normal);
+                    }
                 }
             });
         }
