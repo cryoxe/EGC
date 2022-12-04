@@ -31,7 +31,7 @@ namespace SimplyCard.Cards
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             gunAmmo.maxAmmo *= 2;
-            //player.RPCA_SetFace(27, new Vector2(0.0f, 0.0f), 56, new Vector2(-.2f, -.2f), 31, new Vector2(.1f, -.7f), 32, new Vector2(0.0f, 0.0f));
+            player.RPCA_SetFace(46, new Vector2(0.0f, 0.0f), 0, new Vector2(0, 0), 0, new Vector2(0, 0), 0, new Vector2(0, 0));
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
