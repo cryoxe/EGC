@@ -16,7 +16,7 @@ namespace ExtraGameCards.Cards
             Title = "1Up Mushroom",
             Description = "You're happy to see it!",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.OneUpMushArt,
             Rarity = CardInfo.Rarity.Rare,
             Theme = CardThemeColor.CardThemeColorType.PoisonGreen,
             Stats = new CardInfoStat[]

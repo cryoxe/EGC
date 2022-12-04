@@ -16,7 +16,7 @@ namespace ExtraGameCards.Cards
             Title = "Mini Mushroom",
             Description = "This one makes you tiny",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.MiniMushArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.DefensiveBlue,
             Stats = new CardInfoStat[]

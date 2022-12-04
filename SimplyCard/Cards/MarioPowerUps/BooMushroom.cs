@@ -16,7 +16,7 @@ namespace ExtraGameCards.Cards
             Title = "Boo Mushroom",
             Description = "You're a ghost now !",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.BooMushArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.TechWhite,
             Stats = new CardInfoStat[]

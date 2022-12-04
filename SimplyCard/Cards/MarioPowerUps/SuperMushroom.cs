@@ -16,7 +16,7 @@ namespace ExtraGameCards.Cards
             Title = "Super Mushroom",
             Description = "You're a big boy now!",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.SuperMushArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.DestructiveRed,
             Stats = new CardInfoStat[]

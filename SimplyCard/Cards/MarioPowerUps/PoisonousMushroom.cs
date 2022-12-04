@@ -18,7 +18,7 @@ namespace ExtraGameCards.Cards
             Title = "Poison Mushroom",
             Description = "Ouch, it hurts! You take damage when you shoot!",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.PoisonMushArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.EvilPurple,
             Stats = new CardInfoStat[]

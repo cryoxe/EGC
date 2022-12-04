@@ -15,7 +15,7 @@ namespace ExtraGameCards.Cards
             Title = "? Block",
             Description = "Power-Ups Await",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.MarioArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.NatureBrown,
             Stats = new CardInfoStat[]
