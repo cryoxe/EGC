@@ -64,7 +64,7 @@ namespace ExtraGameCards.Cards
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             statModifiers.health = 0.75f;
             statModifiers.gravity = 0.7f;
-            statModifiers.speed = 1.25f;
+            statModifiers.movementSpeed = 1.25f;
             statModifiers.sizeMultiplier = 0.8f;
         }
     }
