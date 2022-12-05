@@ -79,7 +79,7 @@ namespace ExtraGameCards.MonoBehaviours
                 deathMark = player.gameObject.AddComponent<DeathMark>();
                 if (somethingNoise != null)
                 {
-                    somethingNoise.PlayOneShot(Assets.SomethingNoise, Optionshandler.vol_Master * Optionshandler.vol_Sfx);
+                    somethingNoise.PlayOneShot(Assets.SomethingNoise, 0.8f * Optionshandler.vol_Master * Optionshandler.vol_Sfx);
                     somethingNoise = null;
                 }
                 Unbound.Instance.ExecuteAfterSeconds(4f, delegate
@@ -142,7 +142,7 @@ namespace ExtraGameCards.MonoBehaviours
 
             try
             {
-                if (this.data.input.direction == Vector3.zero || this.data.input.direction == Vector3.down)
+                if (this.data.input.direction == Vector3.zero || this.data.input.direction == Vector3.down || this.data.input.direction == Vector3.up || this.data.isGrounded)
                 {
                     this.counter += TimeHandler.deltaTime / this.timeToFill;
                 }
