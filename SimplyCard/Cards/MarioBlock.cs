@@ -17,7 +17,7 @@ namespace ExtraGameCards.Cards
             ModName = EGC.ModInitials,
             Art = Assets.MarioArt,
             Rarity = CardInfo.Rarity.Uncommon,
-            Theme = CardThemeColor.CardThemeColorType.NatureBrown,
+            Theme = CardThemeColor.CardThemeColorType.FirepowerYellow,
             Stats = new CardInfoStat[]
             {
                 new CardInfoStat()
