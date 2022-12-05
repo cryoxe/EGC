@@ -33,7 +33,7 @@ namespace ExtraGameCards.Cards
 
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
-            cardInfo.allowMultiple = true;
+            cardInfo.allowMultiple = false;
 
             cardInfo.categories = new CardCategory[]
             {
