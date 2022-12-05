@@ -12,7 +12,6 @@ namespace ExtraGameCards.MonoBehaviours
 {
     public class GatserBlasterMono : MonoBehaviour, IPunInstantiateMagicCallback
     {
-        private float duration = 5f;
 
         public Player player;
         public Gun gun;
@@ -24,9 +23,8 @@ namespace ExtraGameCards.MonoBehaviours
         public CharacterStatModifiers statModifiers;
 
         private Vector2 targetPos;
-        private Vector2 shootPos;
         private Vector2 originPos;
-        private Vector2 direction;
+        private Vector3 direction;
         private Quaternion rotation;
 
         private GameObject blasterSprite;
@@ -34,13 +32,10 @@ namespace ExtraGameCards.MonoBehaviours
         void IPunInstantiateMagicCallback.OnPhotonInstantiate(PhotonMessageInfo info)
         {
             object[] data = info.photonView.InstantiationData;
-            targetPos = (Vector2)data[0];
-            originPos = (Vector2)data[1];
-            shootPos = (Vector2)data[2];
-            direction = (Vector2)data[3];
+            originPos = (Vector2)data[0];
         }
 
-        void Awake()
+        void Start()
         {
             ProjectileHit hit = gameObject.GetComponent<ProjectileHit>();
             hit.AddHitAction(OnHit);
@@ -48,47 +43,22 @@ namespace ExtraGameCards.MonoBehaviours
 
         void OnHit()
         {
-            UnityEngine.Debug.Log("We hit something");
             targetPos = gameObject.transform.position;
-            System.Random random = new System.Random();
-            float rPosY = random.Next(((int)targetPos.y) - 20, ((int)targetPos.y) +21);
-            float rPosX = random.Next(((int)targetPos.x) - 20, ((int)targetPos.x) + 21);
-            shootPos = new Vector2(rPosX, rPosY);
-            if (Mathf.Abs(shootPos.y) > Mathf.Abs(shootPos.x))
-            {
-                rPosX = random.Next(((int)shootPos.x) - 30, ((int)shootPos.x) + 31);
-                if (shootPos.y >= 0)
+            bool ok = false;
+            while (!ok){
+                originPos = targetPos + Random.insideUnitCircle * 15;
+                if (originPos.x > -36 & originPos.x < 36 & originPos.y > -18 & originPos.y < 18)
                 {
-                    rPosY = 105f;
-                }
-                else
-                {
-                    rPosY = -105f;
+                    ok = true;
                 }
             }
-            else
-            {
-                rPosY = random.Next(((int)shootPos.y) - 30, ((int)shootPos.y) + 31);
-                if (shootPos.x >= 0)
-                {
-                    rPosX = 105f;
-                }
-                else
-                {
-                    rPosX = -105f;
-                }
-            }
-            originPos = new Vector2(rPosX, rPosY);
 
-            direction = targetPos - shootPos;
-            rotation = Quaternion.LookRotation(direction, Vector3.up);
+            direction = targetPos - originPos;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+            rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             UnityEngine.Debug.Log("Instantiate GasterBlaster");
-            blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, Assets.GasterBlasterSprite.transform.position, Assets.GasterBlasterSprite.transform.rotation, data: new object[] { targetPos, originPos, shootPos, direction });
-            blasterSprite.transform.position = originPos;
-            blasterSprite.transform.rotation = rotation;
-
-            UnityEngine.Debug.Log($"(CHECK) SHOOTING : {shootPos}, TARGET : {targetPos}, ROTATION : {rotation}");
+            blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, originPos, rotation, data: new object[] { originPos });
 
             GasterBlasterInstantMono gasterBlasterInstantMono = blasterSprite.AddComponent<GasterBlasterInstantMono>();
             gasterBlasterInstantMono.player = player;
@@ -102,7 +72,6 @@ namespace ExtraGameCards.MonoBehaviours
 
             gasterBlasterInstantMono.originPos = originPos;
             gasterBlasterInstantMono.direction = direction;
-            gasterBlasterInstantMono.shootingPos = shootPos;
             gasterBlasterInstantMono.targetPos = targetPos;
             gasterBlasterInstantMono.rotation = rotation;
 

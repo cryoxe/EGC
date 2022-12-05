@@ -2,6 +2,9 @@
 using ExtraGameCards.MonoBehaviours;
 using ModdingUtils.Extensions;
 using ModsPlus;
+using Photon.Pun;
+using System.Collections;
+using UnboundLib;
 using UnityEngine;
 
 namespace ExtraGameCards.Cards
@@ -51,23 +54,36 @@ namespace ExtraGameCards.Cards
             statModifiers.health = 0.7f;
             gun.attackSpeed = 0.8f;
         }
-        protected override void Added(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            // Card added to the player!
-        }
-        protected override void Removed(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            // Card removed from the player!
-        }
     }
     public class BlastEffect : CardEffect
     {
+        private GameObject Projectile;
+
         public override void OnShoot(GameObject projectile)
         {
-            System.Random random = new System.Random();
-            if (random.Next(0, 100) < 50)
+            UnityEngine.Debug.Log(player.transform.position);
+
+            Projectile = projectile;
+            if (PhotonNetwork.OfflineMode)
             {
-                GatserBlasterMono sensor = projectile.AddComponent<GatserBlasterMono>();
+                this.RPCA_Blast(UnityEngine.Random.Range(0, 99));
+            }
+            else
+            {
+                this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Blast", RpcTarget.All, new object[]
+                {
+                    UnityEngine.Random.Range(0, 99)
+                });
+            }
+
+        }
+
+        [PunRPC]
+        private void RPCA_Blast(int random)
+        {
+            if (random < 20 && (bool)this.data.playerVel.GetFieldValue("simulated"))
+            {
+                GatserBlasterMono sensor = Projectile.AddComponent<GatserBlasterMono>();
                 sensor.health = health;
                 sensor.gravity = gravity;
                 sensor.block = block;
@@ -78,4 +94,5 @@ namespace ExtraGameCards.Cards
             }
         }
     }
+
 }

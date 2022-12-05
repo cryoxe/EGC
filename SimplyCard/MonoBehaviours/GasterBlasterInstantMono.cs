@@ -22,7 +22,6 @@ namespace ExtraGameCards.MonoBehaviours
         public CharacterStatModifiers statModifiers;
 
         public Vector2 originPos;
-        public Vector2 shootingPos;
         public Vector2 targetPos;
         public Vector2 direction;
         public Quaternion rotation;
@@ -34,39 +33,51 @@ namespace ExtraGameCards.MonoBehaviours
 
         void Start()
         {
-            gameObject.transform.localScale = new Vector3(1.2f, 1.2f, transform.localScale.z);
-            UnityEngine.Debug.Log($"Blaster is at : {transform.position}");
+            gameObject.transform.localScale = new Vector3(1.8f, 1.8f, transform.localScale.z);
+            Color objectColor = gameObject.GetComponent<Renderer>().material.color;
+            gameObject.GetComponent<Renderer>().material.color = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
 
             animator = GetComponent<Animator>();
-            StartCoroutine(shootLaser());
-        }
 
-        public IEnumerator Move(float time, Vector3 beginPos, Vector3 endPos)
-        {
-            UnityEngine.Debug.Log($"Moving toward Shoot Position : {endPos}");
-            for (float t = 0; t < 1; t += TimeHandler.deltaTime / time)
-            {
-                transform.position = Vector3.Lerp(beginPos, endPos, t);
-                yield return null;
-            }
-            UnityEngine.Debug.Log($"Blaster is now at : {transform.position}");
+            StartCoroutine(shootLaser());
         }
 
         IEnumerator shootLaser()
         {
-            UnityEngine.Debug.Log($"SHOOTING : {shootingPos}, TARGET : {targetPos}, ROTATION : {rotation}");
-            yield return new WaitForEndOfFrame();
-            UnityEngine.Debug.Log("Begin");
-            yield return Move(1.5f, originPos, shootingPos);
-            UnityEngine.Debug.Log("Move() Finished");
+            yield return FadeIn();
+
             animator.SetTrigger("isBlasting");
-            AudioSource blasterNoise = gameObject.GetOrAddComponent<AudioSource>();
-            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f);
+
+            AudioSource blasterNoise = player.gameObject.GetOrAddComponent<AudioSource>();
+            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f * Optionshandler.vol_Master * Optionshandler.vol_Sfx);
             yield return BlastEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
-            UnityEngine.Debug.Log("BlastEffect() Finished");
-            animator.SetTrigger("isBlasting");
+            yield return new WaitForSeconds(1.5f);
+            yield return FadeOut();
+            //Destroy(gameObject);
         }
 
+        private IEnumerator FadeOut()
+        {
+            while (this.GetComponent<Renderer>().material.color.a > 0)
+            {
+                Color objectColor = this.GetComponent<Renderer>().material.color;
+                float fadeAmount = objectColor.a - (5 * TimeHandler.deltaTime);
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                this.GetComponent<Renderer>().material.color = objectColor;
+                yield return null;
+            }
+        }
+        private IEnumerator FadeIn()
+        {
+            while (this.GetComponent<Renderer>().material.color.a < 1)
+            {
+                Color objectColor = this.GetComponent<Renderer>().material.color;
+                float fadeAmount = objectColor.a + (5 * TimeHandler.deltaTime);
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                this.GetComponent<Renderer>().material.color = objectColor;
+                yield return null;
+            }
+        }
         public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             Gun newGun = player.gameObject.AddComponent<Blast>();
@@ -90,7 +101,7 @@ namespace ExtraGameCards.MonoBehaviours
             newGun.projectileColor = Color.white;
             newGun.spread = 0f;
             newGun.gravity = 0f;
-            newGun.destroyBulletAfter = 100f;
+            newGun.destroyBulletAfter = 10f;
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = true;
             newGun.damageAfterDistanceMultiplier = 1f;

@@ -109,7 +109,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<Unimpressed>();  //rebalancing + NEED ART
 
             CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY
-            //CustomCard.BuildCard<GasterBlaster>();//W.I.P. 
+            CustomCard.BuildCard<GasterBlaster>();//W.I.P. 
             //CustomCard.BuildCard<ClayBullet>();
 
             //VAMPIRE SURVIVOR
