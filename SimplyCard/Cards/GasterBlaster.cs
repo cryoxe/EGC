@@ -81,7 +81,7 @@ namespace ExtraGameCards.Cards
         [PunRPC]
         private void RPCA_Blast(int random)
         {
-            if (random < 20 && (bool)this.data.playerVel.GetFieldValue("simulated"))
+            if (random < 30 && (bool)this.data.playerVel.GetFieldValue("simulated"))
             {
                 GatserBlasterMono sensor = Projectile.AddComponent<GatserBlasterMono>();
                 sensor.health = health;
