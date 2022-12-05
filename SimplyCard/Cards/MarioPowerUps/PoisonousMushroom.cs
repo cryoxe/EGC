@@ -11,7 +11,6 @@ namespace ExtraGameCards.Cards
     class PoisonousMushroom : CustomEffectCard<PoisonousEffect>
     {
         public static CardInfo poisonousMushroomCard;
-        private Color32 purple = new Color32(186, 85, 211, 255);
 
         public override CardDetails Details => new CardDetails
         {
@@ -62,7 +61,7 @@ namespace ExtraGameCards.Cards
             {
                 EGC.MarioPowerUps
             };
-            gun.projectileColor = purple;
+            gun.projectileColor = Color.magenta;
             gun.damage = 1.2f;
             gun.percentageDamage = 0.1f;
             gun.reloadTimeAdd = 0.5f;    
