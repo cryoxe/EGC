@@ -74,12 +74,7 @@ namespace ExtraGameCards.Cards
             gun.damage = 0.7f;
             gun.unblockable = true;
             gun.ignoreWalls = true;
-        }
-
-        protected override void Added(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-
-            gun.attackSpeed -= 0.1f;
+            gun.attackSpeed = 0.9f;
         }
     }
 }
