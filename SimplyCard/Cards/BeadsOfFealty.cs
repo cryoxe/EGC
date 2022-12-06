@@ -25,7 +25,8 @@ namespace SimplyCard.Cards
                 CustomCardCategories.instance.CardCategory("CardManipulation")
             };
 
-            statModifiers.health = 1.05f;
+            statModifiers.regen = 3f;
+            statModifiers.health = 1.1f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -64,7 +65,14 @@ namespace SimplyCard.Cards
                 {
                     positive = true,
                     stat = "Health",
-                    amount = "+5%",
+                    amount = "+10%",
+                    simepleAmount = CardInfoStat.SimpleAmount.notAssigned
+                },
+                new CardInfoStat()
+                {
+                    positive = true,
+                    stat = "Regen",
+                    amount = "+3",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };
