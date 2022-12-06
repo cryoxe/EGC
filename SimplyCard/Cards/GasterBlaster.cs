@@ -24,8 +24,8 @@ namespace ExtraGameCards.Cards
                 new CardInfoStat()
                 {
                     positive = true,
-                    stat = "Blast",
-                    amount = "10%",
+                    stat = "Blast Chance",
+                    amount = "50%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
                 new CardInfoStat()
@@ -61,8 +61,7 @@ namespace ExtraGameCards.Cards
 
         public override void OnShoot(GameObject projectile)
         {
-            UnityEngine.Debug.Log(player.transform.position);
-
+            if(projectile.GetComponent<ProjectileHit>())
             Projectile = projectile;
             if (PhotonNetwork.OfflineMode)
             {
@@ -81,9 +80,10 @@ namespace ExtraGameCards.Cards
         [PunRPC]
         private void RPCA_Blast(int random)
         {
-            if (random < 30 && (bool)this.data.playerVel.GetFieldValue("simulated"))
+            if (random < 50 && (bool)this.data.playerVel.GetFieldValue("simulated"))
             {
-                GatserBlasterMono sensor = Projectile.AddComponent<GatserBlasterMono>();
+                GasterBlasterMono sensor = Projectile.AddComponent<GasterBlasterMono>();
+                sensor.statModifiers = characterStats;
                 sensor.health = health;
                 sensor.gravity = gravity;
                 sensor.block = block;

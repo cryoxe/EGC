@@ -7,6 +7,8 @@ using ExtraGameCards.AssetsEmbedded;
 using ExtraGameCards.Utils;
 using Photon.Pun;
 using System.Collections;
+using UnboundLib.GameModes;
+using Sonigon;
 
 namespace ExtraGameCards.MonoBehaviours
 {
@@ -20,6 +22,7 @@ namespace ExtraGameCards.MonoBehaviours
         public Block block;
         public GunAmmo gunAmmo;
         public CharacterStatModifiers statModifiers;
+        public GasterBlasterMono gasterBlasterSound;
 
         public Vector2 originPos;
         public Vector2 targetPos;
@@ -33,9 +36,13 @@ namespace ExtraGameCards.MonoBehaviours
 
         void Start()
         {
+
             gameObject.transform.localScale = new Vector3(1.8f, 1.8f, transform.localScale.z);
+
             Color objectColor = gameObject.GetComponent<Renderer>().material.color;
             gameObject.GetComponent<Renderer>().material.color = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
+            gameObject.GetComponent<Renderer>().sortingLayerName = "MostFront";
+            gameObject.GetComponent<Renderer>().sortingOrder = 1048575;
 
             animator = GetComponent<Animator>();
 
@@ -45,18 +52,16 @@ namespace ExtraGameCards.MonoBehaviours
         IEnumerator shootLaser()
         {
             yield return FadeIn();
-
             animator.SetTrigger("isBlasting");
-
-            AudioSource blasterNoise = player.gameObject.GetOrAddComponent<AudioSource>();
-            blasterNoise.PlayOneShot(Assets.GasterBlasterNoise, 0.9f * Optionshandler.vol_Master * Optionshandler.vol_Sfx);
+            AudioController.Play(Assets.GasterBlasterNoise, transform);
             yield return BlastEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
-            yield return new WaitForSeconds(1.5f);
-            yield return FadeOut();
-            //Destroy(gameObject);
+            yield return new WaitForSeconds(1.2f);
+            animator.SetTrigger("isBlasting");
+            yield return new WaitForSeconds(0.5f);
+            yield return FadeOut(true);
         }
 
-        private IEnumerator FadeOut()
+        private IEnumerator FadeOut(bool destroyAfter = false)
         {
             while (this.GetComponent<Renderer>().material.color.a > 0)
             {
@@ -66,6 +71,7 @@ namespace ExtraGameCards.MonoBehaviours
                 this.GetComponent<Renderer>().material.color = objectColor;
                 yield return null;
             }
+            if (destroyAfter) { Destroy(gameObject); }
         }
         private IEnumerator FadeIn()
         {
@@ -78,6 +84,7 @@ namespace ExtraGameCards.MonoBehaviours
                 yield return null;
             }
         }
+
         public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             Gun newGun = player.gameObject.AddComponent<Blast>();
@@ -101,7 +108,7 @@ namespace ExtraGameCards.MonoBehaviours
             newGun.projectileColor = Color.white;
             newGun.spread = 0f;
             newGun.gravity = 0f;
-            newGun.destroyBulletAfter = 10f;
+            newGun.destroyBulletAfter = 5f;
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = true;
             newGun.damageAfterDistanceMultiplier = 1f;
