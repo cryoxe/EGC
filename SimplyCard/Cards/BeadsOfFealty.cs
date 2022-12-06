@@ -25,7 +25,7 @@ namespace SimplyCard.Cards
                 CustomCardCategories.instance.CardCategory("CardManipulation")
             };
 
-            statModifiers.regen = 3f;
+            statModifiers.regen = 5f;
             statModifiers.health = 1.1f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
