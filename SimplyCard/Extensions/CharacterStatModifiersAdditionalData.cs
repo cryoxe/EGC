@@ -10,12 +10,19 @@ namespace ExtraGameCards.Extensions
     public class CharacterStatModifiersAdditionalData
     {
         public int markovChoice;
-        public int bombs;
+
+        public bool hasBooMush;
+        public bool hasOneUpMush;
+        public bool hasPoisonMush;
+        public bool hasMiniMush;
         public CharacterStatModifiersAdditionalData()
         {
             markovChoice = 0;
-            bombs = 0;
 
+            hasOneUpMush = false;
+            hasPoisonMush = false;
+            hasBooMush = false;
+            hasMiniMush = false;
         }
     }
     public static class CharacterStatModifiersExtension
