@@ -37,34 +37,59 @@ namespace ExtraGameCards.Cards
         }
         protected override void Added(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            AddPowerUp(player);
+            AddPowerUp(player, characterStats);
         }
         protected override void Removed(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
         }
 
-        private void AddPowerUp(Player player)
+        private void AddPowerUp(Player player, CharacterStatModifiers characterStat)
         {
-            CardInfo addedCard = getRandomPowerUp();
+            CardInfo addedCard = getRandomPowerUp(characterStat);
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, addedCard, addToCardBar: true);
             ModdingUtils.Utils.CardBarUtils.instance.ShowAtEndOfPhase(player, addedCard);
         }
 
-        private CardInfo getRandomPowerUp()
+        private CardInfo getRandomPowerUp(CharacterStatModifiers characterStats)
         {
             int rng = Random.Range(0, 5);
             switch (rng)
             {
                 case 0:
                     return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name);
+
                 case 1:
-                    return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(MiniMushroom.miniMushroomCard.name);
+                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasMiniMush)
+                    {
+                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasMiniMush = true;
+                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(MiniMushroom.miniMushroomCard.name);
+                    }
+                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
+                    
                 case 2:
-                    return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(OneUpMushroom.oneUpMushroomCard.name);
+                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasOneUpMush)
+                    {
+                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasOneUpMush = true;
+                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(OneUpMushroom.oneUpMushroomCard.name);
+                    }
+                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
+
                 case 3:
-                    return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(PoisonousMushroom.poisonousMushroomCard.name);
+                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasPoisonMush)
+                    {
+                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasPoisonMush = true;
+                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(PoisonousMushroom.poisonousMushroomCard.name);
+                    }
+                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
+
                 case 4:
-                    return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(BooMushroom.booMushroomCard.name);
+                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasBooMush)
+                    {
+                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasBooMush = true;
+                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(BooMushroom.booMushroomCard.name);
+                    }
+                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
+
                 default:
                     return null;
             }
