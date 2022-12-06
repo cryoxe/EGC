@@ -47,7 +47,7 @@ namespace ExtraGameCards.AssetsEmbedded
 
         //Undertale
         private static readonly AssetBundle GasterBlasterSoundBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("gasterblaster_noise", typeof(EGC).Assembly);
-        public static AudioClip GasterBlasterNoise = GasterBlasterSoundBundle.LoadAsset<AudioClip>("A_GasterBlaster_Noise");
+        public static AudioClip GasterBlasterNoise = GasterBlasterSoundBundle.LoadAsset<AudioClip>("A_GatserBlaster_Noise");
 
         private static readonly AssetBundle GasterBlasterArtBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("gasterblaster_art", typeof(EGC).Assembly);
         public static GameObject GasterBlasterArt = GasterBlasterArtBundle.LoadAsset<GameObject>("C_GasterBlaster");
