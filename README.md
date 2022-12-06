@@ -66,9 +66,9 @@ Ghost Bullets, -30% health and damage
 ### One Up Mushroom
 ***Rare*** (Mushroom)
 **From : Super Mario Bros**  
-+ 1 life
++1 life
 
---
+---
 
 ### Poison Mushroom
 ***Rare*** (Mushroom)
