@@ -43,38 +43,37 @@ Give you one of the 5 mushroom cards at random (in case of double the card will 
 ---
 
 ### Super Mushroom
-***Uncommon*** (Mushroom)
+***Uncommon*** (Mushroom)  
 **From : Super Mario Bros**  
 Stats up!
 
 ---
 
 ### Mini Mushroom
-***Uncommon*** (Mushroom)
+***Uncommon*** (Mushroom)  
 **From : Super Mario Bros**  
 Speed up! Size down!
 
 ---
 
 ### Boo Mushroom
-***Uncommon*** (Mushroom)
+***Uncommon*** (Mushroom)  
 **From : Super Mario Bros**  
 Ghost Bullets, -30% health and damage
 
 ---
 
 ### One Up Mushroom
-***Rare*** (Mushroom)
+***Rare*** (Mushroom)  
 **From : Super Mario Bros**  
 +1 life
 
 ---
 
 ### Poison Mushroom
-***Rare*** (Mushroom)
+***Rare*** (Mushroom)  
 **From : Super Mario Bros**  
-You lose half your HP when you shoot (cannot kill you)  
-+200% lifesteal, +10% flat damage
+You lose half your HP when you shoot (cannot kill you), +200% lifesteal, +10% flat damage
 
 ---
 
