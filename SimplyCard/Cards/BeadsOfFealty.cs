@@ -20,11 +20,6 @@ namespace SimplyCard.Cards
             cardInfo.GetAdditionalData().canBeReassigned = false;
             cardInfo.allowMultiple = false;
 
-            cardInfo.categories = new CardCategory[]
-            {
-                CustomCardCategories.instance.CardCategory("CardManipulation")
-            };
-
             statModifiers.regen = 5f;
             statModifiers.health = 1.1f;
         }
