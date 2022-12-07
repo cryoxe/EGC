@@ -99,7 +99,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<ShapedGlass>();    //maybe add new rarity LUNAR ? + NEED ART
             CustomCard.BuildCard<StoneFluxPauldron>();  //maybe add new rarity LUNAR ? + NEED ART
             CustomCard.BuildCard<GlowingMeteorite>();   //maybe add new rarity LUNAR ? + NEED ART
-            //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.StaticCardEgo = card);    //maybe add new rarity LUNAR ? + IS NOT REMOVED PROPERLY + NEED ART + W.I.P.
+            //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);    //maybe add new rarity LUNAR ?
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
             CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART

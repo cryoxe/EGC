@@ -33,6 +33,8 @@ namespace ExtraGameCards.AssetsEmbedded
         private static readonly AssetBundle PoisonMushArtBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("poisonmush", typeof(EGC).Assembly);
         public static GameObject PoisonMushArt = PoisonMushArtBundle.LoadAsset<GameObject>("C_PoisonMush");
 
+        //ROR2
+
 
         //DDLC
         private static readonly AssetBundle MarkovArtBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("portraitofmarkov", typeof(EGC).Assembly);

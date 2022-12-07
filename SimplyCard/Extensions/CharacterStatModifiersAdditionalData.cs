@@ -10,6 +10,7 @@ namespace ExtraGameCards.Extensions
     public class CharacterStatModifiersAdditionalData
     {
         public int markovChoice;
+        public int egocentrismPower;
 
         public bool hasBooMush;
         public bool hasOneUpMush;
@@ -18,6 +19,7 @@ namespace ExtraGameCards.Extensions
         public CharacterStatModifiersAdditionalData()
         {
             markovChoice = 0;
+            egocentrismPower = 0;
 
             hasOneUpMush = false;
             hasPoisonMush = false;

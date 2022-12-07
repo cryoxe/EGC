@@ -1,95 +1,34 @@
-﻿using UnboundLib;
-using UnboundLib.Cards;
+﻿using ExtraGameCards;
 using UnityEngine;
-using ExtraGameCards.Utils;
-using ExtraGameCards.MonoBehaviours;
+using ModdingUtils.MonoBehaviours;
+using UnboundLib.Cards;
+using UnboundLib.GameModes;
+using UnboundLib;
+using ModdingUtils.Extensions;
+using static ModdingUtils.Utils.Cards;
+using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using ExtraGameCards.Cards;
+using ModsPlus;
+using Photon.Pun;
 
 namespace ExtraGameCards.Cards
 {
-    class Egocentrism : CustomCard
+    class Egocentrism : CustomEffectCard<EgoEffect>
     {
-        public static CardInfo StaticCardEgo;
-
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public static CardInfo egocentrismCard;
+        public override CardDetails Details => new CardDetails
         {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            cardInfo.allowMultiple = true;
-
-            cardInfo.categories = new CardCategory[]
-            {
-                EGC.Lunar
-            };
-
-            gun.projectileColor = Color.cyan;
-            gun.ammo = 1;
-            gun.attackSpeed = 0.9f;
-            gun.reloadTimeAdd = 1.15f;
-            gun.damage = 1.15f;
-
-            //there will be new effects based on the number of EGO that a player possesses
-
-            //var explosiveBullet = (GameObject)Resources.Load("0 cards/Explosive bullet");
-            //var a_Explosion = explosiveBullet.GetComponent<Gun>().objectsToSpawn[0].effect;
-            //var explo = Instantiate(a_Explosion);
-            //
-            //explo.transform.position = new Vector3(1000, 0, 0);
-            //explo.hideFlags = HideFlags.HideAndDontSave;
-            //explo.name = "EgocentrismExplo";
-            //
-            //DestroyImmediate(explo.GetComponent<RemoveAfterSeconds>());
-            //var explodsion = explo.GetComponent<Explosion>();
-            //explodsion.force = -10000;
-            //
-            //gun.objectsToSpawn = new[]
-            //{
-            //    new ObjectsToSpawn
-            //    {
-            //        effect = explo,
-            //        normalOffset = 0.1f,
-            //        numberOfSpawns = 1,
-            //        scaleFromDamage = 0.5f,
-            //        scaleStackM = 0.7f,
-            //        scaleStacks = true,
-            //    }
-            //};
-        }
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            var mb = player.transform.gameObject.GetOrAddComponent<EgocentrismMono>();
-            mb.player = player;
-        }
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
-
-            var mb = player.transform.gameObject.GetComponent<EgocentrismMono>();
-            if (mb != null && CheckCards.Amount(player, "Egocentrism") <= 1)
-            {
-                UnityEngine.Debug.Log("EgoRemoved");
-                Destroy(mb);
-            }
-        }
-
-        protected override string GetTitle()
-        {
-            return "Egocentrism";
-        }
-        protected override string GetDescription()
-        {
-            return "You are stronger <color=#c61a09> But every round, a random card is converted into this card</color>";
-        }
-        protected override GameObject GetCardArt()
-        {
-            return null;
-        }
-        protected override CardInfo.Rarity GetRarity()
-        {
-            return CardInfo.Rarity.Uncommon;
-        }
-        protected override CardInfoStat[] GetStats()
-        {
-            return new CardInfoStat[]
+            Title = "Egocentrism",
+            Description = "You are stronger <color=#c61a09> But every round, a random card is converted into this card</color>",
+            ModName = EGC.ModInitials,
+            Art = null,
+            Rarity = CardInfo.Rarity.Uncommon,
+            Theme = CardThemeColor.CardThemeColorType.ColdBlue,
+            Stats = new CardInfoStat[]
             {
                 new CardInfoStat()
                 {
@@ -119,15 +58,110 @@ namespace ExtraGameCards.Cards
                     amount = "+0.15s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
+            }
+        };
+
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        {
+            cardInfo.allowMultiple = true;
+
+            cardInfo.categories = new CardCategory[]
+            {
+                EGC.Lunar
             };
+
+            gun.projectileColor = Color.cyan;
+            gun.ammo = 1;
+            gun.attackSpeed = 0.9f;
+            gun.reloadTimeAdd = 0.15f;
+            gun.damage = 1.15f;
         }
-        protected override CardThemeColor.CardThemeColorType GetTheme()
+
+        protected override void Added(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            return CardThemeColor.CardThemeColorType.ColdBlue;
+            Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).egocentrismPower += 1;
+
+            switch (Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).egocentrismPower)
+            {
+                case 2:
+                    gun.numberOfProjectiles += 1;
+                    break;
+                case 3:
+                    gun.bursts += 1;
+                    gun.timeBetweenBullets += 0.25f;
+                    break;
+                case 4:
+                    gun.ammo += 2;
+                    gun.numberOfProjectiles += 1;
+                    break;
+                case 5:
+                    gun.ammo += 2;
+                    gun.ammoReg += 0.5f;
+                    gun.attackSpeed -= 0.1f; 
+                    gun.numberOfProjectiles += 1;
+                    break;
+                case 7:
+                    gun.ammo += 3;
+                    gun.projectileSpeed += 0.3f; 
+                    gun.reflects += 1;
+                    gun.attackSpeed -= 0.1f;
+                    gun.numberOfProjectiles += 1;
+                    break;
+            }
         }
-        public override string GetModName()
+    }
+    class EgoEffect : CardEffect
+    {
+        public override IEnumerator OnBattleStart(IGameModeHandler gameModeHandler)
         {
-            return EGC.ModInitials;
+            UnityEngine.Debug.Log($"New Ego card !\nNumber of ego = {Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).egocentrismPower}");
+            if (PhotonNetwork.OfflineMode)
+            {
+                RPCA_Replace(UnityEngine.Random.Range(1, 999999));
+                yield return null;
+            }
+            else
+            {
+                this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Replace", RpcTarget.All, new object[]
+                {
+                    UnityEngine.Random.Range(0, 999999)
+                });
+
+                yield return null;
+            }
+        }
+        private IEnumerator Replace(int seed)
+        {
+            System.Random random = new System.Random(seed);
+            List<CardInfo> playerCards = player.data.currentCards;
+            var tries = 0;
+            while (!(tries > 50))
+            {
+                tries++;
+                int randomCardIdx = random.Next(0, playerCards.Count - 1);
+                var oldCard = playerCards[randomCardIdx];
+                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove") })) { continue; }
+                //if (!instance.PlayerIsAllowedCard(player, oldCard)) { continue; }
+                UnityEngine.Debug.Log("Trying to remove : " + oldCard.cardName);
+                yield return instance.RemoveCardFromPlayer(player, playerCards[randomCardIdx], SelectionType.Oldest);
+
+                yield return new WaitForSeconds(0.4f);
+
+                //CardInfo egoCard = instance.GetCardWithObjectName("Egocentrism");
+                CardInfo egoCard = instance.GetCardWithObjectName(EgocentrismWIP.StaticCardEgo.name);
+                UnityEngine.Debug.Log("Adding a copy of : " + egoCard.cardName);
+                instance.AddCardToPlayer(player, egoCard, addToCardBar: true);
+
+                instance.ReplaceCard(player, playerCards.IndexOf(oldCard), egoCard, "Eg", 2, 2, true);
+
+                yield break;
+            }
+        }
+
+        [PunRPC]
+        private void RPCA_Replace(int seed)
+        {
+            StartCoroutine(Replace(seed));
         }
     }
 }
