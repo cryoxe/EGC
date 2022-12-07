@@ -1,4 +1,5 @@
 ﻿using ExtraGameCards.MonoBehaviours;
+using ExtraGameCards.AssetsEmbedded;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,7 @@ namespace SimplyCard.Cards
 
             gun.damage = 0.75f;
             gun.numberOfProjectiles = 1;
-            gun.spread = 0.06f;
+            gun.spread = 0.04f;
         }
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
@@ -48,7 +49,7 @@ namespace SimplyCard.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.TwentyArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {

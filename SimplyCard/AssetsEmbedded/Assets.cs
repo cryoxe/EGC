@@ -38,6 +38,10 @@ namespace ExtraGameCards.AssetsEmbedded
         private static readonly AssetBundle MarkovArtBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("portraitofmarkov", typeof(EGC).Assembly);
         public static GameObject PortraitOfMarkovArt = MarkovArtBundle.LoadAsset<GameObject>("C_PortraitOfMarkov");
 
+        //TBOI
+        private static readonly AssetBundle TwentyArtBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("twenty", typeof(EGC).Assembly);
+        public static GameObject TwentyArt = TwentyArtBundle.LoadAsset<GameObject>("C_Twenty");
+
         //OMORI
         private static readonly AssetBundle SomethingSoundBundle = Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("something_noise", typeof(EGC).Assembly);
         public static AudioClip SomethingNoise = SomethingSoundBundle.LoadAsset<AudioClip>("A_Something_Noise");
