@@ -36,7 +36,10 @@ namespace ExtraGameCards.MonoBehaviours
 
         void Start()
         {
-
+            this.ExecuteAfterSeconds(3f, () =>
+            {
+                Destroy(this.gameObject);
+            });
             gameObject.transform.localScale = new Vector3(1.8f, 1.8f, transform.localScale.z);
 
             Color objectColor = gameObject.GetComponent<Renderer>().material.color;
@@ -58,10 +61,11 @@ namespace ExtraGameCards.MonoBehaviours
             yield return new WaitForSeconds(1.2f);
             animator.SetTrigger("isBlasting");
             yield return new WaitForSeconds(0.5f);
-            yield return FadeOut(true);
+            yield return FadeOut();
+            Destroy(gameObject);
         }
 
-        private IEnumerator FadeOut(bool destroyAfter = false)
+        private IEnumerator FadeOut()
         {
             while (this.GetComponent<Renderer>().material.color.a > 0)
             {
@@ -71,7 +75,6 @@ namespace ExtraGameCards.MonoBehaviours
                 this.GetComponent<Renderer>().material.color = objectColor;
                 yield return null;
             }
-            if (destroyAfter) { Destroy(gameObject); }
         }
         private IEnumerator FadeIn()
         {
