@@ -30,16 +30,17 @@ namespace ExtraGameCards.MonoBehaviours
         public Quaternion rotation;
 
         private Animator animator;
+        private RemoveAfterSeconds removeAfterSeconds;
 
 
 
 
         void Start()
         {
-            this.ExecuteAfterSeconds(3f, () =>
-            {
-                Destroy(this.gameObject);
-            });
+
+            removeAfterSeconds = gameObject.AddComponent<RemoveAfterSeconds>();
+            removeAfterSeconds.seconds = 4;
+
             gameObject.transform.localScale = new Vector3(1.8f, 1.8f, transform.localScale.z);
 
             Color objectColor = gameObject.GetComponent<Renderer>().material.color;
