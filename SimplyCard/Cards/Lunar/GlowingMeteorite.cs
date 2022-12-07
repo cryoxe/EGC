@@ -25,7 +25,6 @@ namespace ExtraGameCards.Cards
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             player.gameObject.GetOrAddComponent<GlowingMeteoriteMono>();
-
         }
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {

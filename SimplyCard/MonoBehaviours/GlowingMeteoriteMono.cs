@@ -17,7 +17,7 @@ namespace ExtraGameCards.MonoBehaviours
 {
     internal class GlowingMeteoriteMono : ReversibleEffect
     {
-        private  float duration = 12f;
+        private  float duration = 10f;
 
         private Player player;
         private Gun gun;
@@ -45,10 +45,8 @@ namespace ExtraGameCards.MonoBehaviours
             if (duration <= 0)
             {
                 MeteorEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
-                duration = 12f;
+                duration = 10f;
             }
-
-            
             this.player = base.gameObject.GetComponent<Player>();
         }
 
@@ -56,6 +54,7 @@ namespace ExtraGameCards.MonoBehaviours
         {
             block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
             SetLivesToEffect(int.MaxValue);
+            duration = 0f;
         }
         public override void OnUpdate()
         {
@@ -67,7 +66,7 @@ namespace ExtraGameCards.MonoBehaviours
         }
         public override void OnOnDestroy()
         {
-            duration = 12f;
+            duration = 10f;
             block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Remove(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
         }
 
