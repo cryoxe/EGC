@@ -102,7 +102,7 @@ namespace ExtraGameCards
             CustomCard.BuildCard<ShapedGlass>();    
             CustomCard.BuildCard<StoneFluxPauldron>();  
             CustomCard.BuildCard<GlowingMeteorite>();
-            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);
+            //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
             CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART
