@@ -14,7 +14,6 @@ using Photon.Pun;
 using ExtraGameCards.AssetsEmbedded;
 using UnityEngine;
 using RarityLib.Utils;
-//using RarityLib;
 
 namespace ExtraGameCards
 {
@@ -66,8 +65,7 @@ namespace ExtraGameCards
 
         void Awake()
         {
-
-            RarityUtils.AddRarity("Lunar", 0.85f, new Color(0.11f, 0.49f, 1), new Color(0.11f, 0.49f, 1));
+            RarityUtils.AddRarity("Lunar", 0.85f, new Color(0.5f, 0.85f, 0.8f), new Color(0.38f, 0.64f, 0.6f));
             var harmony = new Harmony(ModId);
             harmony.PatchAll();
         }
