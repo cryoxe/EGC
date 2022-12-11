@@ -1,19 +1,14 @@
-﻿using ExtraGameCards;
-using UnityEngine;
-using ModdingUtils.MonoBehaviours;
-using UnboundLib.Cards;
-using UnboundLib.GameModes;
-using UnboundLib;
-using ModdingUtils.Extensions;
-using static ModdingUtils.Utils.Cards;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+﻿using ModsPlus;
+using Photon.Pun;
+using RarityLib.Utils;
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using ExtraGameCards.Cards;
-using ModsPlus;
-using Photon.Pun;
+using System.Linq;
+using UnboundLib;
+using UnboundLib.GameModes;
+using UnityEngine;
+using static ModdingUtils.Utils.Cards;
 
 namespace ExtraGameCards.Cards
 {
@@ -26,7 +21,7 @@ namespace ExtraGameCards.Cards
             Description = "You are stronger <color=#c61a09> But every round, a random card is converted into this card</color>",
             ModName = EGC.ModInitials,
             Art = null,
-            Rarity = CardInfo.Rarity.Uncommon,
+            Rarity = RarityUtils.GetRarity("Lunar"),
             Theme = CardThemeColor.CardThemeColorType.ColdBlue,
             Stats = new CardInfoStat[]
             {
@@ -67,7 +62,8 @@ namespace ExtraGameCards.Cards
 
             cardInfo.categories = new CardCategory[]
             {
-                EGC.Lunar
+                EGC.Lunar,
+                EGC.CardManipulation
             };
 
             gun.projectileColor = Color.cyan;
@@ -112,21 +108,27 @@ namespace ExtraGameCards.Cards
     }
     class EgoEffect : CardEffect
     {
+
         public override IEnumerator OnBattleStart(IGameModeHandler gameModeHandler)
         {
             UnityEngine.Debug.Log($"New Ego card !\nNumber of ego = {Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).egocentrismPower}");
             if (PhotonNetwork.OfflineMode)
             {
-                RPCA_Replace(UnityEngine.Random.Range(1, 999999));
+                Unbound.Instance.ExecuteAfterFrames(25, () =>
+                {
+                    RPCA_Replace(UnityEngine.Random.Range(1, 999999));
+                });
                 yield return null;
             }
             else
             {
-                this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Replace", RpcTarget.All, new object[]
+                Unbound.Instance.ExecuteAfterFrames(25, () =>
                 {
-                    UnityEngine.Random.Range(0, 999999)
+                    this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Replace", RpcTarget.All, new object[]
+                    {
+                        UnityEngine.Random.Range(0, 999999)
+                    });
                 });
-
                 yield return null;
             }
         }
@@ -134,26 +136,25 @@ namespace ExtraGameCards.Cards
         {
             System.Random random = new System.Random(seed);
             List<CardInfo> playerCards = player.data.currentCards;
+
             var tries = 0;
             while (!(tries > 50))
             {
                 tries++;
-                int randomCardIdx = random.Next(0, playerCards.Count - 1);
+                int randomCardIdx = random.Next(0, playerCards.Count);
                 var oldCard = playerCards[randomCardIdx];
-                if (!instance.CardIsNotBlacklisted(oldCard, new[] { CustomCardCategories.instance.CardCategory("CardManipulation"), CustomCardCategories.instance.CardCategory("NoRemove") })) { continue; }
-                //if (!instance.PlayerIsAllowedCard(player, oldCard)) { continue; }
-                UnityEngine.Debug.Log("Trying to remove : " + oldCard.cardName);
-                yield return instance.RemoveCardFromPlayer(player, playerCards[randomCardIdx], SelectionType.Oldest);
 
-                yield return new WaitForSeconds(0.4f);
-
-                //CardInfo egoCard = instance.GetCardWithObjectName("Egocentrism");
-                CardInfo egoCard = instance.GetCardWithObjectName(EgocentrismWIP.StaticCardEgo.name);
-                UnityEngine.Debug.Log("Adding a copy of : " + egoCard.cardName);
-                instance.AddCardToPlayer(player, egoCard, addToCardBar: true);
-
-                instance.ReplaceCard(player, playerCards.IndexOf(oldCard), egoCard, "Eg", 2, 2, true);
-
+                UnityEngine.Debug.Log($"Attempt {tries}, Trying to remove : {oldCard.cardName}");
+                if (oldCard.categories.Contains(EGC.CardManipulation))
+                {
+                    UnityEngine.Debug.Log($"Cannot be deleted");
+                    continue; 
+                }
+                yield return new WaitForSeconds(0.02f);
+                CardInfo egoCard = instance.GetCardWithObjectName(Egocentrism.egocentrismCard.name);
+                yield return null;
+                yield return instance.ReplaceCard(player, randomCardIdx, egoCard, "", 0, 0);
+                UnityEngine.Debug.Log("Card found and replaced");
                 yield break;
             }
         }

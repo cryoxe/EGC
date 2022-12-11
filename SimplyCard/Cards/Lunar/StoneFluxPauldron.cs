@@ -13,6 +13,7 @@ using UnboundLib.Utils;
 using UnityEngine;
 using ExtraGameCards;
 using System.Collections;
+using RarityLib.Utils;
 
 namespace SimplyCard.Cards
 {
@@ -57,7 +58,7 @@ namespace SimplyCard.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return RarityUtils.GetRarity("Lunar");
         }
         protected override CardInfoStat[] GetStats()
         {

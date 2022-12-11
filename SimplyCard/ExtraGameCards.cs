@@ -13,6 +13,7 @@ using ExtraGameCards.Cards;
 using Photon.Pun;
 using ExtraGameCards.AssetsEmbedded;
 using UnityEngine;
+using RarityLib.Utils;
 //using RarityLib;
 
 namespace ExtraGameCards
@@ -36,6 +37,7 @@ namespace ExtraGameCards
         public static EGC? Instance { get; private set; }
 
         internal static CardCategory Normal;
+        internal static CardCategory CardManipulation;
         internal static CardCategory Markov;
         internal static CardCategory Lunar;
         internal static CardCategory MarioPowerUps;
@@ -65,7 +67,9 @@ namespace ExtraGameCards
         {
             var harmony = new Harmony(ModId);
             harmony.PatchAll();
-    
+
+            RarityUtils.AddRarity("Lunar", 0.85f, new Color(0.11f, 0.49f, 1), new Color(0.11f, 0.49f, 1));
+
         }
         void Start()
         {
@@ -80,6 +84,7 @@ namespace ExtraGameCards
             Markov = CustomCardCategories.instance.CardCategory("Markov");
             Lunar = CustomCardCategories.instance.CardCategory("Lunar");
             MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
+            CardManipulation = CustomCardCategories.instance.CardCategory("CardManipulation");
 
             //CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART + W.I.P.
             CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
@@ -95,11 +100,11 @@ namespace ExtraGameCards
 
 
             CustomCard.BuildCard<BeadsOfFealty>();
-            CustomCard.BuildCard<GestureOfTheDrowned>();    //maybe add new rarity LUNAR ? + NEED ART
-            CustomCard.BuildCard<ShapedGlass>();    //maybe add new rarity LUNAR ? + NEED ART
-            CustomCard.BuildCard<StoneFluxPauldron>();  //maybe add new rarity LUNAR ? + NEED ART
-            CustomCard.BuildCard<GlowingMeteorite>();   //maybe add new rarity LUNAR ? + NEED ART
-            //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);    //maybe add new rarity LUNAR ?
+            CustomCard.BuildCard<GestureOfTheDrowned>();    
+            CustomCard.BuildCard<ShapedGlass>();    
+            CustomCard.BuildCard<StoneFluxPauldron>();  
+            CustomCard.BuildCard<GlowingMeteorite>();
+            CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);
 
             CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
             CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART

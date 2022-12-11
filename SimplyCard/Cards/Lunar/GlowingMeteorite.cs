@@ -1,5 +1,6 @@
 ﻿using ExtraGameCards.MonoBehaviours;
 using ModdingUtils.Extensions;
+using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnityEngine;
@@ -24,8 +25,17 @@ namespace ExtraGameCards.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-            player.gameObject.GetOrAddComponent<GlowingMeteoriteMono>();
+            var mb = player.gameObject.GetOrAddComponent<GlowingMeteoriteMono>();
+            mb.player = player;
+            mb.gun = gun;
+            mb.block = block;
+            mb.health = health;
+            mb.stats = characterStats;
+            mb.gunAmmo = gunAmmo;
+            mb.data = data;
+            mb.gravity = gravity;
         }
+
         public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
@@ -47,7 +57,7 @@ namespace ExtraGameCards.Cards
         }
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Uncommon;
+            return RarityUtils.GetRarity("Lunar");
         }
         protected override CardInfoStat[] GetStats()
         {
