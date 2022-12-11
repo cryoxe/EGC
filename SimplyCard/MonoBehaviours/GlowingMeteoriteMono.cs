@@ -1,45 +1,25 @@
 ﻿using UnityEngine;
 using ModdingUtils.MonoBehaviours;
-using UnboundLib.Cards;
-using UnboundLib.GameModes;
 using UnboundLib;
-using ModdingUtils.Extensions;
-using static ModdingUtils.Utils.Cards;
 using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using SimplyCard.Cards;
 using ExtraGameCards.Utils;
-using HarmonyLib;
 
 namespace ExtraGameCards.MonoBehaviours
 {
     internal class GlowingMeteoriteMono : ReversibleEffect
     {
-        private  float duration = 10f;
+        private float duration = 10f;
 
-        private Player player;
-        private Gun gun;
-        private CharacterData data;
-        private HealthHandler health;
-        private Gravity gravity;
-        private Block block;
-        private GunAmmo gunAmmo;
-        private CharacterStatModifiers statModifiers;
+        public Player player;
+        public Gun gun;
+        public CharacterData data;
+        public HealthHandler health;
+        public Gravity gravity;
+        public Block block;
+        public GunAmmo gunAmmo;
+        public CharacterStatModifiers statModifiers;
 
-     
-        void Awake()
-        {
-            this.player = gameObject.GetComponent<Player>();
-            this.gun = this.player.GetComponent<Holding>().holdable.GetComponent<Gun>();
-            this.data = this.player.GetComponent<CharacterData>();
-            this.health = this.player.GetComponent<HealthHandler>();
-            this.gravity = this.player.GetComponent<Gravity>();
-            this.block = this.player.GetComponent<Block>();
-            this.gunAmmo = this.gun.GetComponentInChildren<GunAmmo>();
-            this.statModifiers = this.player.GetComponent<CharacterStatModifiers>();
-        }
         private void OnBlock(BlockTrigger.BlockTriggerType trigger)
         {
             if (duration <= 0)
@@ -52,7 +32,7 @@ namespace ExtraGameCards.MonoBehaviours
 
         public override void OnStart()
         {
-            block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
+            block.BlockAction += (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
             SetLivesToEffect(int.MaxValue);
             duration = 0f;
         }
