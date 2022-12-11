@@ -33,11 +33,10 @@ namespace ExtraGameCards.MonoBehaviours
         private RemoveAfterSeconds removeAfterSeconds;
 
 
-
+        
 
         void Start()
         {
-
             removeAfterSeconds = gameObject.AddComponent<RemoveAfterSeconds>();
             removeAfterSeconds.seconds = 4;
 
@@ -53,6 +52,17 @@ namespace ExtraGameCards.MonoBehaviours
             StartCoroutine(shootLaser());
         }
 
+        void Update()
+        {
+            if (!(bool)this.data.playerVel.GetFieldValue("simulated"))
+            {
+                UnityEngine.Debug.Log("Player not simulated !");
+                Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
+                UnityEngine.Debug.Log($"Minus One Gaster Blaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
+                Destroy(gameObject);
+            }
+        }
+
         IEnumerator shootLaser()
         {
             yield return FadeIn();
@@ -63,6 +73,9 @@ namespace ExtraGameCards.MonoBehaviours
             animator.SetTrigger("isBlasting");
             yield return new WaitForSeconds(0.5f);
             yield return FadeOut();
+
+            Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
+            UnityEngine.Debug.Log($"Minus One Gaster Blaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
             Destroy(gameObject);
         }
 
@@ -101,7 +114,6 @@ namespace ExtraGameCards.MonoBehaviours
             effect.SetTimeBetweenShots(0.004f);
 
             SpawnBulletsEffect.CopyGunStats(gun, newGun);
-
             newGun.damage = 8f;
             newGun.damageAfterDistanceMultiplier = 1f;
             newGun.reflects = 0;

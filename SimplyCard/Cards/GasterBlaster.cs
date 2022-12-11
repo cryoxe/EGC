@@ -57,32 +57,16 @@ namespace ExtraGameCards.Cards
     }
     public class BlastEffect : CardEffect
     {
-        private GameObject Projectile;
 
         public override void OnShoot(GameObject projectile)
         {
-            if(projectile.GetComponent<ProjectileHit>())
-            Projectile = projectile;
-            if (PhotonNetwork.OfflineMode)
-            {
-                this.RPCA_Blast(UnityEngine.Random.Range(0, 99));
-            }
-            else
-            {
-                this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Blast", RpcTarget.All, new object[]
-                {
-                    UnityEngine.Random.Range(0, 99)
-                });
-            }
+            ProjectileHit pH = projectile.GetComponent<ProjectileHit>();
+            Gun gun = player.GetComponent<Holding>().holdable.GetComponent<Gun>();
 
-        }
-
-        [PunRPC]
-        private void RPCA_Blast(int random)
-        {
-            if (random < 50 && (bool)this.data.playerVel.GetFieldValue("simulated"))
+            if (pH.ownWeapon == gun.gameObject)
             {
-                GasterBlasterMono sensor = Projectile.AddComponent<GasterBlasterMono>();
+                UnityEngine.Debug.Log("Was shoot by player");
+                GasterBlasterMono sensor = projectile.AddComponent<GasterBlasterMono>();
                 sensor.statModifiers = characterStats;
                 sensor.health = health;
                 sensor.gravity = gravity;
@@ -92,6 +76,7 @@ namespace ExtraGameCards.Cards
                 sensor.gun = gun;
                 sensor.gunAmmo = gunAmmo;
             }
+
         }
     }
 

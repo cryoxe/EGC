@@ -53,8 +53,10 @@ namespace ExtraGameCards.MonoBehaviours
             foreach(Player p in players)
             {
                 if (p == player) { continue; }
-                if (Vector2.Distance(targetPos, p.transform.position) <= 6)
+                if (Vector2.Distance(targetPos, p.transform.position) <= 6 && Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster < 5)
                 {
+                    Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster++;
+                    UnityEngine.Debug.Log($"New GasterBlaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
                     var tries = 0;
                     while (!(tries>100))
                     {

@@ -11,6 +11,7 @@ namespace ExtraGameCards.Extensions
     {
         public int markovChoice;
         public int egocentrismPower;
+        public int numberOfGaster;
 
         public bool hasBooMush;
         public bool hasOneUpMush;
@@ -20,6 +21,7 @@ namespace ExtraGameCards.Extensions
         {
             markovChoice = 0;
             egocentrismPower = 0;
+            numberOfGaster = 0;
 
             hasOneUpMush = false;
             hasPoisonMush = false;
