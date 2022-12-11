@@ -1,4 +1,5 @@
-﻿using ExtraGameCards.MonoBehaviours;
+﻿using ExtraGameCards.AssetsEmbedded;
+using ExtraGameCards.MonoBehaviours;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,7 +56,7 @@ namespace SimplyCard.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.ShapedGlassArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {

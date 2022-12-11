@@ -1,18 +1,8 @@
-﻿using ExtraGameCards.MonoBehaviours;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+﻿using ExtraGameCards.AssetsEmbedded;
 using ModdingUtils.Extensions;
-using static ModdingUtils.Utils.Cards;
-using UnboundLib;
 using UnboundLib.Cards;
-using UnboundLib.Utils;
 using UnityEngine;
 using ExtraGameCards;
-using System.Collections;
 using RarityLib.Utils;
 
 namespace SimplyCard.Cards
@@ -54,7 +44,7 @@ namespace SimplyCard.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.StoneFluxPauldronArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {

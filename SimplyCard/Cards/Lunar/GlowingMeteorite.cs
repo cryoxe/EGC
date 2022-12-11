@@ -1,4 +1,5 @@
-﻿using ExtraGameCards.MonoBehaviours;
+﻿using ExtraGameCards.AssetsEmbedded;
+using ExtraGameCards.MonoBehaviours;
 using ModdingUtils.Extensions;
 using RarityLib.Utils;
 using UnboundLib;
@@ -53,7 +54,7 @@ namespace ExtraGameCards.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.GlowingArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {

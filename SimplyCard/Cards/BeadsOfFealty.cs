@@ -1,14 +1,9 @@
-﻿using ExtraGameCards;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExtraGameCards.AssetsEmbedded;
+using ExtraGameCards;
 using UnboundLib;
 using UnboundLib.Cards;
 using ModdingUtils.Extensions;
 using UnityEngine;
-using CardChoiceSpawnUniqueCardPatch.CustomCategories;
 
 namespace SimplyCard.Cards
 {
@@ -46,7 +41,7 @@ namespace SimplyCard.Cards
         }
         protected override GameObject GetCardArt()
         {
-            return null;
+            return Assets.BeadsArt;
         }
         protected override CardInfo.Rarity GetRarity()
         {

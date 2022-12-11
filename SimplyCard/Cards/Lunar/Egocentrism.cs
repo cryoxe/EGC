@@ -1,4 +1,5 @@
-﻿using ModsPlus;
+﻿using ExtraGameCards.AssetsEmbedded;
+using ModsPlus;
 using Photon.Pun;
 using RarityLib.Utils;
 using System;
@@ -20,7 +21,7 @@ namespace ExtraGameCards.Cards
             Title = "Egocentrism",
             Description = "You are stronger <color=#c61a09> But every round, a random card is converted into this card</color>",
             ModName = EGC.ModInitials,
-            Art = null,
+            Art = Assets.EgocentrismArt,
             Rarity = RarityUtils.GetRarity("Lunar"),
             Theme = CardThemeColor.CardThemeColorType.ColdBlue,
             Stats = new CardInfoStat[]
