@@ -23,6 +23,7 @@ namespace ExtraGameCards
     [BepInDependency("pykess.rounds.plugins.moddingutils", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.willis.rounds.modsplus", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("root.rarity.lib", BepInDependency.DependencyFlags.HardDependency)]
     // Declares our mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
     // The game our mod is associated with
@@ -65,11 +66,10 @@ namespace ExtraGameCards
 
         void Awake()
         {
-            var harmony = new Harmony(ModId);
-            harmony.PatchAll();
 
             RarityUtils.AddRarity("Lunar", 0.85f, new Color(0.11f, 0.49f, 1), new Color(0.11f, 0.49f, 1));
-
+            var harmony = new Harmony(ModId);
+            harmony.PatchAll();
         }
         void Start()
         {
