@@ -8,6 +8,18 @@ This mod is in development phase and many things can still change
 
 I want to thank all the members of the Rounds mod server for their help in creating this mod.
 
+## Update 1.1.4
+-------------------------------
+- Fixing bugs with Gaster Blaster (should be good now?)
+- New artwork for all the Lunar cards
+- Added a custum rarity for lunar cards
+- Fixing a bug with Glowing Meteorite (+ buff)
+
+## Update 1.1.3
+-------------------------------
+- Gaster Blaster should be now deleted after 5 seconds
+- New artwork for 20/20
+
 ## Update 1.1.0
 -------------------------------
 No longer in beta!
