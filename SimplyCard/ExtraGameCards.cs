@@ -23,8 +23,11 @@ namespace ExtraGameCards
     [BepInDependency("pykess.rounds.plugins.cardchoicespawnuniquecardpatch", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.willis.rounds.modsplus", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("root.rarity.lib", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.root.projectile.size.patch", BepInDependency.DependencyFlags.HardDependency)]
+
     // Declares our mod to Bepin
     [BepInPlugin(ModId, ModName, Version)]
+
     // The game our mod is associated with
     [BepInProcess("Rounds.exe")]
 
