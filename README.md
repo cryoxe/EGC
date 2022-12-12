@@ -8,6 +8,13 @@ This mod is in development phase and many things can still change
 
 I want to thank all the members of the Rounds mod server for their help in creating this mod.
 
+## Update 1.1.5
+-------------------------------
+- Gaster Blaster has been completely remade (pls work this time)
+- Gaster Blaster is now a legendary card!
+- Gaster Blaster deals now damage depending on the player's damage (it does not oneshot anymore but kills easily)
+- Gaster Blaster remove 20% of the player's damage but gives two extra ammunition
+
 ## Update 1.1.4
 -------------------------------
 - Fixing bugs with Gaster Blaster (should be good now?)
