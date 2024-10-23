@@ -71,7 +71,7 @@ namespace EGC.Cards
                 BooMushroom.BooMushroomCard.name,
                 BooMushroom.BooMushroomCard.name,
                 OneUpMushroom.OneUpMushroomCard.name,
-                PoisonousMushroom.poisonousMushroomCard.name
+                PoisonousMushroom.PoisonousMushroomCard.name
             };
 
             bool[] mushroomFlags =
