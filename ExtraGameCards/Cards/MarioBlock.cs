@@ -1,7 +1,8 @@
 ﻿using EGC.AssetsEmbedded;
 using EGC.Cards.MarioPowerUps;
+using ModdingUtils.Extensions;
 using ModsPlus;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace EGC.Cards
 {
@@ -11,85 +12,106 @@ namespace EGC.Cards
         {
             Title = "? Block",
             Description = "Power-Ups Await",
-            ModName = EGC.ExtraGameCards.ModInitials,
+            ModName = ExtraGameCards.ModInitials,
             Art = Assets.MarioArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.FirepowerYellow,
-            Stats = new CardInfoStat[]
+            Stats = new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Random Power-Up",
                     amount = "+1",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
+                }
             }
         };
 
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(
+            CardInfo cardInfo,
+            Gun gun,
+            ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers,
+            Block block)
         {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            
+            cardInfo.GetAdditionalData().canBeReassigned = false;
         }
-        protected override void Added(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        protected override void Added(
+            Player player,
+            Gun gun,
+            GunAmmo gunAmmo,
+            CharacterData data,
+            HealthHandler health,
+            Gravity gravity,
+            Block block,
+            CharacterStatModifiers characterStats)
         {
             AddPowerUp(player, characterStats);
         }
-        protected override void Removed(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-        }
 
-        private void AddPowerUp(Player player, CharacterStatModifiers characterStat)
+        private static void AddPowerUp(Player player, CharacterStatModifiers characterStat)
         {
-            CardInfo addedCard = getRandomPowerUp(characterStat);
+            CardInfo addedCard = GetRandomPowerUp(characterStat);
             ModdingUtils.Utils.Cards.instance.AddCardToPlayer(player, addedCard, addToCardBar: true);
             ModdingUtils.Utils.CardBarUtils.instance.ShowAtEndOfPhase(player, addedCard);
         }
 
-        private CardInfo getRandomPowerUp(CharacterStatModifiers characterStats)
+        private static CardInfo GetRandomPowerUp(CharacterStatModifiers characterStats)
         {
-            int rng = Random.Range(0, 5);
+            var characterData = Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats);
+
+            string[] mushroomCards =
+            {
+                SuperMushroom.superMushroomCard.name,
+                SuperMushroom.superMushroomCard.name,
+                MiniMushroom.miniMushroomCard.name,
+                MiniMushroom.miniMushroomCard.name,
+                BooMushroom.booMushroomCard.name,
+                BooMushroom.booMushroomCard.name,
+                OneUpMushroom.oneUpMushroomCard.name,
+                PoisonousMushroom.poisonousMushroomCard.name
+            };
+
+            bool[] mushroomFlags =
+            {
+                true, // SuperMushroom is always available
+                true, // SuperMushroom is always available
+                characterData.hasMiniMush,
+                characterData.hasMiniMush,
+                characterData.hasBooMush,
+                characterData.hasBooMush,
+                characterData.hasOneUpMush,
+                characterData.hasPoisonMush
+            };
+
+            int rng = Random.Range(0, mushroomCards.Length);
+
+            if (mushroomFlags[rng])
+                return GetCard(SuperMushroom.superMushroomCard.name);
+
             switch (rng)
             {
-                case 0:
-                    return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name);
-
-                case 1:
-                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasMiniMush)
-                    {
-                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasMiniMush = true;
-                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(MiniMushroom.miniMushroomCard.name);
-                    }
-                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
-                    
                 case 2:
-                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasOneUpMush)
-                    {
-                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasOneUpMush = true;
-                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(OneUpMushroom.oneUpMushroomCard.name);
-                    }
-                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
-
                 case 3:
-                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasPoisonMush)
-                    {
-                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasPoisonMush = true;
-                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(PoisonousMushroom.poisonousMushroomCard.name);
-                    }
-                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
-
+                    characterData.hasMiniMush = true;
+                    break;
                 case 4:
-                    if (!Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasBooMush)
-                    {
-                        Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).hasBooMush = true;
-                        return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(BooMushroom.booMushroomCard.name);
-                    }
-                    else { return ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(SuperMushroom.superMushroomCard.name); }
-
-                default:
-                    return null;
+                case 5:
+                    characterData.hasBooMush = true;
+                    break;
+                case 6:
+                    characterData.hasOneUpMush = true;
+                    break;
+                case 7:
+                    characterData.hasPoisonMush = true;
+                    break;
             }
+
+            return GetCard(mushroomCards[rng]);
+
+            CardInfo GetCard(string name) => ModdingUtils.Utils.Cards.instance.GetCardWithObjectName(name);
         }
     }
 }
