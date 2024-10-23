@@ -51,15 +51,8 @@ No longer in beta!
 
 ## Mod Overview
 -------------------------------
-This mod adds for the moment 22 cards in the game (counting the cards that are not in the common pool)
+This mod adds for the moment 15 cards in the game (counting the cards that are not in the common pool)
 
-
-### Gaster Blaster
-***Rare***  
-**From : Undertale**  
-Blast your opponent to the bone.
-
----
 
 ### ? Block
 ***Uncommon***  
@@ -85,7 +78,7 @@ Speed up! Size down!
 ### Boo Mushroom
 ***Uncommon*** (Mushroom)  
 **From : Super Mario Bros**  
-Ghost Bullets, -30% health and damage
+Ghost Bullets, -30% health and - 40% damage
 
 ---
 
@@ -146,14 +139,6 @@ More health, additional block, but reduce your speed and attack speed.
 
 ---
 
-### Boon Of The BoneLord (W.I.P.)
-***Rare***  
-**From : Inscryption**  
-Huge stats up at the cost of one of your card at random.
-**W.I.P :** Is being reworked
-
----
-
 ### The Jar
 **Uncommon**  
 **From : Elden Ring**  
@@ -166,13 +151,6 @@ Huge boost in speed, +1 jump and -25% block cooldown, but you will lose 70% of y
 **From : Doki Doki Litterature Club**  
 +100% lifesteal ! With no drawback !  
 *Unless...*
-
----
-
-### Purple Soul
-***Rare***  
-**From : Five Night At Freddy's**  
-Nobrainer card : + 1 life and + 150% health, but you are slow... and harmless.
 
 ---
 
