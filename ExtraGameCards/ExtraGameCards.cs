@@ -39,28 +39,30 @@ namespace EGC
         public const string ModInitials = "EGC";
         public static ExtraGameCards? Instance { get; private set; }
 
-        internal static CardCategory? Normal;
-        internal static CardCategory? CardManipulation;
-        internal static CardCategory? Markov;
-        internal static CardCategory? Lunar;
-        internal static CardCategory? MarioPowerUps;
+        internal static CardCategory Normal = CustomCardCategories.instance.CardCategory("Normal");
+        internal static CardCategory CardManipulation = CustomCardCategories.instance.CardCategory("CardManipulation");
+        internal static CardCategory Markov = CustomCardCategories.instance.CardCategory("Markov");
+        internal static CardCategory Lunar = CustomCardCategories.instance.CardCategory("Lunar");
+        internal static CardCategory MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
 
-        private IEnumerator GameStart(IGameModeHandler gm)
+        private static IEnumerator GameStart(IGameModeHandler gm)
         {
             //these categories are now blacklisted (not in common pool)
             foreach (var player in PlayerManager.instance.players)
             {
-                if (!ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Contains(Markov))
+                var characterData =
+                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats);
+                if (!characterData.blacklistedCategories.Contains(Markov))
                 {
-                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Markov);
+                    characterData.blacklistedCategories.Add(Markov);
                 }
-                if (!ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Contains(Lunar))
+                if (!characterData.blacklistedCategories.Contains(Lunar))
                 {
-                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(Lunar);
+                    characterData.blacklistedCategories.Add(Lunar);
                 }
-                if (!ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Contains(MarioPowerUps))
+                if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
                 {
-                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).blacklistedCategories.Add(MarioPowerUps);
+                    characterData.blacklistedCategories.Add(MarioPowerUps);
                 }
             }
             yield break;
@@ -68,7 +70,11 @@ namespace EGC
 
         private void Awake()
         {
-            RarityUtils.AddRarity("Lunar", 0.85f, new Color(0.5f, 0.85f, 0.8f), new Color(0.38f, 0.64f, 0.6f));
+            RarityUtils.AddRarity(
+                "Lunar",
+                0.85f,
+                new Color(0.5f, 0.85f, 0.8f),
+                new Color(0.38f, 0.64f, 0.6f));
             var harmony = new Harmony(ModId);
             harmony.PatchAll();
         }
@@ -88,42 +94,50 @@ namespace EGC
             MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
             CardManipulation = CustomCardCategories.instance.CardCategory("CardManipulation");
 
-            //CustomCard.BuildCard<BoneLord>(); //Maybe Add curses + NEED ART + W.I.P.
-            CustomCard.BuildCard<Twenty>(); //Maybe add Glasses skin to player, would be funny + NEED ART
-            CustomCard.BuildCard<Jar>();    //DONE + NEED ART
-            CustomCard.BuildCard<PurpleGuy>();  //rebalancing
+            // INSCRYPTION
+            //CustomCard.BuildCard<BoneLord>(); // W.I.P
 
-            CustomCard.BuildCard<MarioBlock>();
-            CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.miniMushroomCard = card);
-            CustomCard.BuildCard<SuperMushroom>(card => SuperMushroom.superMushroomCard = card);
-            CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.oneUpMushroomCard = card);
-            CustomCard.BuildCard<PoisonousMushroom>(card => PoisonousMushroom.poisonousMushroomCard = card);
-            CustomCard.BuildCard<BooMushroom>(card => BooMushroom.booMushroomCard = card);
+            // THE BINDING OF ISAAC
+            CustomCard.BuildCard<Twenty>(); // DONE
 
+            // ELDEN RING
+            CustomCard.BuildCard<Jar>(); // DONE
 
-            CustomCard.BuildCard<BeadsOfFealty>();
-            CustomCard.BuildCard<GestureOfTheDrowned>();    
-            CustomCard.BuildCard<ShapedGlass>();    
-            CustomCard.BuildCard<StoneFluxPauldron>();  
-            CustomCard.BuildCard<GlowingMeteorite>();
+            // FNAF
+            //CustomCard.BuildCard<PurpleGuy>(); // NEED REWORK + NEED ART
+
+            // MARIO POWER-UPS
+            CustomCard.BuildCard<MarioBlock>(); // DONE
+            CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.miniMushroomCard = card); // DONE
+            CustomCard.BuildCard<SuperMushroom>(card => SuperMushroom.superMushroomCard = card); // DONE
+            CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.oneUpMushroomCard = card); // DONE
+            CustomCard.BuildCard<PoisonousMushroom>(card => PoisonousMushroom.poisonousMushroomCard = card); // DONE
+            CustomCard.BuildCard<BooMushroom>(card => BooMushroom.booMushroomCard = card); // DONE
+
+            // RISK OF RAIN 2
+            CustomCard.BuildCard<BeadsOfFealty>(); // DONE
+            CustomCard.BuildCard<GestureOfTheDrowned>(); // DONE
+            CustomCard.BuildCard<ShapedGlass>(); // DONE
+            CustomCard.BuildCard<StoneFluxPauldron>(); //
+            CustomCard.BuildCard<GlowingMeteorite>(); // DONE
             //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);
 
-            CustomCard.BuildCard<PortraitOfMarkov>();   //DONE 
-            CustomCard.BuildCard<OpenYourThirdEye>();   //rebalancing + NEED ART
-            CustomCard.BuildCard<TurningABlindEye>();    //rebalancing + NEED ART
-            CustomCard.BuildCard<Trauma>(); //rebalancing + NEED ART
-            CustomCard.BuildCard<Madness>();    //rebalancing + NEED ART
-            CustomCard.BuildCard<Unimpressed>();  //rebalancing + NEED ART
+            // DOKI DOKI LITERATURE CLUB
+            CustomCard.BuildCard<PortraitOfMarkov>(); // NEED REWORK
+            CustomCard.BuildCard<OpenYourThirdEye>(); // NEED REWORK + NEED ART
+            CustomCard.BuildCard<TurningABlindEye>(); // NEED REWORK + NEED ART
+            CustomCard.BuildCard<Trauma>(); // NEED REWORK + NEED ART
+            CustomCard.BuildCard<Madness>(); // NEED REWORK + NEED ART
+            CustomCard.BuildCard<Unimpressed>(); // NEED REWORK + NEED ART
 
-            CustomCard.BuildCard<Something>(); //IS NOT REMOVED PROPERLY
-            CustomCard.BuildCard<GasterBlaster>();//W.I.P. 
+            CustomCard.BuildCard<Something>(); // DONE - From the game "OMORI"
+            CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING - From the game "Undertale"
             //CustomCard.BuildCard<ClayBullet>();
 
-            //VAMPIRE SURVIVOR
-            //Welcome To the Gungeon
-            //THE stanley parable
-            //Undertale
-            //Duck seasons
+            // VAMPIRE SURVIVOR
+            // Welcome To the Gungeon
+            // THE stanley parable
+            // Duck seasons
 
             //HOOKS !
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, gm => PortraitOfMarkov.MarkovPick());
