@@ -108,7 +108,7 @@ namespace EGC
             CustomCard.BuildCard<MarioBlock>(); // DONE
             CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.MiniMushroomCard = card); // DONE
             CustomCard.BuildCard<SuperMushroom>(card => SuperMushroom.superMushroomCard = card); // DONE
-            CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.oneUpMushroomCard = card); // DONE
+            CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.OneUpMushroomCard = card); // DONE
             CustomCard.BuildCard<PoisonousMushroom>(card => PoisonousMushroom.poisonousMushroomCard = card); // DONE
             CustomCard.BuildCard<BooMushroom>(card => BooMushroom.BooMushroomCard = card); // DONE
 
