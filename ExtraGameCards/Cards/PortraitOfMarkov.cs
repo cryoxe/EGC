@@ -13,7 +13,6 @@ namespace EGC.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            CardInfoExtension.GetAdditionalData(cardInfo).canBeReassigned = false;
             cardInfo.allowMultiple = false;
 
             gun.projectileSpeed = 1.40f;

@@ -11,7 +11,6 @@ namespace EGC.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            cardInfo.GetAdditionalData().canBeReassigned = false;
             cardInfo.allowMultiple = false;
 
             statModifiers.regen = 5f;
