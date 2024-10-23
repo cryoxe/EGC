@@ -7,6 +7,13 @@ I hope you will appreciate the references.
 This mod is in development phase and many things can still change
 
 I want to thank all the members of the Rounds mod server for their help in creating this mod.
+## Update 1.1.6
+-------------------------------
+It is been a while huh... more stuff on the way hopefully.
+- Fixed reassigned cards problems
+- Gaster Blaster removed from the game (for now)
+- Purple Soul removed from the game (until I found a better idea)
+- Boo Mushroom now gives -40% damage instead of -30%
 
 ## Update 1.1.5
 -------------------------------

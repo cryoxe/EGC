@@ -32,7 +32,7 @@ namespace EGC
     {
         private const string ModId = "com.cryoxe.rounds.ExtraGameCards";
         private const string ModName = "ExtraGameCards";
-        private const string Version = "1.0.2";
+        private const string Version = "1.1.6";
         public const string ModInitials = "EGC";
         public static ExtraGameCards? Instance { get; private set; }
 
