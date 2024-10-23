@@ -28,7 +28,6 @@ namespace EGC
 
     // The game our mod is associated with
     [BepInProcess("Rounds.exe")]
-
     public class ExtraGameCards : BaseUnityPlugin
     {
         private const string ModId = "com.cryoxe.rounds.ExtraGameCards";
@@ -57,6 +56,7 @@ namespace EGC
                 if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
                     characterData.blacklistedCategories.Add(MarioPowerUps);
             }
+
             yield break;
         }
 
