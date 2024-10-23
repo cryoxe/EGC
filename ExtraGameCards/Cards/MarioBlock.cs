@@ -68,8 +68,8 @@ namespace EGC.Cards
                 SuperMushroom.superMushroomCard.name,
                 MiniMushroom.miniMushroomCard.name,
                 MiniMushroom.miniMushroomCard.name,
-                BooMushroom.booMushroomCard.name,
-                BooMushroom.booMushroomCard.name,
+                BooMushroom.BooMushroomCard.name,
+                BooMushroom.BooMushroomCard.name,
                 OneUpMushroom.oneUpMushroomCard.name,
                 PoisonousMushroom.poisonousMushroomCard.name
             };
