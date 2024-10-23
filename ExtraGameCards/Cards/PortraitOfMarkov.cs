@@ -10,7 +10,8 @@ namespace EGC.Cards
 {
     internal class PortraitOfMarkov : CustomCard
     {
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.allowMultiple = false;
@@ -19,15 +20,20 @@ namespace EGC.Cards
             gun.reloadTimeAdd = -0.25f;
             gun.gravity = 0.6f;
         }
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             gun.spread *= 0.7f;
-            characterStats.lifeSteal = (characterStats.lifeSteal != 0f) ? (characterStats.lifeSteal * 2) : (characterStats.lifeSteal + 1f);
+            characterStats.lifeSteal = (characterStats.lifeSteal != 0f)
+                ? (characterStats.lifeSteal * 2)
+                : (characterStats.lifeSteal + 1f);
             Extensions.CharacterStatModifiersExtension.GetAdditionalData(characterStats).markovChoice += 1;
         }
-        
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
@@ -36,23 +42,27 @@ namespace EGC.Cards
         {
             return "Portrait of Markov";
         }
+
         protected override string GetDescription()
         {
             return "Basically, it's about this <b>[REDACTED]</b>...";
         }
+
         protected override GameObject GetCardArt()
         {
             return Assets.PortraitOfMarkovArt;
         }
+
         protected override CardInfo.Rarity GetRarity()
         {
             return CardInfo.Rarity.Rare;
         }
+
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[]
+            return new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Life Steal",
@@ -60,7 +70,7 @@ namespace EGC.Cards
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Spread",
@@ -68,7 +78,7 @@ namespace EGC.Cards
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Bullet Speed",
@@ -76,7 +86,7 @@ namespace EGC.Cards
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Reload Speed",
@@ -85,13 +95,15 @@ namespace EGC.Cards
                 }
             };
         }
+
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
             return CardThemeColor.CardThemeColorType.EvilPurple;
         }
+
         public override string GetModName()
         {
-            return EGC.ExtraGameCards.ModInitials;
+            return ExtraGameCards.ModInitials;
         }
 
         internal static IEnumerator MarkovPick()
@@ -104,26 +116,27 @@ namespace EGC.Cards
 
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
 
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.ExtraGameCards.Normal);
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.ExtraGameCards.Lunar);
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.ExtraGameCards.Markov);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(ExtraGameCards.Normal);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(ExtraGameCards.Lunar);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(ExtraGameCards.Markov);
 
-                    CardChoiceVisuals.instance.Show(Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i => PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
+                    CardChoiceVisuals.instance.Show(
+                        Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i =>
+                            PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
                     yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
                     yield return new WaitForSecondsRealtime(0.1f);
 
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
 
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(EGC.ExtraGameCards.Markov);
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.ExtraGameCards.Normal);
-                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(EGC.ExtraGameCards.Lunar);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Add(ExtraGameCards.Markov);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(ExtraGameCards.Normal);
+                    player.data.stats.GetAdditionalData().blacklistedCategories.Remove(ExtraGameCards.Lunar);
 
                     yield return new WaitForSecondsRealtime(0.1f);
                 }
             }
+
             yield break;
         }
-
     }
-
 }

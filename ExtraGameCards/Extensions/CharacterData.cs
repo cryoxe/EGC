@@ -42,7 +42,7 @@ namespace EGC.Extensions
         {
             if (((CharacterData)Traverse.Create(__instance).Field("data").GetValue()).GetAdditionalData().outOfBoundsHandler == null)
             {
-                OutOfBoundsHandler[] ooBs = UnityEngine.GameObject.FindObjectsOfType<OutOfBoundsHandler>();
+                OutOfBoundsHandler[] ooBs = UnityEngine.Object.FindObjectsOfType<OutOfBoundsHandler>();
                 foreach (OutOfBoundsHandler ooB in ooBs)
                 {
                     if (((CharacterData)Traverse.Create(ooB).Field("data").GetValue()).player.playerID == ((CharacterData)Traverse.Create(__instance).Field("data").GetValue()).player.playerID)

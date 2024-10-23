@@ -14,39 +14,39 @@ namespace EGC.Cards.Lunar
 {
     internal class Egocentrism : CustomEffectCard<EgoEffect>
     {
-        public static CardInfo egocentrismCard;
+        public static readonly CardInfo EgocentrismCard = null!;
         public override CardDetails Details => new CardDetails
         {
             Title = "Egocentrism",
             Description = "You are stronger <color=#c61a09> But every round, a random card is converted into this card</color>",
-            ModName = EGC.ExtraGameCards.ModInitials,
+            ModName = ExtraGameCards.ModInitials,
             Art = Assets.EgocentrismArt,
             Rarity = RarityUtils.GetRarity("Lunar"),
             Theme = CardThemeColor.CardThemeColorType.ColdBlue,
-            Stats = new CardInfoStat[]
+            Stats = new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Card (W.I.P)",
                     amount = "Upgradeable",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Damage",
                     amount = "+15%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Attack Speed",
                     amount = "+10%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Reload time",
@@ -60,10 +60,10 @@ namespace EGC.Cards.Lunar
         {
             cardInfo.allowMultiple = true;
 
-            cardInfo.categories = new CardCategory[]
+            cardInfo.categories = new[]
             {
-                EGC.ExtraGameCards.Lunar,
-                EGC.ExtraGameCards.CardManipulation
+                ExtraGameCards.Lunar,
+                ExtraGameCards.CardManipulation
             };
 
             gun.projectileColor = Color.cyan;
@@ -117,7 +117,7 @@ namespace EGC.Cards.Lunar
             {
                 Unbound.Instance.ExecuteAfterFrames(25, () =>
                 {
-                    RPCA_Replace(UnityEngine.Random.Range(1, 999999));
+                    RPCA_Replace(Random.Range(1, 999999));
                 });
                 yield return null;
             }
@@ -125,9 +125,9 @@ namespace EGC.Cards.Lunar
             {
                 Unbound.Instance.ExecuteAfterFrames(25, () =>
                 {
-                    this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Replace", RpcTarget.All, new object[]
+                    gameObject.GetComponent<PhotonView>().RPC("RPCA_Replace", RpcTarget.All, new object[]
                     {
-                        UnityEngine.Random.Range(0, 999999)
+                        Random.Range(0, 999999)
                     });
                 });
                 yield return null;
@@ -146,13 +146,13 @@ namespace EGC.Cards.Lunar
                 var oldCard = playerCards[randomCardIdx];
 
                 UnityEngine.Debug.Log($"Attempt {tries}, Trying to remove : {oldCard.cardName}");
-                if (oldCard.categories.Contains(EGC.ExtraGameCards.CardManipulation))
+                if (oldCard.categories.Contains(ExtraGameCards.CardManipulation))
                 {
                     UnityEngine.Debug.Log($"Cannot be deleted");
                     continue; 
                 }
                 yield return new WaitForSeconds(0.02f);
-                CardInfo egoCard = instance.GetCardWithObjectName(Egocentrism.egocentrismCard.name);
+                CardInfo egoCard = instance.GetCardWithObjectName(Egocentrism.EgocentrismCard.name);
                 yield return null;
                 yield return instance.ReplaceCard(player, randomCardIdx, egoCard, "", 0, 0);
                 UnityEngine.Debug.Log("Card found and replaced");

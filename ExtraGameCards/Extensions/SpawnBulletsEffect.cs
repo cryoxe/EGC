@@ -25,22 +25,22 @@ namespace EGC.Extensions
 
 		private void Awake()
 		{
-			this.player = this.gameObject.GetComponent<Player>();
+			player = gameObject.GetComponent<Player>();
 		}
 
 		private void Start()
 		{
-			this.ResetTimer();
-			this.timeSinceLastShot += this.initialDelay;
+			ResetTimer();
+			timeSinceLastShot += initialDelay;
 		}
 
 		private void Update()
 		{
-			if (this.numShot >= this.numBullets || this.gunToShootFrom == null)
+			if (numShot >= numBullets || gunToShootFrom == null)
 			{
 				Destroy(this);
 			}
-			else if (Time.time >= this.timeSinceLastShot + this.timeBetweenShots)
+			else if (Time.time >= timeSinceLastShot + timeBetweenShots)
 			{
 				Shoot();
 			}
@@ -53,50 +53,50 @@ namespace EGC.Extensions
 
 		private void OnDestroy()
 		{
-			Destroy(this.newWeaponsBase);
+			Destroy(newWeaponsBase);
 		}
 
 		private void Shoot()
 		{
-			int currentNumberOfProjectiles = this.gunToShootFrom.lockGunToDefault ? 1 : (this.gunToShootFrom.numberOfProjectiles + Mathf.RoundToInt(this.gunToShootFrom.chargeNumberOfProjectilesTo * 0f));
-			for (int i = 0; i < this.gunToShootFrom.projectiles.Length; i++)
+			int currentNumberOfProjectiles = gunToShootFrom.lockGunToDefault ? 1 : (gunToShootFrom.numberOfProjectiles + Mathf.RoundToInt(gunToShootFrom.chargeNumberOfProjectilesTo * 0f));
+			for (int i = 0; i < gunToShootFrom.projectiles.Length; i++)
 			{
 				for (int j = 0; j < currentNumberOfProjectiles; j++)
 				{
 					Vector3 directionToShootThisBullet;
-					if (this.directionsToShoot.Count == 0)
+					if (directionsToShoot.Count == 0)
 					{
 						directionToShootThisBullet = Vector3.down;
 					}
 					else
 					{
-						directionToShootThisBullet = this.directionsToShoot[this.numShot % this.directionsToShoot.Count];
+						directionToShootThisBullet = directionsToShoot[numShot % directionsToShoot.Count];
 					}
-					if (this.gunToShootFrom.spread != 0f)
+					if (gunToShootFrom.spread != 0f)
 					{
 						// randomly spread shots
-						float d = this.gunToShootFrom.multiplySpread;
-						float num = UnityEngine.Random.Range(-this.gunToShootFrom.spread, this.gunToShootFrom.spread);
-						num /= (1f + this.gunToShootFrom.projectileSpeed * 0.5f) * 0.5f;
+						float d = gunToShootFrom.multiplySpread;
+						float num = UnityEngine.Random.Range(-gunToShootFrom.spread, gunToShootFrom.spread);
+						num /= (1f + gunToShootFrom.projectileSpeed * 0.5f) * 0.5f;
 						directionToShootThisBullet += Vector3.Cross(directionToShootThisBullet, Vector3.forward) * num * d;
 					}
 
-					if ((bool)typeof(Gun).InvokeMember("CheckIsMine", BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, null, this.gunToShootFrom, new object[] { }))
+					if ((bool)typeof(Gun).InvokeMember("CheckIsMine", BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, null, gunToShootFrom, new object[] { }))
 					{
 						Vector3 positionToShootFrom;
-						if (this.positionsToShootFrom.Count == 0)
+						if (positionsToShootFrom.Count == 0)
 						{
 							positionToShootFrom = Vector3.zero;
 						}
 						else
 						{
-							positionToShootFrom = this.positionsToShootFrom[this.numShot % this.positionsToShootFrom.Count];
+							positionToShootFrom = positionsToShootFrom[numShot % positionsToShootFrom.Count];
 						}
-						GameObject gameObject = PhotonNetwork.Instantiate(this.gunToShootFrom.projectiles[i].objectToSpawn.gameObject.name, positionToShootFrom, Quaternion.LookRotation(directionToShootThisBullet), 0, null);
+						GameObject gameObject = PhotonNetwork.Instantiate(gunToShootFrom.projectiles[i].objectToSpawn.gameObject.name, positionToShootFrom, Quaternion.LookRotation(directionToShootThisBullet), 0, null);
 
 						if (PhotonNetwork.OfflineMode)
 						{
-							this.RPCA_Shoot(gameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
+							RPCA_Shoot(gameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
 						}
 
 						else
@@ -112,21 +112,21 @@ namespace EGC.Extensions
 					}
 				}
 			}
-			this.ResetTimer();
+			ResetTimer();
 
 		}
 		[PunRPC]
 		private void RPCA_Shoot(int bulletViewID, int numProj, float dmgM, float seed)
 		{
 			GameObject bulletObj = PhotonView.Find(bulletViewID).gameObject;
-			this.gunToShootFrom.BulletInit(bulletObj, numProj, dmgM, seed, true);
-			this.numShot++;
+			gunToShootFrom.BulletInit(bulletObj, numProj, dmgM, seed, true);
+			numShot++;
 		}
 		public void SetGun(Gun gun)
 		{
-			this.newWeaponsBase = UnityEngine.GameObject.Instantiate(this.player.GetComponent<Holding>().holdable.GetComponent<Gun>().gameObject, new Vector3(500f, 500f, -100f), Quaternion.identity);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.newWeaponsBase);
-			foreach (Transform child in this.newWeaponsBase.transform)
+			newWeaponsBase = Instantiate(player.GetComponent<Holding>().holdable.GetComponent<Gun>().gameObject, new Vector3(500f, 500f, -100f), Quaternion.identity);
+			DontDestroyOnLoad(newWeaponsBase);
+			foreach (Transform child in newWeaponsBase.transform)
 			{
 				if (child.GetComponentInChildren<Renderer>() != null)
 				{
@@ -136,41 +136,41 @@ namespace EGC.Extensions
 					}
 				}
 			}
-			this.gunToShootFrom = this.newWeaponsBase.GetComponent<Gun>();
-			SpawnBulletsEffect.CopyGunStats(gun, this.gunToShootFrom);
+			gunToShootFrom = newWeaponsBase.GetComponent<Gun>();
+			CopyGunStats(gun, gunToShootFrom);
 			//Destroy(gun, 1f);
 		}
 		public void SetNumBullets(int num)
 		{
-			this.numBullets = num;
+			numBullets = num;
 		}
 		public void SetPosition(Vector3 pos)
 		{
-			this.positionsToShootFrom = new List<Vector3>() { pos };
+			positionsToShootFrom = new List<Vector3> { pos };
 		}
 		public void SetDirection(Vector3 dir)
 		{
-			this.directionsToShoot = new List<Vector3>() { dir };
+			directionsToShoot = new List<Vector3> { dir };
 		}
 		public void SetPositions(List<Vector3> pos)
 		{
-			this.positionsToShootFrom = pos;
+			positionsToShootFrom = pos;
 		}
 		public void SetDirections(List<Vector3> dir)
 		{
-			this.directionsToShoot = dir;
+			directionsToShoot = dir;
 		}
 		public void SetTimeBetweenShots(float delay)
 		{
-			this.timeBetweenShots = delay;
+			timeBetweenShots = delay;
 		}
 		public void SetInitialDelay(float delay)
 		{
-			this.initialDelay = delay;
+			initialDelay = delay;
 		}
 		private void ResetTimer()
 		{
-			this.timeSinceLastShot = Time.time;
+			timeSinceLastShot = Time.time;
 		}
 		public static void CopyGunStats(Gun copyFromGun, Gun copyToGun)
 		{

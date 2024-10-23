@@ -5,7 +5,8 @@ namespace EGC.Utils
 {
     internal static class AudioController
     {
-        private static readonly SoundParameterIntensity SoundParameterIntensity = new SoundParameterIntensity(0f, UpdateMode.Continuous);
+        private static readonly SoundParameterIntensity SoundParameterIntensity =
+            new SoundParameterIntensity(0f, UpdateMode.Continuous);
 
         public static void Play(AudioClip audioClip, Transform transform)
         {
@@ -15,7 +16,9 @@ namespace EGC.Utils
             soundContainer.audioClip[0] = audioClip;
             var soundEvent = ScriptableObject.CreateInstance<SoundEvent>();
             soundEvent.soundContainerArray[0] = soundContainer;
-            SoundParameterIntensity.intensity = Optionshandler.vol_Sfx / 1f * Optionshandler.vol_Master; //ConfigController.TimerVolumeConfig.Value * Optionshandler.vol_Master;
+            SoundParameterIntensity.intensity =
+                Optionshandler.vol_Sfx / 1f *
+                Optionshandler.vol_Master; //ConfigController.TimerVolumeConfig.Value * Optionshandler.vol_Master;
             SoundManager.Instance.Play(soundEvent, transform, SoundParameterIntensity);
         }
     }

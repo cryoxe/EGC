@@ -8,34 +8,34 @@ namespace EGC.Cards
         {
             Title = "Bullet Gun",
             Description = "The bullet that shoot guns!",
-            ModName = EGC.ExtraGameCards.ModInitials,
+            ModName = ExtraGameCards.ModInitials,
             Art = null,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.FirepowerYellow,
-            Stats = new CardInfoStat[]
+            Stats = new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Attack Speed",
                     amount = "-30%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Damage",
                     amount = "-30%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Bullet Speed",
                     amount = "-30%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Reload Speed",
@@ -45,7 +45,8 @@ namespace EGC.Cards
             }
         };
 
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.allowMultiple = false;
@@ -54,9 +55,6 @@ namespace EGC.Cards
             gun.projectileSpeed = 0.7f;
             gun.attackSpeed = 1.3f;
             gun.damage = 0.7f;
-
         }
-
-
     }
 }

@@ -46,20 +46,30 @@ namespace EGC.MonoBehaviours
         {
             targetPos = gameObject.transform.position;
             Player[] players = PlayerManager.instance.players.ToArray();
-            foreach(Player p in players)
+            foreach (Player p in players)
             {
-                if (p == player) { continue; }
-                if (Vector2.Distance(targetPos, p.transform.position) <= 6 && Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster < 5)
+                if (p == player)
+                {
+                    continue;
+                }
+
+                if (Vector2.Distance(targetPos, p.transform.position) <= 6 && Extensions.CharacterStatModifiersExtension
+                        .GetAdditionalData(statModifiers).numberOfGaster < 5)
                 {
                     Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster++;
-                    UnityEngine.Debug.Log($"New GasterBlaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
+                    UnityEngine.Debug.Log(
+                        $"New GasterBlaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
                     var tries = 0;
-                    while (!(tries>100))
+                    while (!(tries > 100))
                     {
                         originPos = targetPos + Random.insideUnitCircle * 15;
                         Vector3 viewport = camera.WorldToViewportPoint(originPos);
                         bool inCameraFrustum = Is01(viewport.x) && Is01(viewport.y);
-                        if (inCameraFrustum) {break;}
+                        if (inCameraFrustum)
+                        {
+                            break;
+                        }
+
                         tries++;
                     }
 
@@ -67,9 +77,11 @@ namespace EGC.MonoBehaviours
                     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
                     rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                    blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, originPos, rotation, data: new object[] { originPos, rotation });
+                    blasterSprite = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, originPos, rotation,
+                        data: new object[] { originPos, rotation });
 
-                    GasterBlasterInstantMono gasterBlasterInstantMono = blasterSprite.AddComponent<GasterBlasterInstantMono>();
+                    GasterBlasterInstantMono gasterBlasterInstantMono =
+                        blasterSprite.AddComponent<GasterBlasterInstantMono>();
                     gasterBlasterInstantMono.player = player;
                     gasterBlasterInstantMono.health = health;
                     gasterBlasterInstantMono.block = block;
@@ -88,6 +100,10 @@ namespace EGC.MonoBehaviours
                 }
             }
         }
-        private bool Is01(float a){return a > 0 && a < 1;}
+
+        private bool Is01(float a)
+        {
+            return a > 0 && a < 1;
+        }
     }
 }

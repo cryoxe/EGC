@@ -13,10 +13,10 @@ namespace EGC.MonoBehaviours
     {
         public SoundEvent soundUpgradeChargeLoop;
 
-        private SoundParameterIntensity soundParameterIntensity = new SoundParameterIntensity(0f, UpdateMode.Continuous);
+        private SoundParameterIntensity soundParameterIntensity =
+            new SoundParameterIntensity(0f, UpdateMode.Continuous);
 
-        [Range(0f, 1f)]
-        public float counter;
+        [Range(0f, 1f)] public float counter;
         public float timeToFill = 5f;
         public float duration = 1;
 
@@ -43,34 +43,36 @@ namespace EGC.MonoBehaviours
 
         public void Start()
         {
-            this.data = base.GetComponentInParent<CharacterData>();
-            HealthHandler healthHandler = this.data.healthHandler;
-            healthHandler.reviveAction = (Action)Delegate.Combine(healthHandler.reviveAction, new Action(this.ResetStuff));
-            base.GetComponentInParent<ChildRPC>().childRPCs.Add("DeathAura", new Action(this.RPCA_Activate));
+            data = GetComponentInParent<CharacterData>();
+            HealthHandler healthHandler = data.healthHandler;
+            healthHandler.reviveAction = (Action)Delegate.Combine(healthHandler.reviveAction, new Action(ResetStuff));
+            GetComponentInParent<ChildRPC>().childRPCs.Add("DeathAura", new Action(RPCA_Activate));
             somethingNoise = gameObject.GetOrAddComponent<AudioSource>();
         }
 
         public void OnDestroy()
         {
-            HealthHandler healthHandler = this.data.healthHandler;
-            healthHandler.reviveAction = (Action)Delegate.Remove(healthHandler.reviveAction, new Action(this.ResetStuff));
-            base.GetComponentInParent<ChildRPC>().childRPCs.Remove("DeathAura");
+            HealthHandler healthHandler = data.healthHandler;
+            healthHandler.reviveAction = (Action)Delegate.Remove(healthHandler.reviveAction, new Action(ResetStuff));
+            GetComponentInParent<ChildRPC>().childRPCs.Remove("DeathAura");
             somethingNoise = gameObject.GetOrAddComponent<AudioSource>();
-            this.shouldBeDying = false;
+            shouldBeDying = false;
         }
 
         private void ResetStuff()
         {
-            this.shouldBeDying = false;
-            this.remainingDuration = 0f;
-            this.counter = 0f;
-            if (this.isDeathAuraComplete)
+            shouldBeDying = false;
+            remainingDuration = 0f;
+            counter = 0f;
+            if (isDeathAuraComplete)
             {
-                this.isDeathAuraComplete = false;
-                this.isDying(false);
+                isDeathAuraComplete = false;
+                isDying(false);
             }
+
             somethingNoise = gameObject.GetOrAddComponent<AudioSource>();
         }
+
         private void isDying(bool enable)
         {
             if (enable)
@@ -78,12 +80,17 @@ namespace EGC.MonoBehaviours
                 deathMark = player.gameObject.AddComponent<DeathMark>();
                 if (somethingNoise != null)
                 {
-                    somethingNoise.PlayOneShot(Assets.SomethingNoise, 0.7f * Optionshandler.vol_Master * Optionshandler.vol_Sfx);
+                    somethingNoise.PlayOneShot(Assets.SomethingNoise,
+                        0.7f * Optionshandler.vol_Master * Optionshandler.vol_Sfx);
                     somethingNoise = null;
                 }
+
                 Unbound.Instance.ExecuteAfterSeconds(4f, delegate
                 {
-                    if (shouldBeDying) { player.data.view.RPC("RPCA_Die", RpcTarget.All, new object[] {new Vector2(0, 1)}); }
+                    if (shouldBeDying)
+                    {
+                        player.data.view.RPC("RPCA_Die", RpcTarget.All, new object[] { new Vector2(0, 1) });
+                    }
                 });
             }
             else
@@ -98,52 +105,53 @@ namespace EGC.MonoBehaviours
 
         private void RPCA_Activate()
         {
-            this.remainingDuration = this.duration;
+            remainingDuration = duration;
         }
 
         private void Update()
         {
-            this.soundParameterIntensity.intensity = this.counter;
-            this.outerRing.fillAmount = this.counter;
-            this.fill.fillAmount = this.counter;
-            this.rotator.transform.localEulerAngles = new Vector3(0f, 0f, -Mathf.Lerp(0f, 360f, this.counter));
+            soundParameterIntensity.intensity = counter;
+            outerRing.fillAmount = counter;
+            fill.fillAmount = counter;
+            rotator.transform.localEulerAngles = new Vector3(0f, 0f, -Mathf.Lerp(0f, 360f, counter));
 
-            if (!((bool)this.data.playerVel.GetFieldValue("simulated")))
+            if (!((bool)data.playerVel.GetFieldValue("simulated")))
             {
-                this.startCounter = 1f;
+                startCounter = 1f;
                 return;
             }
 
-            this.startCounter -= TimeHandler.deltaTime;
+            startCounter -= TimeHandler.deltaTime;
 
-            if (this.startCounter > 0f)
+            if (startCounter > 0f)
             {
                 return;
             }
 
-            if (this.remainingDuration > 0f)
+            if (remainingDuration > 0f)
             {
-                if (!this.isDeathAuraComplete)
+                if (!isDeathAuraComplete)
                 {
                     shouldBeDying = true;
-                    this.isDying(true);
-
+                    isDying(true);
                 }
-                this.remainingDuration -= TimeHandler.deltaTime;
-                this.counter = this.remainingDuration / this.duration;
+
+                remainingDuration -= TimeHandler.deltaTime;
+                counter = remainingDuration / duration;
                 return; //Breaks before futher conditionals
             }
 
-            if (this.isDeathAuraComplete)
+            if (isDeathAuraComplete)
             {
-                this.isDying(false);
+                isDying(false);
             }
 
             try
             {
-                if (this.data.input.direction == Vector3.zero || this.data.input.direction == Vector3.down || (this.data.input.direction == Vector3.up & this.data.isGrounded))
+                if (data.input.direction == Vector3.zero || data.input.direction == Vector3.down ||
+                    (data.input.direction == Vector3.up & data.isGrounded))
                 {
-                    this.counter += TimeHandler.deltaTime / this.timeToFill;
+                    counter += TimeHandler.deltaTime / timeToFill;
                 }
             }
             catch (Exception e)
@@ -154,11 +162,11 @@ namespace EGC.MonoBehaviours
 
             try
             {
-                this.counter = Mathf.Clamp(this.counter, -0.1f / this.timeToFill, 1f);
-                if (this.counter >= 1f && this.data.view.IsMine)
+                counter = Mathf.Clamp(counter, -0.1f / timeToFill, 1f);
+                if (counter >= 1f && data.view.IsMine)
                 {
-                    this.remainingDuration = this.duration;
-                    base.GetComponentInParent<ChildRPC>().CallFunction("DeathAura");
+                    remainingDuration = duration;
+                    GetComponentInParent<ChildRPC>().CallFunction("DeathAura");
                 }
             }
             catch (Exception e)
@@ -169,14 +177,15 @@ namespace EGC.MonoBehaviours
 
             try
             {
-                if (this.counter <= 0f)
+                if (counter <= 0f)
                 {
-                    this.rotator.gameObject.SetActive(false);
-                    this.still.gameObject.SetActive(false);
+                    rotator.gameObject.SetActive(false);
+                    still.gameObject.SetActive(false);
                     return;
                 }
-                this.rotator.gameObject.SetActive(true);
-                this.still.gameObject.SetActive(true);
+
+                rotator.gameObject.SetActive(true);
+                still.gameObject.SetActive(true);
             }
             catch (Exception e)
             {
@@ -184,6 +193,7 @@ namespace EGC.MonoBehaviours
                 UnityEngine.Debug.LogException(e);
             }
         }
+
         public void Destroy()
         {
             ResetStuff();
@@ -198,35 +208,33 @@ namespace EGC.MonoBehaviours
 
         public override void OnOnEnable()
         {
-
-            if (this.colorEffect != null)
+            if (colorEffect != null)
             {
-                this.colorEffect.Destroy();
+                colorEffect.Destroy();
             }
         }
+
         public override void OnStart()
         {
-            this.colorEffect = base.player.gameObject.AddComponent<ReversibleColorEffect>();
-            this.colorEffect.SetColor(this.color);
-            this.colorEffect.SetLivesToEffect(1);
+            colorEffect = player.gameObject.AddComponent<ReversibleColorEffect>();
+            colorEffect.SetColor(color);
+            colorEffect.SetLivesToEffect(1);
         }
+
         public override void OnOnDisable()
         {
-            if (this.colorEffect != null)
+            if (colorEffect != null)
             {
-                this.colorEffect.Destroy();
+                colorEffect.Destroy();
             }
         }
+
         public override void OnOnDestroy()
         {
-            if (this.colorEffect != null)
+            if (colorEffect != null)
             {
-                this.colorEffect.Destroy();
+                colorEffect.Destroy();
             }
         }
-
-
     }
-
 }
-

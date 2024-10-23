@@ -38,7 +38,8 @@ namespace EGC.MonoBehaviours
             gameObject.transform.localScale = new Vector3(1.8f, 1.8f, transform.localScale.z);
 
             Color objectColor = gameObject.GetComponent<Renderer>().material.color;
-            gameObject.GetComponent<Renderer>().material.color = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
+            gameObject.GetComponent<Renderer>().material.color =
+                new Color(objectColor.r, objectColor.g, objectColor.b, 0);
             gameObject.GetComponent<Renderer>().sortingLayerName = "MostFront";
             gameObject.GetComponent<Renderer>().sortingOrder = 1048575;
 
@@ -49,11 +50,12 @@ namespace EGC.MonoBehaviours
 
         private void Update()
         {
-            if (!(bool)this.data.playerVel.GetFieldValue("simulated"))
+            if (!(bool)data.playerVel.GetFieldValue("simulated"))
             {
                 UnityEngine.Debug.Log("Player not simulated !");
-                Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
-                UnityEngine.Debug.Log($"Minus One Gaster Blaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
+                CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
+                UnityEngine.Debug.Log(
+                    $"Minus One Gaster Blaster : {CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
                 Destroy(gameObject);
             }
         }
@@ -69,35 +71,38 @@ namespace EGC.MonoBehaviours
             yield return new WaitForSeconds(0.5f);
             yield return FadeOut();
 
-            Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
-            UnityEngine.Debug.Log($"Minus One Gaster Blaster : {Extensions.CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
+            CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster--;
+            UnityEngine.Debug.Log(
+                $"Minus One Gaster Blaster : {CharacterStatModifiersExtension.GetAdditionalData(statModifiers).numberOfGaster} total");
             Destroy(gameObject);
         }
 
         private IEnumerator FadeOut()
         {
-            while (this.GetComponent<Renderer>().material.color.a > 0)
+            while (GetComponent<Renderer>().material.color.a > 0)
             {
-                Color objectColor = this.GetComponent<Renderer>().material.color;
+                Color objectColor = GetComponent<Renderer>().material.color;
                 float fadeAmount = objectColor.a - (5 * TimeHandler.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                this.GetComponent<Renderer>().material.color = objectColor;
-                yield return null;
-            }
-        }
-        private IEnumerator FadeIn()
-        {
-            while (this.GetComponent<Renderer>().material.color.a < 1)
-            {
-                Color objectColor = this.GetComponent<Renderer>().material.color;
-                float fadeAmount = objectColor.a + (5 * TimeHandler.deltaTime);
-                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                this.GetComponent<Renderer>().material.color = objectColor;
+                GetComponent<Renderer>().material.color = objectColor;
                 yield return null;
             }
         }
 
-        public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        private IEnumerator FadeIn()
+        {
+            while (GetComponent<Renderer>().material.color.a < 1)
+            {
+                Color objectColor = GetComponent<Renderer>().material.color;
+                float fadeAmount = objectColor.a + (5 * TimeHandler.deltaTime);
+                objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
+                GetComponent<Renderer>().material.color = objectColor;
+                yield return null;
+            }
+        }
+
+        public List<MonoBehaviour> BlastEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             Gun newGun = player.gameObject.AddComponent<Blast>();
 
@@ -123,14 +128,16 @@ namespace EGC.MonoBehaviours
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = true;
             newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.objectsToSpawn = new ObjectsToSpawn[] { PreventRecursion.stopRecursionObjectToSpawn };
+            newGun.objectsToSpawn = new[] { PreventRecursion.stopRecursionObjectToSpawn };
 
             Traverse.Create(newGun).Field("spreadOfLastBullet").SetValue(0f);
             effect.SetGun(newGun);
 
             return new List<MonoBehaviour> { effect };
         }
+
         public class Blast : Gun
-        { }
+        {
+        }
     }
 }

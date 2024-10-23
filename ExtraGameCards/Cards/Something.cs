@@ -12,25 +12,31 @@ namespace EGC.Cards
 {
     public class Something : CustomCard
     {
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.allowMultiple = false;
 
             statModifiers.movementSpeed = 1.2f;
-
         }
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
 
             Player[] players = PlayerManager.instance.players.ToArray();
             foreach (Player otherPlayer in PlayerManager.instance.players)
             {
-                if (otherPlayer == player) { continue; }
+                if (otherPlayer == player)
+                {
+                    continue;
+                }
 
                 //Will's code and HDC's code    XD
-                var abyssalCard = CardManager.cards.Values.Select(card => card.cardInfo).First(c => c.name.Equals("AbyssalCountdown"));
+                var abyssalCard = CardManager.cards.Values.Select(card => card.cardInfo)
+                    .First(c => c.name.Equals("AbyssalCountdown"));
                 var statMods = abyssalCard.gameObject.GetComponentInChildren<CharacterStatModifiers>();
                 var abyssalObj = statMods.AddObjectToPlayer;
 
@@ -55,19 +61,21 @@ namespace EGC.Cards
                 somethingCountdown.defaultRLTime = gun.reloadTime;
                 somethingCountdown.characterStats = characterStats;
 
-                EGC.ExtraGameCards.Instance.ExecuteAfterFrames(5, () =>
+                ExtraGameCards.Instance.ExecuteAfterFrames(5, () =>
                 {
                     try
                     {
-                        UnityEngine.GameObject.Destroy(abyssal);
+                        Destroy(abyssal);
 
-                        var COs = thingObj.GetComponentsInChildren<Transform>().Where(child => child.parent == thingObj.transform).Select(child => child.gameObject).ToArray();
+                        var COs = thingObj.GetComponentsInChildren<Transform>()
+                            .Where(child => child.parent == thingObj.transform).Select(child => child.gameObject)
+                            .ToArray();
 
                         foreach (var CO in COs)
                         {
                             if (CO.transform.gameObject != thingObj.transform.Find("Canvas").gameObject)
                             {
-                                UnityEngine.GameObject.Destroy(CO);
+                                Destroy(CO);
                             }
                         }
                     }
@@ -76,13 +84,17 @@ namespace EGC.Cards
                         UnityEngine.Debug.Log("First Catch");
                         UnityEngine.Debug.LogException(e);
                     }
+
                     try
                     {
                         somethingCountdown.outerRing.color = new Color32(230, 0, 0, 255);
                         somethingCountdown.fill.color = new Color32(0, 0, 0, 90);
-                        somethingCountdown.rotator.gameObject.GetComponentInChildren<ProceduralImage>().color = somethingCountdown.outerRing.color;
-                        somethingCountdown.still.gameObject.GetComponentInChildren<ProceduralImage>().color = somethingCountdown.outerRing.color;
-                        thingObj.transform.Find("Canvas/Size/BackRing").GetComponent<ProceduralImage>().color = new Color32(26, 26, 26, 100);
+                        somethingCountdown.rotator.gameObject.GetComponentInChildren<ProceduralImage>().color =
+                            somethingCountdown.outerRing.color;
+                        somethingCountdown.still.gameObject.GetComponentInChildren<ProceduralImage>().color =
+                            somethingCountdown.outerRing.color;
+                        thingObj.transform.Find("Canvas/Size/BackRing").GetComponent<ProceduralImage>().color =
+                            new Color32(26, 26, 26, 100);
                     }
                     catch (Exception e)
                     {
@@ -91,28 +103,27 @@ namespace EGC.Cards
                     }
                 });
                 //UnityEngine.Debug.Log("Something Aura added");
-
-
             }
-            
-
         }
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
             Player[] players = PlayerManager.instance.players.ToArray();
             foreach (Player otherPlayer in PlayerManager.instance.players)
             {
-                if(otherPlayer == player) { continue; }
+                if (otherPlayer == player)
+                {
+                    continue;
+                }
 
                 SomethingMono mb = otherPlayer.gameObject.GetComponent<SomethingMono>();
-                if(mb.numberOfSomething <= 1)
+                if (mb.numberOfSomething <= 1)
                 {
                     //UnityEngine.Debug.Log("SomethingRemoved");
                     Destroy(mb);
                 }
-
-
             }
         }
 
@@ -120,31 +131,34 @@ namespace EGC.Cards
         {
             return "Something?";
         }
+
         protected override string GetDescription()
         {
             return "It follows...";
         }
+
         protected override GameObject GetCardArt()
         {
             return Assets.SomethingArt;
         }
+
         protected override CardInfo.Rarity GetRarity()
         {
             return CardInfo.Rarity.Rare;
         }
+
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[]
+            return new[]
             {
-                
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Speed",
                     amount = "+20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Death Sentence",
@@ -153,14 +167,15 @@ namespace EGC.Cards
                 }
             };
         }
+
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
             return CardThemeColor.CardThemeColorType.TechWhite;
         }
+
         public override string GetModName()
         {
-            return EGC.ExtraGameCards.ModInitials;
+            return ExtraGameCards.ModInitials;
         }
-
     }
 }

@@ -11,23 +11,28 @@ namespace EGC.Utils
         {
             get
             {
-                if (PreventRecursion._stopRecursion != null) { return PreventRecursion._stopRecursion; }
+                if (_stopRecursion != null)
+                {
+                    return _stopRecursion;
+                }
                 else
                 {
-                    PreventRecursion._stopRecursion = new GameObject("StopRecursion", typeof(StopRecursion), typeof(DestroyOnUnparentAfterInitialized));
-                    UnityEngine.GameObject.DontDestroyOnLoad(PreventRecursion._stopRecursion);
+                    _stopRecursion = new GameObject("StopRecursion", typeof(StopRecursion),
+                        typeof(DestroyOnUnparentAfterInitialized));
+                    Object.DontDestroyOnLoad(_stopRecursion);
 
-                    return PreventRecursion._stopRecursion;
+                    return _stopRecursion;
                 }
             }
             set { }
         }
+
         internal static ObjectsToSpawn stopRecursionObjectToSpawn
         {
             get
             {
-                ObjectsToSpawn obj = new ObjectsToSpawn() { };
-                obj.AddToProjectile = PreventRecursion.stopRecursion;
+                ObjectsToSpawn obj = new ObjectsToSpawn { };
+                obj.AddToProjectile = stopRecursion;
 
                 return obj;
             }
@@ -42,13 +47,22 @@ namespace EGC.Utils
 
         private void Start()
         {
-            if (!DestroyOnUnparentAfterInitialized.initialized) { this.isOriginal = true; }
+            if (!initialized)
+            {
+                isOriginal = true;
+            }
         }
 
         private void LateUpdate()
         {
-            if (this.isOriginal) { return; }
-            else if (this.gameObject.transform.parent == null) { UnityEngine.GameObject.Destroy(this.gameObject); }
+            if (isOriginal)
+            {
+                return;
+            }
+            else if (gameObject.transform.parent == null)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

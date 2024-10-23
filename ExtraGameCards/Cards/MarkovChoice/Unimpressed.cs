@@ -5,23 +5,27 @@ namespace EGC.Cards.MarkovChoice
 {
     internal class Unimpressed : CustomCard
     {
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
-            cardInfo.categories = new CardCategory[]
+            cardInfo.categories = new[]
             {
-                EGC.ExtraGameCards.Markov
+                ExtraGameCards.Markov
             };
             gun.projectileSpeed = 0.8f;
             gun.reloadTimeAdd = 0.25f;
             gun.ammoReg = 0.4f;
-
         }
-        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
         }
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+
+        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
         }
@@ -30,23 +34,27 @@ namespace EGC.Cards.MarkovChoice
         {
             return "Unimpressed";
         }
+
         protected override string GetDescription()
         {
             return "Meh... not your style of story";
         }
+
         protected override GameObject GetCardArt()
         {
             return null;
         }
+
         protected override CardInfo.Rarity GetRarity()
         {
             return CardInfo.Rarity.Common;
         }
+
         protected override CardInfoStat[] GetStats()
         {
-            return new CardInfoStat[]
+            return new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Bullet Speed",
@@ -54,7 +62,7 @@ namespace EGC.Cards.MarkovChoice
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Reload Speed",
@@ -62,7 +70,7 @@ namespace EGC.Cards.MarkovChoice
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
 
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Bullet Regen",
@@ -71,13 +79,15 @@ namespace EGC.Cards.MarkovChoice
                 },
             };
         }
+
         protected override CardThemeColor.CardThemeColorType GetTheme()
         {
             return CardThemeColor.CardThemeColorType.DefensiveBlue;
         }
+
         public override string GetModName()
         {
-            return EGC.ExtraGameCards.ModInitials;
+            return ExtraGameCards.ModInitials;
         }
     }
 }

@@ -64,8 +64,8 @@ namespace EGC.Cards
 
             string[] mushroomCards =
             {
-                SuperMushroom.superMushroomCard.name,
-                SuperMushroom.superMushroomCard.name,
+                SuperMushroom.SuperMushroomCard.name,
+                SuperMushroom.SuperMushroomCard.name,
                 MiniMushroom.MiniMushroomCard.name,
                 MiniMushroom.MiniMushroomCard.name,
                 BooMushroom.BooMushroomCard.name,
@@ -89,7 +89,7 @@ namespace EGC.Cards
             int rng = Random.Range(0, mushroomCards.Length);
 
             if (mushroomFlags[rng])
-                return GetCard(SuperMushroom.superMushroomCard.name);
+                return GetCard(SuperMushroom.SuperMushroomCard.name);
 
             switch (rng)
             {

@@ -10,7 +10,7 @@ namespace EGC.MonoBehaviours
 
         public void Update()
         {
-            if (block.isActiveAndEnabled && (bool)this.data.playerVel.GetFieldValue("simulated"))
+            if (block.isActiveAndEnabled && (bool)data.playerVel.GetFieldValue("simulated"))
             {
                 block.TryBlock();
             }

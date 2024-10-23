@@ -28,15 +28,18 @@ namespace EGC.MonoBehaviours
                 MeteorEffect(player, gun, gunAmmo, data, health, gravity, block, statModifiers);
                 duration = 10f;
             }
-            this.player = base.gameObject.GetComponent<Player>();
+
+            player = gameObject.GetComponent<Player>();
         }
 
         public override void OnStart()
         {
-            block.BlockAction += (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
+            block.BlockAction += (Action<BlockTrigger.BlockTriggerType>)Delegate.Combine(block.BlockAction,
+                new Action<BlockTrigger.BlockTriggerType>(OnBlock));
             SetLivesToEffect(int.MaxValue);
             duration = 0f;
         }
+
         public override void OnUpdate()
         {
             if (!(duration <= 0))
@@ -45,16 +48,19 @@ namespace EGC.MonoBehaviours
                 //UnityEngine.Debug.Log(duration);
             }
         }
+
         public override void OnOnDestroy()
         {
             duration = 10f;
-            block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Remove(block.BlockAction, new Action<BlockTrigger.BlockTriggerType>(OnBlock));
+            block.BlockAction = (Action<BlockTrigger.BlockTriggerType>)Delegate.Remove(block.BlockAction,
+                new Action<BlockTrigger.BlockTriggerType>(OnBlock));
         }
 
 
-        public List<MonoBehaviour> MeteorEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data, HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
+        public List<MonoBehaviour> MeteorEffect(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            Gun newGun = this.gameObject.AddComponent<Meteor>();
+            Gun newGun = gameObject.AddComponent<Meteor>();
 
             SpawnBulletsEffect effect = player.gameObject.AddComponent<SpawnBulletsEffect>();
             effect.SetDirection(new Vector3(0f, -1f, 0f));
@@ -79,7 +85,7 @@ namespace EGC.MonoBehaviours
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = false;
             newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.objectsToSpawn = new ObjectsToSpawn[] { PreventRecursion.stopRecursionObjectToSpawn };
+            newGun.objectsToSpawn = new[] { PreventRecursion.stopRecursionObjectToSpawn };
 
             effect.SetGun(newGun);
 
@@ -91,8 +97,9 @@ namespace EGC.MonoBehaviours
 
             return new List<MonoBehaviour> { effect };
         }
+
         public class Meteor : Gun
-        { }
+        {
+        }
     }
 }
-

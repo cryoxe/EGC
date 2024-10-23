@@ -5,45 +5,46 @@ namespace EGC.Cards.MarioPowerUps
 {
     internal class SuperMushroom : SimpleCard
     {
-        public static CardInfo superMushroomCard;
+        public static CardInfo SuperMushroomCard = null!;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "Super Mushroom",
             Description = "You're a big boy now!",
-            ModName = EGC.ExtraGameCards.ModInitials,
+            ModName = ExtraGameCards.ModInitials,
             Art = Assets.SuperMushArt,
             Rarity = CardInfo.Rarity.Uncommon,
             Theme = CardThemeColor.CardThemeColorType.DestructiveRed,
-            Stats = new CardInfoStat[]
+            Stats = new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Health",
                     amount = "+30%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Damage",
                     amount = "+20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Gravity",
                     amount = "-10%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Size",
                     amount = "+20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
-                },
+                }
             }
         };
 
@@ -51,12 +52,11 @@ namespace EGC.Cards.MarioPowerUps
         {
             cardInfo.allowMultiple = true;
 
-            cardInfo.categories = new CardCategory[]
+            cardInfo.categories = new[]
             {
-                EGC.ExtraGameCards.MarioPowerUps
+                ExtraGameCards.MarioPowerUps
             };
 
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             statModifiers.health = 1.3f;
             gun.damage = 1.2f;
             statModifiers.gravity = 0.9f;

@@ -19,35 +19,35 @@ namespace EGC.Cards
         {
             Title = "Gaster Blaster",
             Description = "your opponents are gonna have a bad time",
-            ModName = EGC.ExtraGameCards.ModInitials,
+            ModName = ExtraGameCards.ModInitials,
             Art = Assets.GasterBlasterArt,
             Rarity = RarityUtils.GetRarity("Legendary"),
             Theme = CardThemeColor.CardThemeColorType.TechWhite,
             OwnerOnly = true,
-            Stats = new CardInfoStat[]
+            Stats = new[]
             {
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Attack Speed",
                     amount = "+20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = true,
                     stat = "Ammo",
                     amount = "+2",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Damage",
                     amount = "-20%",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 },
-                new CardInfoStat()
+                new CardInfoStat
                 {
                     positive = false,
                     stat = "Health",
@@ -57,7 +57,8 @@ namespace EGC.Cards
             }
         };
 
-        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
+        public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
+            CharacterStatModifiers statModifiers, Block block)
         {
             //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.allowMultiple = false;
@@ -68,6 +69,7 @@ namespace EGC.Cards
             gun.ammo = 2;
         }
     }
+
     public class BlastEffect : CardEffect
     {
         public override void OnShoot(GameObject projectile)
@@ -93,18 +95,31 @@ namespace EGC.Cards
         public int playerID;
 
 
-
         public override HasToReturn DoHitEffect(HitInfo hit)
         {
-            if (done || GasterBlasterBehaviour.maxGasterCount <= GasterBlasterBehaviour.gasterCount || (!PhotonNetwork.IsMasterClient && !PhotonNetwork.OfflineMode))
-            { return HasToReturn.canContinue; }
+            if (done || GasterBlasterBehaviour.maxGasterCount <= GasterBlasterBehaviour.gasterCount ||
+                (!PhotonNetwork.IsMasterClient && !PhotonNetwork.OfflineMode))
+            {
+                return HasToReturn.canContinue;
+            }
 
             var initialPosition = transform.position;
             Transform target = PlayerManager.instance.GetClosestPlayer(initialPosition).transform;
 
-            if (target == null) { return HasToReturn.canContinue; }
-            if(target.GetComponent<Player>() == PlayerManager.instance.GetPlayerWithID(playerID)) { return HasToReturn.canContinue; } 
-            if (Vector2.Distance(target.position, initialPosition) >= 6) { return HasToReturn.canContinue; }
+            if (target == null)
+            {
+                return HasToReturn.canContinue;
+            }
+
+            if (target.GetComponent<Player>() == PlayerManager.instance.GetPlayerWithID(playerID))
+            {
+                return HasToReturn.canContinue;
+            }
+
+            if (Vector2.Distance(target.position, initialPosition) >= 6)
+            {
+                return HasToReturn.canContinue;
+            }
 
             Vector2 shootPosition = CalculatePosition(target.position);
             Quaternion rotation = CalculateRotation(target.position, shootPosition);
@@ -112,7 +127,8 @@ namespace EGC.Cards
 
             UnityEngine.Debug.Log("Good range + good number !");
 
-            NetworkingManager.RPC(typeof(GasterBlasterSpawner), nameof(RPC_SpawnGaster), shootPosition, rotation, direction, playerID);
+            NetworkingManager.RPC(typeof(GasterBlasterSpawner), nameof(RPC_SpawnGaster), shootPosition, rotation,
+                direction, playerID);
 
             done = true;
             return HasToReturn.canContinue;
@@ -123,7 +139,9 @@ namespace EGC.Cards
         {
             UnityEngine.Debug.Log("Spawning GasterBlaster");
             if (!PhotonNetwork.IsMasterClient && !PhotonNetwork.OfflineMode) return;
-            GasterBlasterBehaviour gasterBlasterBehaviour = PhotonNetwork.Instantiate(Assets.GasterBlasterSprite.name, position, rotation, data: new object[] { position, rotation }).AddComponent<GasterBlasterBehaviour>();
+            GasterBlasterBehaviour gasterBlasterBehaviour = PhotonNetwork
+                .Instantiate(Assets.GasterBlasterSprite.name, position, rotation,
+                    data: new object[] { position, rotation }).AddComponent<GasterBlasterBehaviour>();
             gasterBlasterBehaviour.playerID = playerID;
             gasterBlasterBehaviour.direction = direction;
         }
@@ -146,16 +164,24 @@ namespace EGC.Cards
                 position = target + Random.insideUnitCircle * 15;
                 Vector3 viewport = camera.WorldToViewportPoint(position);
                 bool inCameraFrustum = Is01(viewport.x) && Is01(viewport.y);
-                if (inCameraFrustum) { break; }
+                if (inCameraFrustum)
+                {
+                    break;
+                }
+
                 tries++;
             }
+
             return position;
         }
 
-        private bool Is01(float a) { return a > 0 && a < 1; }
+        private bool Is01(float a)
+        {
+            return a > 0 && a < 1;
+        }
     }
 
-    public class GasterBlasterBehaviour : MonoBehaviour 
+    public class GasterBlasterBehaviour : MonoBehaviour
     {
         internal static int gasterCount = 0;
         internal static readonly int maxGasterCount = 5;
@@ -180,7 +206,8 @@ namespace EGC.Cards
             removeAfterSeconds = gameObject.AddComponent<RemoveAfterSeconds>();
 
             removeAfterSeconds.seconds = 5;
-            renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 0);
+            renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g,
+                renderer.material.color.b, 0);
             renderer.sortingLayerName = "MostFront";
             renderer.sortingOrder = 1048575;
 
@@ -195,11 +222,8 @@ namespace EGC.Cards
             player = PlayerManager.instance.GetPlayerWithID(playerID);
             gun = player.GetComponent<Holding>().holdable.GetComponent<Gun>();
 
-            this.ExecuteAfterSeconds(0.1f, () =>
-            {
-                view.RPC(nameof(RPC_ShootLaser), RpcTarget.All, transform.position, direction);
-            });
-
+            this.ExecuteAfterSeconds(0.1f,
+                () => { view.RPC(nameof(RPC_ShootLaser), RpcTarget.All, transform.position, direction); });
         }
 
         [PunRPC]
@@ -225,28 +249,31 @@ namespace EGC.Cards
             yield return FadeOut();
 
             if (PhotonNetwork.IsMasterClient || PhotonNetwork.OfflineMode)
-            { Unbound.Instance.ExecuteAfterFrames(1, () => PhotonNetwork.Destroy(gameObject)); }
+            {
+                Unbound.Instance.ExecuteAfterFrames(1, () => PhotonNetwork.Destroy(gameObject));
+            }
         }
 
         private IEnumerator FadeOut()
         {
-            while (this.GetComponent<Renderer>().material.color.a > 0)
+            while (GetComponent<Renderer>().material.color.a > 0)
             {
-                Color objectColor = this.GetComponent<Renderer>().material.color;
+                Color objectColor = GetComponent<Renderer>().material.color;
                 float fadeAmount = objectColor.a - (5 * TimeHandler.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                this.GetComponent<Renderer>().material.color = objectColor;
+                GetComponent<Renderer>().material.color = objectColor;
                 yield return null;
             }
         }
+
         private IEnumerator FadeIn()
         {
-            while (this.GetComponent<Renderer>().material.color.a < 1)
+            while (GetComponent<Renderer>().material.color.a < 1)
             {
-                Color objectColor = this.GetComponent<Renderer>().material.color;
+                Color objectColor = GetComponent<Renderer>().material.color;
                 float fadeAmount = objectColor.a + (5 * TimeHandler.deltaTime);
                 objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, fadeAmount);
-                this.GetComponent<Renderer>().material.color = objectColor;
+                GetComponent<Renderer>().material.color = objectColor;
                 yield return null;
             }
         }
@@ -281,19 +308,21 @@ namespace EGC.Cards
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = true;
             newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.objectsToSpawn = new ObjectsToSpawn[] { PreventRecursion.stopRecursionObjectToSpawn };
+            newGun.objectsToSpawn = new[] { PreventRecursion.stopRecursionObjectToSpawn };
 
             Traverse.Create(newGun).Field("spreadOfLastBullet").SetValue(0f);
             effect.SetGun(newGun);
 
             return new List<MonoBehaviour> { effect };
         }
+
         private void OnDestroy()
         {
             gasterCount--;
         }
 
         public class Blast : Gun
-        { }
+        {
+        }
     }
 }
