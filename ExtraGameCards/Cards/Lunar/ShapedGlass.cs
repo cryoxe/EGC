@@ -1,5 +1,4 @@
 ﻿using EGC.AssetsEmbedded;
-using ModdingUtils.Extensions;
 using RarityLib.Utils;
 using UnboundLib.Cards;
 using UnityEngine;

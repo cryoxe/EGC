@@ -2,7 +2,6 @@
 using System.Linq;
 using EGC.AssetsEmbedded;
 using EGC.MonoBehaviours;
-using ModdingUtils.Extensions;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.Utils;

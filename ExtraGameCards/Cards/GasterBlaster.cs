@@ -4,7 +4,6 @@ using EGC.AssetsEmbedded;
 using EGC.Extensions;
 using EGC.Utils;
 using HarmonyLib;
-using ModdingUtils.Extensions;
 using ModsPlus;
 using Photon.Pun;
 using RarityLib.Utils;

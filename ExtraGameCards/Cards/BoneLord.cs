@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
-using ModdingUtils.Extensions;
 using UnboundLib.Cards;
 using UnityEngine;
 using static ModdingUtils.Utils.Cards;

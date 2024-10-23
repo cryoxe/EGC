@@ -1,5 +1,4 @@
-﻿using ModdingUtils.Extensions;
-using UnboundLib.Cards;
+﻿using UnboundLib.Cards;
 using UnityEngine;
 
 namespace EGC.Cards

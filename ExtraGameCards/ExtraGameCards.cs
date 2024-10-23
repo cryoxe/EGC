@@ -2,13 +2,11 @@
 using System.Linq;
 using BepInEx;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
-using EGC.AssetsEmbedded;
 using EGC.Cards;
 using EGC.Cards.Lunar;
 using EGC.Cards.MarioPowerUps;
 using EGC.Cards.MarkovChoice;
 using HarmonyLib;
-using Photon.Pun;
 using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;

@@ -1,6 +1,5 @@
 ﻿using EGC.AssetsEmbedded;
 using EGC.MonoBehaviours;
-using ModdingUtils.Extensions;
 using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
