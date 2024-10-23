@@ -106,7 +106,7 @@ namespace EGC
 
             // MARIO POWER-UPS
             CustomCard.BuildCard<MarioBlock>(); // DONE
-            CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.miniMushroomCard = card); // DONE
+            CustomCard.BuildCard<MiniMushroom>(card => MiniMushroom.MiniMushroomCard = card); // DONE
             CustomCard.BuildCard<SuperMushroom>(card => SuperMushroom.superMushroomCard = card); // DONE
             CustomCard.BuildCard<OneUpMushroom>(card => OneUpMushroom.oneUpMushroomCard = card); // DONE
             CustomCard.BuildCard<PoisonousMushroom>(card => PoisonousMushroom.poisonousMushroomCard = card); // DONE

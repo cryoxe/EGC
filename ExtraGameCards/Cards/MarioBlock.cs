@@ -66,8 +66,8 @@ namespace EGC.Cards
             {
                 SuperMushroom.superMushroomCard.name,
                 SuperMushroom.superMushroomCard.name,
-                MiniMushroom.miniMushroomCard.name,
-                MiniMushroom.miniMushroomCard.name,
+                MiniMushroom.MiniMushroomCard.name,
+                MiniMushroom.MiniMushroomCard.name,
                 BooMushroom.BooMushroomCard.name,
                 BooMushroom.BooMushroomCard.name,
                 OneUpMushroom.oneUpMushroomCard.name,
