@@ -53,17 +53,11 @@ namespace EGC
                 var characterData =
                     ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats);
                 if (!characterData.blacklistedCategories.Contains(Markov))
-                {
                     characterData.blacklistedCategories.Add(Markov);
-                }
                 if (!characterData.blacklistedCategories.Contains(Lunar))
-                {
                     characterData.blacklistedCategories.Add(Lunar);
-                }
                 if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
-                {
                     characterData.blacklistedCategories.Add(MarioPowerUps);
-                }
             }
             yield break;
         }
@@ -83,10 +77,10 @@ namespace EGC
         {
             Instance = this;
 
-            GameObject blasterPrefab = Assets.GasterBlasterSprite;
-            blasterPrefab.AddComponent<PhotonView>();
+            // GameObject blasterPrefab = Assets.GasterBlasterSprite;
+            // blasterPrefab.AddComponent<PhotonView>();
 
-            PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
+            // PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
 
             Normal = CustomCardCategories.instance.CardCategory("Normal");
             Markov = CustomCardCategories.instance.CardCategory("Markov");
@@ -105,6 +99,12 @@ namespace EGC
 
             // FNAF
             //CustomCard.BuildCard<PurpleGuy>(); // NEED REWORK + NEED ART
+
+            // OMORI
+            CustomCard.BuildCard<Something>(); // DONE
+
+            // UNDERTALE
+            // CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING
 
             // MARIO POWER-UPS
             CustomCard.BuildCard<MarioBlock>(); // DONE
@@ -130,8 +130,7 @@ namespace EGC
             CustomCard.BuildCard<Madness>(); // NEED REWORK + NEED ART
             CustomCard.BuildCard<Unimpressed>(); // NEED REWORK + NEED ART
 
-            CustomCard.BuildCard<Something>(); // DONE - From the game "OMORI"
-            CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING - From the game "Undertale"
+
             //CustomCard.BuildCard<ClayBullet>();
 
             // VAMPIRE SURVIVOR
@@ -145,7 +144,7 @@ namespace EGC
 
             Instance.ExecuteAfterSeconds(1, () =>
             {
-                //all cards that are not "lunar" or "markov" are now "normal"
+                //all cards that are not "lunar" or "markov" or ... are now "normal"
                 foreach (var card in UnboundLib.Utils.CardManager.cards.Values.Where(card =>
                              !card.cardInfo.categories.Contains(Markov) &&
                              !card.cardInfo.categories.Contains(Lunar) &&
