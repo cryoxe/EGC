@@ -1,15 +1,15 @@
 {
     "name": "EGC",
-    "version_number": "1.0.0",
+    "version_number": "1.1.6",
     "website_url": "https://github.com/thunderstore-io",
-    "description": "A mod for ROUNDS that adds cards from other games ! Curently in beta.",
+    "description": "A mod for ROUNDS that adds cards from other games ! Still in beta.",
     "dependencies": [
         "Pykess-PlayerJumpPatch-0.0.2",
-        "Pykess-ModdingUtils-0.3.5",
-        "Pykess-CardChoiceSpawnUniqueCardPatch-0.1.8",
-        "BepInEx-BepInExPack_ROUNDS-5.4.1900",
-        "willis81808-UnboundLib-3.1.4",
-        "willis81808-ModsPlus-1.2.0",
+        "Pykess-ModdingUtils-0.4.8",
+        "Pykess-CardChoiceSpawnUniqueCardPatch-0.1.10",
+        "BepInEx-BepInExPack_ROUNDS-5.4.1901",
+        "willis81808-UnboundLib-3.2.13",
+        "willis81808-ModsPlus-1.6.2",
         "Pykess-GunUnblockablePatch-0.0.0",
         "Pykess-LegRaycastersPatch-0.0.0",
         "willuwontu-RespawnPatch-1.0.6"
