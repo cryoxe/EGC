@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using EGC.AssetsEmbedded;
 using ModdingUtils.Extensions;
@@ -13,7 +14,6 @@ namespace EGC.Cards
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.allowMultiple = false;
 
             gun.projectileSpeed = 1.40f;
@@ -24,7 +24,6 @@ namespace EGC.Cards
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
             HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
         {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
             gun.spread *= 0.7f;
             characterStats.lifeSteal = (characterStats.lifeSteal != 0f)
                 ? (characterStats.lifeSteal * 2)
@@ -108,7 +107,9 @@ namespace EGC.Cards
 
         internal static IEnumerator MarkovPick()
         {
-            foreach (Player player in PlayerManager.instance.players.ToArray())
+            List<Player> players = PlayerManager.instance.players;
+
+            foreach (Player player in PlayerManager.instance.players)
             {
                 while (Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats).markovChoice > 0)
                 {
@@ -121,8 +122,9 @@ namespace EGC.Cards
                     player.data.stats.GetAdditionalData().blacklistedCategories.Remove(ExtraGameCards.Markov);
 
                     CardChoiceVisuals.instance.Show(
-                        Enumerable.Range(0, PlayerManager.instance.players.Count).Where(i =>
-                            PlayerManager.instance.players[i].playerID == player.playerID).First(), true);
+                        Enumerable.Range(0, players.Count).First(i =>
+                            players[i].playerID == player.playerID), true);
+
                     yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
                     yield return new WaitForSecondsRealtime(0.1f);
 

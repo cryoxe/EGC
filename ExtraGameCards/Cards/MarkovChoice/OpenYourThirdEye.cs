@@ -1,4 +1,5 @@
-﻿using UnboundLib.Cards;
+﻿using EGC.AssetsEmbedded;
+using UnboundLib.Cards;
 using UnityEngine;
 
 namespace EGC.Cards.MarkovChoice
@@ -8,7 +9,6 @@ namespace EGC.Cards.MarkovChoice
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been setup.");
             cardInfo.categories = new[]
             {
                 ExtraGameCards.Markov
@@ -20,36 +20,15 @@ namespace EGC.Cards.MarkovChoice
         }
 
         public override void OnAddCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
-            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been added to player {player.playerID}.");
-        }
+            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats) { }
 
-        public override void OnRemoveCard(Player player, Gun gun, GunAmmo gunAmmo, CharacterData data,
-            HealthHandler health, Gravity gravity, Block block, CharacterStatModifiers characterStats)
-        {
-            //UnityEngine.Debug.Log($"[{ExtraCards.ModInitials}][Card] {GetTitle()} has been removed from player {player.playerID}.");
-        }
+        protected override string GetTitle() => "Open Your Third Eye";
 
-        protected override string GetTitle()
-        {
-            return "Open Your Third Eye";
-        }
+        protected override string GetDescription() => "And finally become complete.";
 
-        protected override string GetDescription()
-        {
-            return "And finally become complete.";
-        }
+        protected override GameObject GetCardArt() => Assets.MarkovEyeThirdArt;
 
-        protected override GameObject GetCardArt()
-        {
-            return null;
-        }
-
-        protected override CardInfo.Rarity GetRarity()
-        {
-            return CardInfo.Rarity.Common;
-        }
+        protected override CardInfo.Rarity GetRarity() => CardInfo.Rarity.Common;
 
         protected override CardInfoStat[] GetStats()
         {

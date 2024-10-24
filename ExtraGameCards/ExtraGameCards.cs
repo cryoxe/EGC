@@ -42,24 +42,6 @@ namespace EGC
         internal static CardCategory Lunar = CustomCardCategories.instance.CardCategory("Lunar");
         internal static CardCategory MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
 
-        private static IEnumerator GameStart(IGameModeHandler gm)
-        {
-            //these categories are now blacklisted (not in common pool)
-            foreach (var player in PlayerManager.instance.players)
-            {
-                var characterData =
-                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats);
-                if (!characterData.blacklistedCategories.Contains(Markov))
-                    characterData.blacklistedCategories.Add(Markov);
-                if (!characterData.blacklistedCategories.Contains(Lunar))
-                    characterData.blacklistedCategories.Add(Lunar);
-                if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
-                    characterData.blacklistedCategories.Add(MarioPowerUps);
-            }
-
-            yield break;
-        }
-
         private void Awake()
         {
             RarityUtils.AddRarity(
@@ -151,6 +133,24 @@ namespace EGC
                     card.cardInfo.categories = card.cardInfo.categories.AddToArray(Normal);
                 }
             });
+        }
+
+        private static IEnumerator GameStart(IGameModeHandler gm)
+        {
+            //these categories are now blacklisted (not in common pool)
+            foreach (var player in PlayerManager.instance.players)
+            {
+                var characterData =
+                    ModdingUtils.Extensions.CharacterStatModifiersExtension.GetAdditionalData(player.data.stats);
+                if (!characterData.blacklistedCategories.Contains(Markov))
+                    characterData.blacklistedCategories.Add(Markov);
+                if (!characterData.blacklistedCategories.Contains(Lunar))
+                    characterData.blacklistedCategories.Add(Lunar);
+                if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
+                    characterData.blacklistedCategories.Add(MarioPowerUps);
+            }
+
+            yield break;
         }
     }
 }
