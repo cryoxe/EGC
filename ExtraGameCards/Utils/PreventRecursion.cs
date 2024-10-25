@@ -3,11 +3,11 @@
 namespace EGC.Utils
 {
     //from PCE
-    public class PreventRecursion
+    public static class PreventRecursion
     {
-        private static GameObject _stopRecursion = null;
+        private static GameObject? _stopRecursion;
 
-        internal static GameObject stopRecursion
+        internal static GameObject StopRecursion
         {
             get
             {
@@ -15,39 +15,37 @@ namespace EGC.Utils
                 {
                     return _stopRecursion;
                 }
-                else
-                {
-                    _stopRecursion = new GameObject("StopRecursion", typeof(StopRecursion),
-                        typeof(DestroyOnUnparentAfterInitialized));
-                    Object.DontDestroyOnLoad(_stopRecursion);
 
-                    return _stopRecursion;
-                }
+                _stopRecursion = new GameObject("StopRecursion", typeof(StopRecursion),
+                    typeof(DestroyOnUnparentAfterInitialized));
+                Object.DontDestroyOnLoad(_stopRecursion);
+
+                return _stopRecursion;
             }
-            set { }
         }
 
-        internal static ObjectsToSpawn stopRecursionObjectToSpawn
+        internal static ObjectsToSpawn StopRecursionObjectToSpawn
         {
             get
             {
-                ObjectsToSpawn obj = new ObjectsToSpawn { };
-                obj.AddToProjectile = stopRecursion;
+                ObjectsToSpawn obj = new ObjectsToSpawn
+                {
+                    AddToProjectile = StopRecursion
+                };
 
                 return obj;
             }
-            set { }
         }
     }
 
     public class DestroyOnUnparentAfterInitialized : MonoBehaviour
     {
-        private static bool initialized = false;
-        private bool isOriginal = false;
+        private static bool _initialized = false;
+        private bool isOriginal;
 
         private void Start()
         {
-            if (!initialized)
+            if (!_initialized)
             {
                 isOriginal = true;
             }
@@ -59,7 +57,8 @@ namespace EGC.Utils
             {
                 return;
             }
-            else if (gameObject.transform.parent == null)
+
+            if (gameObject.transform.parent == null)
             {
                 Destroy(gameObject);
             }

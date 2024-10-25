@@ -85,7 +85,7 @@ namespace EGC.MonoBehaviours
             newGun.numberOfProjectiles = 1;
             newGun.ignoreWalls = false;
             newGun.damageAfterDistanceMultiplier = 1f;
-            newGun.objectsToSpawn = new[] { PreventRecursion.stopRecursionObjectToSpawn };
+            newGun.objectsToSpawn = new[] { PreventRecursion.StopRecursionObjectToSpawn };
 
             effect.SetGun(newGun);
 
