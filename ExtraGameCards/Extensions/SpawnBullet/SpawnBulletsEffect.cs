@@ -5,7 +5,7 @@ using HarmonyLib;
 using Photon.Pun;
 using UnityEngine;
 
-namespace EGC.Extensions
+namespace EGC.Extensions.SpawnBullet
 {
 
 	public class SpawnBulletsEffect : MonoBehaviour

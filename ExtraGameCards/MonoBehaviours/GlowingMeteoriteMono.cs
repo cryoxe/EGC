@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using EGC.Extensions;
+using EGC.Extensions.SpawnBullet;
 using EGC.Utils;
 using ModdingUtils.MonoBehaviours;
 using UnboundLib;
