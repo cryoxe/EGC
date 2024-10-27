@@ -52,13 +52,13 @@ namespace EGC.Cards
                 somethingCountdown.player = otherPlayer;
                 somethingCountdown.soundUpgradeChargeLoop = abyssal.soundAbyssalChargeLoop;
                 somethingCountdown.counter = 0;
-                somethingCountdown.timeToFill = 8f;
+                somethingCountdown.timeToFill = 9f;
                 somethingCountdown.outerRing = abyssal.outerRing;
                 somethingCountdown.fill = abyssal.fill;
                 somethingCountdown.rotator = abyssal.rotator;
                 somethingCountdown.still = abyssal.still;
                 somethingCountdown.player = otherPlayer;
-                somethingCountdown.duration = 3.4f;
+                somethingCountdown.duration = 5f;
                 somethingCountdown.defaultRLTime = gun.reloadTime;
                 somethingCountdown.characterStats = characterStats;
 
@@ -163,7 +163,7 @@ namespace EGC.Cards
                 {
                     positive = true,
                     stat = "Death Sentence",
-                    amount = "8s",
+                    amount = "9s",
                     simepleAmount = CardInfoStat.SimpleAmount.notAssigned
                 }
             };

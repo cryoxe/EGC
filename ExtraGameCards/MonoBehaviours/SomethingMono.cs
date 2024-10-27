@@ -17,7 +17,7 @@ namespace EGC.MonoBehaviours
             new SoundParameterIntensity(0f, UpdateMode.Continuous);
 
         [Range(0f, 1f)] public float counter;
-        public float timeToFill = 5f;
+        public float timeToFill = 8f;
         public float duration = 1;
 
         public int numberOfSomething = 0;
