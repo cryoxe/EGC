@@ -2,6 +2,7 @@
 using System.Linq;
 using EGC.AssetsEmbedded;
 using EGC.MonoBehaviours;
+using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.Utils;
@@ -144,7 +145,7 @@ namespace EGC.Cards
 
         protected override CardInfo.Rarity GetRarity()
         {
-            return CardInfo.Rarity.Rare;
+            return RarityUtils.GetRarity("Legendary");
         }
 
         protected override CardInfoStat[] GetStats()
