@@ -58,7 +58,7 @@ namespace EGC.Cards
                 somethingCountdown.rotator = abyssal.rotator;
                 somethingCountdown.still = abyssal.still;
                 somethingCountdown.player = otherPlayer;
-                somethingCountdown.duration = 5f;
+                somethingCountdown.duration = 4.25f;
                 somethingCountdown.defaultRLTime = gun.reloadTime;
                 somethingCountdown.characterStats = characterStats;
 

@@ -13,7 +13,7 @@ namespace EGC.MonoBehaviours
     {
         public SoundEvent soundUpgradeChargeLoop;
 
-        private SoundParameterIntensity soundParameterIntensity =
+        private readonly SoundParameterIntensity soundParameterIntensity =
             new SoundParameterIntensity(0f, UpdateMode.Continuous);
 
         [Range(0f, 1f)] public float counter;
@@ -67,13 +67,13 @@ namespace EGC.MonoBehaviours
             if (isDeathAuraComplete)
             {
                 isDeathAuraComplete = false;
-                isDying(false);
+                IsDying(false);
             }
 
             somethingNoise = gameObject.GetOrAddComponent<AudioSource>();
         }
 
-        private void isDying(bool enable)
+        private void IsDying(bool enable)
         {
             if (enable)
             {
@@ -85,7 +85,7 @@ namespace EGC.MonoBehaviours
                     somethingNoise = null;
                 }
 
-                Unbound.Instance.ExecuteAfterSeconds(4f, delegate
+                Unbound.Instance.ExecuteAfterSeconds(5f, delegate
                 {
                     if (shouldBeDying)
                     {
@@ -133,7 +133,7 @@ namespace EGC.MonoBehaviours
                 if (!isDeathAuraComplete)
                 {
                     shouldBeDying = true;
-                    isDying(true);
+                    IsDying(true);
                 }
 
                 remainingDuration -= TimeHandler.deltaTime;
@@ -143,7 +143,7 @@ namespace EGC.MonoBehaviours
 
             if (isDeathAuraComplete)
             {
-                isDying(false);
+                IsDying(false);
             }
 
             try
