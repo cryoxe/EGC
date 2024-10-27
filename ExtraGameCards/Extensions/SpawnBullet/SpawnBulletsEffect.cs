@@ -92,18 +92,17 @@ namespace EGC.Extensions.SpawnBullet
 						{
 							positionToShootFrom = positionsToShootFrom[numShot % positionsToShootFrom.Count];
 						}
-						GameObject gameObject = PhotonNetwork.Instantiate(gunToShootFrom.projectiles[i].objectToSpawn.gameObject.name, positionToShootFrom, Quaternion.LookRotation(directionToShootThisBullet), 0, null);
+						GameObject bulletGameObject = PhotonNetwork.Instantiate(gunToShootFrom.projectiles[i].objectToSpawn.gameObject.name, positionToShootFrom, Quaternion.LookRotation(directionToShootThisBullet), 0, null);
 
 						if (PhotonNetwork.OfflineMode)
 						{
-							RPCA_Shoot(gameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
+							RPCA_Shoot(bulletGameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
 						}
-
 						else
 						{
-							this.gameObject.GetComponent<PhotonView>().RPC("RPCA_Shoot", RpcTarget.All, new object[]
+							gameObject.GetComponent<PhotonView>().RPC("RPCA_Shoot", RpcTarget.All, new object[]
 							{
-								gameObject.GetComponent<PhotonView>().ViewID,
+								bulletGameObject.GetComponent<PhotonView>().ViewID,
 								currentNumberOfProjectiles,
 								1f,
 								UnityEngine.Random.Range(0f, 1f)
@@ -115,6 +114,7 @@ namespace EGC.Extensions.SpawnBullet
 			ResetTimer();
 
 		}
+
 		[PunRPC]
 		private void RPCA_Shoot(int bulletViewID, int numProj, float dmgM, float seed)
 		{
@@ -122,6 +122,7 @@ namespace EGC.Extensions.SpawnBullet
 			gunToShootFrom.BulletInit(bulletObj, numProj, dmgM, seed, true);
 			numShot++;
 		}
+
 		public void SetGun(Gun gun)
 		{
 			newWeaponsBase = Instantiate(player.GetComponent<Holding>().holdable.GetComponent<Gun>().gameObject, new Vector3(500f, 500f, -100f), Quaternion.identity);
@@ -264,6 +265,5 @@ namespace EGC.Extensions.SpawnBullet
 		{
 			UnityEngine.GameObject.Destroy(this);
 		}
-
 	}
 }
