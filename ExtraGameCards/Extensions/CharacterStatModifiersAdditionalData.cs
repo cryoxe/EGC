@@ -8,25 +8,14 @@ namespace EGC.Extensions
     [Serializable]
     public class CharacterStatModifiersAdditionalData
     {
-        public int markovChoice;
-        public int egocentrismPower;
-        public int numberOfGaster;
+        public int markovChoice = 0;
+        public int egocentrismPower = 0;
+        public int numberOfGaster = 0;
 
-        public bool hasBooMush;
-        public bool hasOneUpMush;
-        public bool hasPoisonMush;
-        public bool hasMiniMush;
-        public CharacterStatModifiersAdditionalData()
-        {
-            markovChoice = 0;
-            egocentrismPower = 0;
-            numberOfGaster = 0;
-
-            hasOneUpMush = false;
-            hasPoisonMush = false;
-            hasBooMush = false;
-            hasMiniMush = false;
-        }
+        public bool hasBooMush = false;
+        public bool hasOneUpMush = false;
+        public bool hasPoisonMush = false;
+        public bool hasMiniMush = false;
     }
     public static class CharacterStatModifiersExtension
     {
