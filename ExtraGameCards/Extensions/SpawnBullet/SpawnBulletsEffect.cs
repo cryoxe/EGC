@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using Photon.Pun;
+using UnboundLib;
+using UnboundLib.GameModes;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace EGC.Extensions.SpawnBullet
 {
@@ -23,9 +27,35 @@ namespace EGC.Extensions.SpawnBullet
 
 		private Player player;
 
+		private SpawnBulletsEffectController? controller;
+		private int id;
 		private void Awake()
 		{
 			player = gameObject.GetComponent<Player>();
+
+			controller = gameObject.GetOrAddComponent<SpawnBulletsEffectController>();
+
+			if (controller is null)
+			{
+				UnityEngine.Debug.LogError("controller is null");
+				return;
+			}
+
+			controller.AddSpawnBulletEffect(this);
+
+
+			var allEffects = GetComponents<SpawnBulletsEffect>();
+			id = 0;
+			foreach (var effect in allEffects)
+			{
+				if (effect == this)
+				{
+					break;
+				}
+				id++;
+			}
+
+			UnityEngine.Debug.Log($"SpawnBulletsEffect ID: {id}");
 		}
 
 		private void Start()
@@ -53,6 +83,7 @@ namespace EGC.Extensions.SpawnBullet
 
 		private void OnDestroy()
 		{
+			controller.RemoveSpawnBulletEffect(this);
 			Destroy(newWeaponsBase);
 		}
 
@@ -96,17 +127,30 @@ namespace EGC.Extensions.SpawnBullet
 
 						if (PhotonNetwork.OfflineMode)
 						{
-							RPCA_Shoot(bulletGameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
+							HandleShoot(bulletGameObject.GetComponent<PhotonView>().ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
 						}
 						else
 						{
-							gameObject.GetComponent<PhotonView>().RPC("RPCA_Shoot", RpcTarget.All, new object[]
+							// gameObject.GetComponent<PhotonView>().RPC("RPCA_Shoot", RpcTarget.All, new object[]
+							// {
+							// 	bulletGameObject.GetComponent<PhotonView>().ViewID,
+							// 	currentNumberOfProjectiles,
+							// 	1f,
+							// 	UnityEngine.Random.Range(0f, 1f)
+							// });
+
+							if (controller is null)
+								return;
+
+							var bulletView = bulletGameObject.GetComponent<PhotonView>();
+							if (bulletView is null)
 							{
-								bulletGameObject.GetComponent<PhotonView>().ViewID,
-								currentNumberOfProjectiles,
-								1f,
-								UnityEngine.Random.Range(0f, 1f)
-							});
+								UnityEngine.Debug.LogError("bulletGameObject.GetComponent<PhotonView>() is null");
+								return;
+							}
+
+							UpdateID();
+							controller.Shoot(id, bulletView.ViewID, currentNumberOfProjectiles, 1f, UnityEngine.Random.Range(0f, 1f));
 						}
 					}
 				}
@@ -115,10 +159,24 @@ namespace EGC.Extensions.SpawnBullet
 
 		}
 
-		[PunRPC]
-		private void RPCA_Shoot(int bulletViewID, int numProj, float dmgM, float seed)
+		// [PunRPC]
+		// private void RPCA_Shoot(int bulletViewID, int numProj, float dmgM, float seed)
+		// {
+		// 	GameObject bulletObj = PhotonView.Find(bulletViewID).gameObject;
+		// 	gunToShootFrom.BulletInit(bulletObj, numProj, dmgM, seed, true);
+		// 	numShot++;
+		// }
+
+
+		public void HandleShoot(int bulletViewID, int numProj, float dmgM, float seed)
 		{
 			GameObject bulletObj = PhotonView.Find(bulletViewID).gameObject;
+			if (!bulletObj)
+			{
+				UnityEngine.Debug.LogError("bulletObj is null");
+				return;
+			}
+
 			gunToShootFrom.BulletInit(bulletObj, numProj, dmgM, seed, true);
 			numShot++;
 		}
@@ -264,6 +322,31 @@ namespace EGC.Extensions.SpawnBullet
 		public void Destroy()
 		{
 			UnityEngine.GameObject.Destroy(this);
+		}
+
+		public static IEnumerator DestroyOnRoundEnd()
+		{
+			UnityEngine.Debug.Log("Destroying all SpawnBulletsEffect");
+			SpawnBulletsEffect[] allEffects = FindObjectsOfType<SpawnBulletsEffect>();
+			foreach (SpawnBulletsEffect effect in allEffects)
+			{
+				effect.Destroy();
+			}
+			yield break;
+		}
+
+		private void UpdateID()
+		{
+			var allEffects = GetComponents<SpawnBulletsEffect>();
+			id = 0;
+			foreach (var effect in allEffects)
+			{
+				if (effect == this)
+				{
+					break;
+				}
+				id++;
+			}
 		}
 	}
 }

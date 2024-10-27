@@ -2,11 +2,15 @@
 using System.Linq;
 using BepInEx;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
+using EGC.AssetsEmbedded;
 using EGC.Cards;
 using EGC.Cards.Lunar;
 using EGC.Cards.MarioPowerUps;
 using EGC.Cards.MarkovChoice;
+using EGC.Extensions.SpawnBullet;
+using EGC.MonoBehaviours.GasterBlaster;
 using HarmonyLib;
+using Photon.Pun;
 using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
@@ -57,17 +61,6 @@ namespace EGC
         {
             Instance = this;
 
-            // GameObject blasterPrefab = Assets.GasterBlasterSprite;
-            // blasterPrefab.AddComponent<PhotonView>();
-
-            // PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
-
-            Normal = CustomCardCategories.instance.CardCategory("Normal");
-            Markov = CustomCardCategories.instance.CardCategory("Markov");
-            Lunar = CustomCardCategories.instance.CardCategory("Lunar");
-            MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
-            CardManipulation = CustomCardCategories.instance.CardCategory("CardManipulation");
-
             // INSCRYPTION
             //CustomCard.BuildCard<BoneLord>(); // W.I.P
 
@@ -84,7 +77,7 @@ namespace EGC
             CustomCard.BuildCard<Something>(); // DONE
 
             // UNDERTALE
-            // CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING
+            CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING
 
             // MARIO POWER-UPS
             CustomCard.BuildCard<MarioBlock>(); // DONE
@@ -110,17 +103,16 @@ namespace EGC
             CustomCard.BuildCard<Madness>(); // NEED REWORK + NEED ART
             CustomCard.BuildCard<Unimpressed>(); // NEED REWORK + NEED ART
 
-
-            //CustomCard.BuildCard<ClayBullet>();
-
-            // VAMPIRE SURVIVOR
             // Welcome To the Gungeon
             // THE stanley parable
-            // Duck seasons
 
             //HOOKS !
-            GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, gm => PortraitOfMarkov.MarkovPick());
             GameModeManager.AddHook(GameModeHooks.HookGameStart, GameStart);
+            GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, gm => PortraitOfMarkov.MarkovPick());
+            GameModeManager.AddHook(GameModeHooks.HookPointEnd, gm => SpawnBulletsEffect.DestroyOnRoundEnd());
+
+
+            SetupMultiplayer();
 
             Instance.ExecuteAfterSeconds(1, () =>
             {
@@ -151,6 +143,16 @@ namespace EGC
             }
 
             yield break;
+        }
+
+        private static void SetupMultiplayer()
+        {
+            GameObject blasterPrefab = Assets.GasterBlasterSprite;
+            blasterPrefab.AddComponent<PhotonView>();
+            blasterPrefab.AddComponent<GasterBlasterMono>();
+            blasterPrefab.AddComponent<AudioSource>();
+
+            PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
         }
     }
 }
