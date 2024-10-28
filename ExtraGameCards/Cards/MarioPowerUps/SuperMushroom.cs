@@ -7,6 +7,8 @@ namespace EGC.Cards.MarioPowerUps
     {
         public static CardInfo SuperMushroomCard = null!;
 
+        public override bool GetEnabled() => false;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "Super Mushroom",
@@ -51,11 +53,6 @@ namespace EGC.Cards.MarioPowerUps
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats, CharacterStatModifiers statModifiers, Block block)
         {
             cardInfo.allowMultiple = true;
-
-            cardInfo.categories = new[]
-            {
-                ExtraGameCards.MarioPowerUps
-            };
 
             statModifiers.health = 1.3f;
             gun.damage = 1.2f;

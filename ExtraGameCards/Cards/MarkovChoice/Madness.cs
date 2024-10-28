@@ -6,6 +6,10 @@ namespace EGC.Cards.MarkovChoice
 {
     internal class Madness : CustomCard
     {
+        public static CardInfo MadnessCard = null!;
+
+        public override bool GetEnabled() => false;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {

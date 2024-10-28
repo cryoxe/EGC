@@ -7,6 +7,8 @@ namespace EGC.Cards.MarioPowerUps
     {
         public static CardInfo MiniMushroomCard = null!;
 
+        public override bool GetEnabled() => false;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "Mini Mushroom",
@@ -52,11 +54,6 @@ namespace EGC.Cards.MarioPowerUps
             CharacterStatModifiers statModifiers, Block block)
         {
             cardInfo.allowMultiple = true;
-
-            cardInfo.categories = new[]
-            {
-                ExtraGameCards.MarioPowerUps
-            };
 
             statModifiers.health = 0.75f;
             statModifiers.gravity = 0.55f;

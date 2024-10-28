@@ -7,6 +7,8 @@ namespace EGC.Cards.MarioPowerUps
     {
         public static CardInfo OneUpMushroomCard = null!;
 
+        public override bool GetEnabled() => false;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "1Up Mushroom",
@@ -31,11 +33,6 @@ namespace EGC.Cards.MarioPowerUps
             CharacterStatModifiers statModifiers, Block block)
         {
             cardInfo.allowMultiple = false;
-
-            cardInfo.categories = new[]
-            {
-                ExtraGameCards.MarioPowerUps
-            };
 
             statModifiers.respawns = 1;
         }

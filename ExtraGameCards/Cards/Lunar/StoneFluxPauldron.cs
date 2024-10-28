@@ -7,6 +7,10 @@ namespace EGC.Cards.Lunar
 {
     internal class StoneFluxPauldron : CustomCard
     {
+        public static CardInfo StoneFluxPauldronCard = null!;
+
+        public override bool GetEnabled() => false;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {

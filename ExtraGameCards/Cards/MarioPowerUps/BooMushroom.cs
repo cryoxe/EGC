@@ -7,6 +7,8 @@ namespace EGC.Cards.MarioPowerUps
     {
         public static CardInfo BooMushroomCard = null!;
 
+        public override bool GetEnabled() => false;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "Boo Mushroom",
@@ -52,11 +54,6 @@ namespace EGC.Cards.MarioPowerUps
             CharacterStatModifiers statModifiers, Block block)
         {
             cardInfo.allowMultiple = false;
-
-            cardInfo.categories = new[]
-            {
-                ExtraGameCards.MarioPowerUps
-            };
 
             statModifiers.health = 0.7f;
             gun.damage = 0.6f;

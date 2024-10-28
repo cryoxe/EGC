@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Linq;
 using BepInEx;
 using CardChoiceSpawnUniqueCardPatch.CustomCategories;
@@ -15,6 +16,7 @@ using RarityLib.Utils;
 using UnboundLib;
 using UnboundLib.Cards;
 using UnboundLib.GameModes;
+using UnboundLib.Utils;
 using UnityEngine;
 
 namespace EGC
@@ -40,11 +42,13 @@ namespace EGC
         public const string ModInitials = "EGC";
         public static ExtraGameCards? Instance { get; private set; }
 
-        internal static CardCategory Normal = CustomCardCategories.instance.CardCategory("Normal");
-        internal static CardCategory CardManipulation = CustomCardCategories.instance.CardCategory("CardManipulation");
-        internal static CardCategory Markov = CustomCardCategories.instance.CardCategory("Markov");
-        internal static CardCategory Lunar = CustomCardCategories.instance.CardCategory("Lunar");
-        internal static CardCategory MarioPowerUps = CustomCardCategories.instance.CardCategory("MarioPowerUps");
+        internal static readonly CardCategory Normal = CustomCardCategories.instance.CardCategory("Normal");
+
+        internal static readonly CardCategory CardManipulation =
+            CustomCardCategories.instance.CardCategory("CardManipulation");
+
+        internal static readonly CardCategory Markov = CustomCardCategories.instance.CardCategory("Markov");
+        internal static readonly CardCategory Lunar = CustomCardCategories.instance.CardCategory("Lunar");
 
         private void Awake()
         {
@@ -88,20 +92,20 @@ namespace EGC
             CustomCard.BuildCard<BooMushroom>(card => BooMushroom.BooMushroomCard = card); // DONE
 
             // RISK OF RAIN 2
-            CustomCard.BuildCard<BeadsOfFealty>(); // DONE
-            CustomCard.BuildCard<GestureOfTheDrowned>(); // DONE
-            CustomCard.BuildCard<ShapedGlass>(); // DONE
-            CustomCard.BuildCard<StoneFluxPauldron>(); //
-            CustomCard.BuildCard<GlowingMeteorite>(); // DONE
+            CustomCard.BuildCard<BeadsOfFealty>();// DONE
+            CustomCard.BuildCard<GestureOfTheDrowned>(card => GestureOfTheDrowned.GestureOfTheDrownedCard = card); // DONE
+            CustomCard.BuildCard<ShapedGlass>(card => ShapedGlass.ShapedGlassCard = card); // DONE
+            CustomCard.BuildCard<StoneFluxPauldron>(card => StoneFluxPauldron.StoneFluxPauldronCard = card); // DONE
+            CustomCard.BuildCard<GlowingMeteorite>(card => GlowingMeteorite.GlowingMeteoriteCard = card); // DONE
             //CustomCard.BuildCard<Egocentrism>(card => Egocentrism.egocentrismCard = card);
 
             // DOKI DOKI LITERATURE CLUB
             CustomCard.BuildCard<PortraitOfMarkov>(); // NEED REWORK
-            CustomCard.BuildCard<OpenYourThirdEye>(); // NEED REWORK + NEED ART
-            CustomCard.BuildCard<TurningABlindEye>(); // NEED REWORK + NEED ART
-            CustomCard.BuildCard<Trauma>(); // NEED REWORK + NEED ART
-            CustomCard.BuildCard<Madness>(); // NEED REWORK + NEED ART
-            CustomCard.BuildCard<Unimpressed>(); // NEED REWORK + NEED ART
+            CustomCard.BuildCard<OpenYourThirdEye>(card => OpenYourThirdEye.OpenYourThirdEyeCard = card); // DONE
+            CustomCard.BuildCard<TurningABlindEye>(card => TurningABlindEye.TurningABlindEyeCard = card); // DONE
+            CustomCard.BuildCard<Trauma>(card => Trauma.TraumaCard = card); // DONE
+            CustomCard.BuildCard<Madness>(card => Madness.MadnessCard = card); // DONE
+            CustomCard.BuildCard<Unimpressed>(card => Unimpressed.UnimpressedCard = card); // DONE
 
             // Welcome To the Gungeon
             // THE stanley parable
@@ -112,18 +116,37 @@ namespace EGC
             GameModeManager.AddHook(GameModeHooks.HookPointEnd, gm => SpawnBulletsEffect.DestroyOnRoundEnd());
 
 
+            // ModdingUtils.Utils.Cards.instance.AddHiddenCard(ShapedGlass.ShapedGlassCard);
+
             SetupMultiplayer();
 
             Instance.ExecuteAfterSeconds(1, () =>
             {
                 //all cards that are not "lunar" or "markov" or ... are now "normal"
-                foreach (var card in UnboundLib.Utils.CardManager.cards.Values.Where(card =>
+                foreach (var card in CardManager.cards.Values.Where(card =>
                              !card.cardInfo.categories.Contains(Markov) &&
-                             !card.cardInfo.categories.Contains(Lunar) &&
-                             !card.cardInfo.categories.Contains(MarioPowerUps)))
+                             !card.cardInfo.categories.Contains(Lunar)))
                 {
                     card.cardInfo.categories = card.cardInfo.categories.AddToArray(Normal);
                 }
+
+                // Restrict cards
+                AddRestrictedCard(ShapedGlass.ShapedGlassCard);
+                AddRestrictedCard(GestureOfTheDrowned.GestureOfTheDrownedCard);
+                AddRestrictedCard(StoneFluxPauldron.StoneFluxPauldronCard);
+                AddRestrictedCard(GlowingMeteorite.GlowingMeteoriteCard);
+
+                AddRestrictedCard(OpenYourThirdEye.OpenYourThirdEyeCard);
+                AddRestrictedCard(TurningABlindEye.TurningABlindEyeCard);
+                AddRestrictedCard(Trauma.TraumaCard);
+                AddRestrictedCard(Madness.MadnessCard);
+                AddRestrictedCard(Unimpressed.UnimpressedCard);
+
+                AddHiddenCard(MiniMushroom.MiniMushroomCard);
+                AddHiddenCard(SuperMushroom.SuperMushroomCard);
+                AddHiddenCard(OneUpMushroom.OneUpMushroomCard);
+                AddHiddenCard(PoisonousMushroom.PoisonousMushroomCard);
+                AddHiddenCard(BooMushroom.BooMushroomCard);
             });
         }
 
@@ -138,8 +161,6 @@ namespace EGC
                     characterData.blacklistedCategories.Add(Markov);
                 if (!characterData.blacklistedCategories.Contains(Lunar))
                     characterData.blacklistedCategories.Add(Lunar);
-                if (!characterData.blacklistedCategories.Contains(MarioPowerUps))
-                    characterData.blacklistedCategories.Add(MarioPowerUps);
             }
 
             yield break;
@@ -153,6 +174,28 @@ namespace EGC
             blasterPrefab.AddComponent<AudioSource>();
 
             PhotonNetwork.PrefabPool.RegisterPrefab(blasterPrefab.name, blasterPrefab);
+        }
+
+
+
+        // Hidden cards are not shown in the main menu and will not be added to the card pool
+        private static void AddHiddenCard(CardInfo card)
+        {
+            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
+        }
+
+        // Restricted cards are not shown in the main menu but will be added to the card pool
+        private static void AddRestrictedCard(CardInfo card)
+        {
+            ModdingUtils.Utils.Cards.instance.AddHiddenCard(card);
+
+            Instance.ExecuteAfterFrames(15,
+                () =>
+                {
+                    ((ObservableCollection<CardInfo>)typeof(CardManager).GetField("activeCards",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+                        .GetValue(null)).Add(card);
+                });
         }
     }
 }

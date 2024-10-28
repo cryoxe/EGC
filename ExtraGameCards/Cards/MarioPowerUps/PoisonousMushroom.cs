@@ -9,6 +9,8 @@ namespace EGC.Cards.MarioPowerUps
         public static CardInfo PoisonousMushroomCard = null!;
         public static Color32 PoisonMushColor = new Color32(186, 85, 211, 255);
 
+        public override bool GetEnabled() => false;
+
         public override CardDetails Details => new CardDetails
         {
             Title = "Poison Mushroom",
@@ -55,10 +57,6 @@ namespace EGC.Cards.MarioPowerUps
         {
             cardInfo.allowMultiple = false;
 
-            cardInfo.categories = new[]
-            {
-                ExtraGameCards.MarioPowerUps
-            };
             gun.projectileColor = PoisonMushColor;
             gun.damage = 1.2f;
             gun.percentageDamage = 0.1f;
@@ -83,4 +81,6 @@ namespace EGC.Cards.MarioPowerUps
                 PoisonousMushroom.PoisonMushColor, lethal: false);
         }
     }
+
+
 }

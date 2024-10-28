@@ -7,6 +7,10 @@ namespace EGC.Cards.Lunar
 {
     internal class ShapedGlass : CustomCard
     {
+        public static CardInfo ShapedGlassCard = null!;
+
+        public override bool GetEnabled() => false;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {

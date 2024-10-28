@@ -9,6 +9,10 @@ namespace EGC.Cards.Lunar
 {
     internal class GlowingMeteorite : CustomCard
     {
+        public static CardInfo GlowingMeteoriteCard = null!;
+
+        public override bool GetEnabled() => false;
+
         public override void SetupCard(CardInfo cardInfo, Gun gun, ApplyCardStats cardStats,
             CharacterStatModifiers statModifiers, Block block)
         {
