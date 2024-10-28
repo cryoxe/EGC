@@ -324,7 +324,7 @@ namespace EGC.Extensions.SpawnBullet
 			UnityEngine.GameObject.Destroy(this);
 		}
 
-		public static IEnumerator DestroyOnRoundEnd()
+		public static IEnumerator DestroyOnBattleEnd()
 		{
 			UnityEngine.Debug.Log("Destroying all SpawnBulletsEffect");
 			SpawnBulletsEffect[] allEffects = FindObjectsOfType<SpawnBulletsEffect>();

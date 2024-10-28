@@ -113,10 +113,8 @@ namespace EGC
             //HOOKS !
             GameModeManager.AddHook(GameModeHooks.HookGameStart, GameStart);
             GameModeManager.AddHook(GameModeHooks.HookPlayerPickEnd, gm => PortraitOfMarkov.MarkovPick());
-            GameModeManager.AddHook(GameModeHooks.HookPointEnd, gm => SpawnBulletsEffect.DestroyOnRoundEnd());
+            GameModeManager.AddHook(GameModeHooks.HookPointEnd, gm => SpawnBulletsEffect.DestroyOnBattleEnd());
 
-
-            // ModdingUtils.Utils.Cards.instance.AddHiddenCard(ShapedGlass.ShapedGlassCard);
 
             SetupMultiplayer();
 
@@ -130,7 +128,6 @@ namespace EGC
                     card.cardInfo.categories = card.cardInfo.categories.AddToArray(Normal);
                 }
 
-                // Restrict cards
                 AddRestrictedCard(ShapedGlass.ShapedGlassCard);
                 AddRestrictedCard(GestureOfTheDrowned.GestureOfTheDrownedCard);
                 AddRestrictedCard(StoneFluxPauldron.StoneFluxPauldronCard);
