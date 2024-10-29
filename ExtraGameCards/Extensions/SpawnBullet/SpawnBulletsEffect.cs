@@ -27,7 +27,7 @@ namespace EGC.Extensions.SpawnBullet
 
 		private Player player;
 
-		private SpawnBulletsEffectController? controller;
+		private SpawnBulletsEffectController controller = null!;
 		private int id;
 		private void Awake()
 		{

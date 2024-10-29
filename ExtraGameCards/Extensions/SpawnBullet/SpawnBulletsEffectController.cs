@@ -25,7 +25,7 @@ namespace EGC.Extensions.SpawnBullet
         {
             if (componentIndex >= 0 && componentIndex < spawnBulletsComponents.Count)
             {
-                UnityEngine.Debug.Log($"RPCA_Shoot: {componentIndex}");
+                // UnityEngine.Debug.Log($"RPCA_Shoot: {componentIndex}");
                 spawnBulletsComponents[componentIndex].HandleShoot(bulletViewID,  numProj,  dmgM,  seed);
             }
         }
