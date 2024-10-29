@@ -54,8 +54,6 @@ namespace EGC.Extensions.SpawnBullet
 				}
 				id++;
 			}
-
-			UnityEngine.Debug.Log($"SpawnBulletsEffect ID: {id}");
 		}
 
 		private void Start()
@@ -326,7 +324,6 @@ namespace EGC.Extensions.SpawnBullet
 
 		public static IEnumerator DestroyOnBattleEnd()
 		{
-			UnityEngine.Debug.Log("Destroying all SpawnBulletsEffect");
 			SpawnBulletsEffect[] allEffects = FindObjectsOfType<SpawnBulletsEffect>();
 			foreach (SpawnBulletsEffect effect in allEffects)
 			{

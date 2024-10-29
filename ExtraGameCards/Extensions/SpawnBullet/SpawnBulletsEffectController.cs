@@ -33,13 +33,13 @@ namespace EGC.Extensions.SpawnBullet
         public void AddSpawnBulletEffect(SpawnBulletsEffect spawnBulletsEffect)
         {
             spawnBulletsComponents.Add(spawnBulletsEffect);
-            UnityEngine.Debug.Log($"Added SpawnBulletEffect, total: {spawnBulletsComponents.Count}");
+            // UnityEngine.Debug.Log($"Added SpawnBulletEffect, total: {spawnBulletsComponents.Count}");
         }
 
         public void RemoveSpawnBulletEffect(SpawnBulletsEffect spawnBulletsEffect)
         {
             spawnBulletsComponents.Remove(spawnBulletsEffect);
-            UnityEngine.Debug.Log($"Removed SpawnBulletEffect, total: {spawnBulletsComponents.Count}");
+            // UnityEngine.Debug.Log($"Removed SpawnBulletEffect, total: {spawnBulletsComponents.Count}");
         }
     }
 }
