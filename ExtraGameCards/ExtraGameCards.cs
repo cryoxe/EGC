@@ -81,7 +81,10 @@ namespace EGC
             CustomCard.BuildCard<Something>(); // DONE
 
             // UNDERTALE
-            CustomCard.BuildCard<GasterBlaster>(); // NOT WORKING
+            CustomCard.BuildCard<GasterBlaster>(); // DONE
+
+            // Welcome To the Gungeon
+            CustomCard.BuildCard<BulletThatShootGuns>();
 
             // MARIO POWER-UPS
             CustomCard.BuildCard<MarioBlock>(); // DONE
@@ -107,7 +110,6 @@ namespace EGC
             CustomCard.BuildCard<Madness>(card => Madness.MadnessCard = card); // DONE
             CustomCard.BuildCard<Unimpressed>(card => Unimpressed.UnimpressedCard = card); // DONE
 
-            // Welcome To the Gungeon
             // THE stanley parable
 
             //HOOKS !
