@@ -137,5 +137,14 @@ namespace EGC.AssetsEmbedded
                 typeof(ExtraGameCards).Assembly);
         public static readonly GameObject GunSprite =
             GunBundle.LoadAsset<GameObject>("S_Gun");
+
+        // Stanley
+        private static readonly AssetBundle BucketSoundBundle =
+            Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("bucket_noise", typeof(ExtraGameCards).Assembly);
+        public static readonly AudioClip BucketNoise = BucketSoundBundle.LoadAsset<AudioClip>("A_Bucket");
+
+        private static readonly AssetBundle BucketBundleSprite =
+            Jotunn.Utils.AssetUtils.LoadAssetBundleFromResources("bucket_sprite", typeof(ExtraGameCards).Assembly);
+        public static readonly GameObject BucketSprite = BucketBundleSprite.LoadAsset<GameObject>("S_Bucket");
     }
 }

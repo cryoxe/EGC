@@ -71,9 +71,6 @@ namespace EGC
             // THE BINDING OF ISAAC
             CustomCard.BuildCard<Twenty>(); // DONE
 
-            // ELDEN RING
-            CustomCard.BuildCard<Jar>(); // DONE
-
             // FNAF
             //CustomCard.BuildCard<PurpleGuy>(); // NEED REWORK + NEED ART
 
@@ -111,6 +108,7 @@ namespace EGC
             CustomCard.BuildCard<Unimpressed>(card => Unimpressed.UnimpressedCard = card); // DONE
 
             // THE stanley parable
+            CustomCard.BuildCard<TheBucket>(); // NEED ART
 
             //HOOKS !
             GameModeManager.AddHook(GameModeHooks.HookGameStart, GameStart);
