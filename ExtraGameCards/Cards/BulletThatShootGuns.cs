@@ -17,7 +17,7 @@ namespace EGC.Cards
             Title = "Bullet Gun",
             Description = "The bullet that shoot guns!",
             ModName = ExtraGameCards.ModInitials,
-            Art = null,
+            Art = Assets.BulletArt,
             Rarity = CardInfo.Rarity.Rare,
             Theme = CardThemeColor.CardThemeColorType.FirepowerYellow,
             Stats = new[]

@@ -1,5 +1,4 @@
 ﻿using EGC.AssetsEmbedded;
-using ExitGames.Client.Photon.StructWrapping;
 using ModsPlus;
 using UnboundLib;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace EGC.Cards
             Title = "The Stanley Parable Reassurance Bucket (TM)",
             Description = "A feeling of safety washes over you.",
             ModName = ExtraGameCards.ModInitials,
-            Art = null,
+            Art = Assets.BucketArt,
             Rarity = CardInfo.Rarity.Rare,
             Theme = CardThemeColor.CardThemeColorType.FirepowerYellow,
             Stats = new[]
